@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.orderfruit">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.OrderFruit">
+        <activity
+            android:name=".Orderview"
+            android:exported="false" />
+        <activity
+            android:name=".OrderHistory"
+            android:exported="false"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".ViewCart"
+            android:exported="true"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".user.UserProfile"
+            android:exported="true"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".FavouriteListDisplay"
+            android:exported="false"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".summer.SummerViewFruit"
+            android:exported="false"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".viewmorefruits.ViewMoreFruits"
+            android:exported="true"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".dashboardfruits.DashboardFruits"
+            android:exported="false" />
+        <activity
+            android:name=".viewfruit.FruitViewActivity"
+            android:exported="true"
+            android:parentActivityName=".viewfruit.FruitViewActivity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".Categories.allcatagories.AllCatagoriesMain"
+            android:exported="true"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".viewfruit.View_All_Category"
+            android:exported="true"
+            android:parentActivityName=".Categories.allcatagories.AllCatagoriesMain"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".user.User_Forget_Password"
+            android:exported="false" />
+        <activity
+            android:name=".Dashboard_Activity"
+            android:exported="true"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".user.User_Login_Activity"
+            android:exported="true" />
+        <activity
+            android:name=".user.User_Registration_Activity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".viewfruit.DashboardFruits"
+            android:exported="true" />
+        <activity
+            android:name=".Categories.todaysDeal.TodaysDeal"
+            android:exported="false"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".Categories.seasonal.SeasonalFruits"
+            android:exported="false"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".Categories.popular.PopularFruits"
+            android:exported="false"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+        <activity
+            android:name=".Categories.mostlyviewed.MostlyViewd"
+            android:exported="false"
+            android:parentActivityName=".Dashboard_Activity"
+            android:theme="@style/Dashboard.Theme" />
+
+        <receiver
+            android:name="com.razorpay.RzpTokenReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="rzp.device_token.share" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.razorpay.CheckoutActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@style/CheckoutTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <data
+                    android:host="rzp.io"
+                    android:scheme="io.rzp" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

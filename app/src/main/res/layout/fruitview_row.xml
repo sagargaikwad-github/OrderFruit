@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginTop="10dp"
+        android:id="@+id/cardView3"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/fruitview_imageslder"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="@drawable/all_catagory"></com.denzcoskun.imageslider.ImageSlider>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/fruitview_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:text="Apple"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/cardView3"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="@+id/cardView3"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3"></TextView>
+
+    <TextView
+        android:id="@+id/fruitview_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Price : "
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/fruitview_name"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/fruitview_name"
+        app:layout_constraintTop_toBottomOf="@+id/fruitview_name"></TextView>
+
+    <TextView
+        android:id="@+id/fruitview_description1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="14dp"
+        android:text="slideranimation duration is to set duration for transition between two slides
+    sliderautocycledirection is to set animationbetween transition of your slides
+    sliderindicator enables is used to display the indicators for slider
+    slider indicator gravity is to set gravity for indicator gravity
+    slider indicator margin is to set margin for indicator
+    slider indicator orientation is used to add orientation for slider
+    slider indicator padding is use to add padding to indicator
+    slider indicator selected color is use to specify selected color
+    and slider indicator unselected color is use to specify the color when the slider is unselected
+    slider scroll time in sec is us"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fruitview_price"></TextView>
+
+    <ImageView
+        android:id="@+id/fruiteview_favourite_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/fruitview_description1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3"
+        app:srcCompat="@drawable/ic_favourite" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/fruitview_description1"
+        app:layout_constraintStart_toStartOf="@+id/fruitview_description1"
+        app:layout_constraintTop_toBottomOf="@+id/fruitview_description1">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/fruitview_addbtn_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_add_icon"></ImageView>
+
+            <TextView
+                android:id="@+id/fruitview_quantity_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="20dp"></TextView>
+
+            <ImageView
+                android:id="@+id/fruitview_addbtn_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_remove_icon"></ImageView>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/fruitview_addtocart_btn"
+        android:layout_width="97dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:text="Add To Cart"
+        android:textSize="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/cardView4"
+        app:layout_constraintStart_toStartOf="@+id/cardView4"
+        app:layout_constraintTop_toBottomOf="@+id/cardView4"></Button>
+
+    <Button
+        android:id="@+id/fruitview_buynow_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Buy Now"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"></Button>
+</androidx.constraintlayout.widget.ConstraintLayout>

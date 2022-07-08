@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#E8DFDF"
+        app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/viewcart_row_fruitname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Fruit Name"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/viewcart_row_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/viewcart_row_fruitname"
+                android:layout_marginLeft="5dp"
+                android:text="10 KG"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/viewcart_row_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@id/viewcart_cart"
+                android:padding="4dp"
+                android:text="-"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/viewcart_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@id/viewcart_row_plus"
+                android:padding="4dp"
+                android:text="2"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/viewcart_row_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="60dp"
+                android:layout_toLeftOf="@id/viewcart_row_price"
+                android:padding="4dp"
+                android:text="+"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/viewcart_row_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="30dp"
+                android:text="₹"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

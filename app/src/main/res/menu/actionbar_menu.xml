@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/actionbar_searchview"
+        android:title="Search"
+        app:showAsAction="ifRoom|withText"
+        app:actionViewClass="android.widget.SearchView" />
+    <item
+        android:id="@+id/actionbar_cart"
+        android:icon="@drawable/ic_cart"
+        android:title=""
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/actionbar_aboutus"
+        android:checked="true"
+        android:title="About Us"></item>
+
+
+</menu>

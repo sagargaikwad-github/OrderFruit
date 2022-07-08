@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/orderhistory_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/orderhistory_trackno"
+                android:text="Order Status"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/orderhistory_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="100dp"
+                android:text="Date"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/orderhistory_trackno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/orderhistory_date"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Track no"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/orderhistory_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/orderhistory_trackno"
+                android:layout_marginLeft="30dp"
+                android:text="Quantity"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/orderhistory_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/orderhistory_trackno"
+                android:layout_alignRight="@id/orderhistory_quantity"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="100dp"
+                android:text="Price"
+                android:textColor="#000000" />
+
+            <Button
+                android:id="@+id/orderhistory_details"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_below="@id/orderhistory_quantity"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:text="Details"
+                android:textAllCaps="false"
+                android:textSize="7.4sp" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/orderhistory_details"
+                android:background="#000000" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

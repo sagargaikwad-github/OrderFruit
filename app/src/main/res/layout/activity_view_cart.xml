@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ViewCart"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:visibility="visible"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/viewcart_LL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="65dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/viewcart_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView5"
+                android:layout_marginTop="20dp"
+                android:elevation="5dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewcart_rv">
+
+                <RelativeLayout
+                    android:padding="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Payment Details"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/viewcart_itemtotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView6"
+                        android:layout_marginLeft="150dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@id/textView7"
+                        android:text="0" />
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView6"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Item Total" />
+
+                    <TextView
+                        android:id="@+id/viewcart_DeliveryCharge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/viewcart_itemtotal"
+                        android:layout_marginLeft="150dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@id/textView7"
+                        android:text="0" />
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView7"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Delivery Charge" />
+
+                    <TextView
+                        android:id="@+id/viewcart_Topay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/viewcart_DeliveryCharge"
+                        android:layout_marginLeft="170dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@id/textView9"
+                        android:text="0" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView8"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="To Pay" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:orientation="vertical"
+             android:padding="10dp"
+             android:layout_marginTop="20dp"
+             android:layout_height="wrap_content">
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="20sp"
+                 android:text="Deliver to :"/>
+             <TextView
+                 android:id="@+id/customer_info_name_TV"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="20sp"
+                 android:text="Name "/>
+
+             <RadioGroup
+                 android:layout_width="match_parent"
+                 android:orientation="horizontal"
+                 android:id="@+id/rd"
+                 android:layout_height="match_parent">
+                 <RadioButton
+                     android:id="@+id/address1"
+                     android:layout_margin="5dp"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:onClick="onRadioButtonClick"
+                     android:text="Address 1"
+                     tools:ignore="OnClick"></RadioButton>
+                 <RadioButton
+                     android:id="@+id/address2"
+                     android:layout_margin="5dp"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:onClick="onRadioButtonClick"
+                     android:text="Address 2"
+                     tools:ignore="OnClick"></RadioButton>
+                 <RadioButton
+                     android:id="@+id/address3"
+                     android:layout_margin="5dp"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:onClick="onRadioButtonClick"
+                     android:text="Custom Address"
+                     tools:ignore="OnClick"></RadioButton>
+             </RadioGroup>
+             <EditText
+                 android:id="@+id/customer_info_address_ET"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:padding="15dp"
+                 android:textSize="20sp"
+                 android:hint="Address"/>
+
+             <TextView
+                 android:id="@+id/customer_info_phone_TV"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:text="Phone"
+                 android:textSize="22sp" />
+
+             <EditText
+                 android:id="@+id/customer_info_phone_ET"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:textSize="20sp"
+                 android:inputType="phone"
+                 android:layout_marginTop="5dp"
+                 android:hint="Alternative Phone"/>
+         </LinearLayout>
+            <Button
+                android:id="@+id/checkout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Checkout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView5"
+                app:layout_constraintVertical_bias="1.0" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <ImageView
+            android:id="@+id/empty_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

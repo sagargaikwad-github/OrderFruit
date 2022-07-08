@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/drawable/bg.xml" value="0.1025" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/drawable/ic_favourite.xml" value="0.2115" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_all_catagories_main.xml" value="0.2028985507246377" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_cart_view.xml" value="0.18" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_dashboard.xml" value="0.22" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_dashboard_fruits.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_favourite_list_display.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_fruit_view.xml" value="0.33" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_mostly_viewd.xml" value="0.19010416666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_order_history.xml" value="0.14" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_orderview.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_popular_fruits.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_seasonal_fruits.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_summer_view_fruit.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_todays_deal.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_user_login.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_user_profile.xml" value="0.25" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_user_registration.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_view_all_category.xml" value="0.1" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_view_cart.xml" value="0.2" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_view_fruit.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_view_more_fruits.xml" value="0.1" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/all_catagories_row.xml" value="0.2028985507246377" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/allfruits_item.xml" value="0.33" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.33" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/bottomsheet_orderhistory.xml" value="0.203125" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/category_item.xml" value="0.1" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/customer_info_row.xml" value="0.22" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/fruitview_row.xml" value="0.22" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/nav_header.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/oh_bseet_rv_row.xml" value="0.203125" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/oh_bsheet_rv_row.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/order_history_row.xml" value="0.33" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/orderview_row.xml" value="0.25" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/summer_item.xml" value="0.22" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/viewcart_row.xml" value="0.33" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/viewfruit_row.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/menu/actionbar_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/menu/navigation_drawer.xml" value="0.20416666666666666" />
+        <entry key="..\:/OrderFruit/app/src/main/res/drawable/card_edge.xml" value="0.176" />
+        <entry key="..\:/OrderFruit/app/src/main/res/drawable/circle.xml" value="0.1295" />
+        <entry key="..\:/OrderFruit/app/src/main/res/drawable/ic_all_categories.xml" value="0.1295" />
+        <entry key="..\:/OrderFruit/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.1295" />
+        <entry key="..\:/OrderFruit/app/src/main/res/drawable/ic_camera.xml" value="0.1295" />
+        <entry key="..\:/OrderFruit/app/src/main/res/drawable/ic_cart.xml" value="0.1295" />
+        <entry key="..\:/OrderFruit/app/src/main/res/drawable/ic_search.xml" value="0.124" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/activity_dashboard.xml" value="0.12" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/activity_splash_screen.xml" value="0.22826086956521738" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/activity_user_forget_password.xml" value="0.22826086956521738" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/activity_user_login.xml" value="0.22826086956521738" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/activity_user_registration.xml" value="0.264" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/activity_view_fruit.xml" value="0.22826086956521738" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/allfruits_item.xml" value="0.264" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/category_item.xml" value="0.22826086956521738" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/nav_header.xml" value="0.176" />
+        <entry key="..\:/OrderFruit/app/src/main/res/layout/summer_item.xml" value="0.22826086956521738" />
+        <entry key="..\:/OrderFruit/app/src/main/res/menu/actionbar_menu.xml" value="0.14427083333333332" />
+        <entry key="..\:/OrderFruit/app/src/main/res/menu/main_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/OrderFruit/app/src/main/res/menu/navigation_drawer.xml" value="0.25416666666666665" />
+        <entry key="..\:/OrderFruit/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1295" />
+        <entry key="..\:/OrderFruit/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1295" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

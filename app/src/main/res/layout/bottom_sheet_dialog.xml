@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_sheet_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:text="Bill"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/bottomsheet_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/sanchez"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/bottomsheet_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/sanchez"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/bottomsheet_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/sanchez"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_weight="1"
+        android:text="Amont Payable :"
+        android:textColor="#000000" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Payment Details"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/viewcart_itemtotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView6"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/textView7"
+            android:text="0"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView6"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Item Total"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/viewcart_DeliveryCharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewcart_itemtotal"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/textView7"
+            android:text="0"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView7"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Delivery Charge"
+            android:textColor="#000000" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/viewcart_DeliveryCharge"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/black" />
+
+        <TextView
+            android:id="@+id/viewcart_Topay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewcart_DeliveryCharge"
+            android:layout_marginLeft="170dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/textView9"
+            android:text="0"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView8"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="To Pay"
+            android:textColor="#000000" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bottomsheet_proceed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:text="Proceed" />
+</LinearLayout>

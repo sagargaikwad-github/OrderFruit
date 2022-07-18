@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/actionbar_searchview"
-        android:title="Search"
+        android:id="@+id/actionbar_favourite"
         app:showAsAction="ifRoom|withText"
-        app:actionViewClass="android.widget.SearchView" />
+        android:icon="@drawable/ic_actionbar_fav"
+        android:title="Favourite" />
     <item
         android:id="@+id/actionbar_cart"
         android:icon="@drawable/ic_cart"
@@ -20,3 +20,4 @@
 
 
 </menu>
+

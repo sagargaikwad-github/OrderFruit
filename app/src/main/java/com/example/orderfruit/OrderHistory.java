@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.orderfruit.model.SQLiteData;
 
 public class OrderHistory extends AppCompatActivity {
     RecyclerView orderhistory_rv;
+    LinearLayout orderhistory_noOrderLL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,22 +24,25 @@ public class OrderHistory extends AppCompatActivity {
         getSupportActionBar().setTitle("Order History");
 
         orderhistory_rv=findViewById(R.id.orderhistory_rv);
+        orderhistory_noOrderLL=findViewById(R.id.orderhistory_noOrderLL);
 
         SQLiteData sqLiteData=new SQLiteData(this);
-
-
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
 
         orderHistoryAdapter orderHistoryAdapter=new orderHistoryAdapter(sqLiteData.getHistory(),this);
-        orderhistory_rv.setLayoutManager(linearLayoutManager);
-        orderhistory_rv.setAdapter(orderHistoryAdapter);
-
-
-
-
+      if(sqLiteData.getHistory().isEmpty())
+      {
+          orderhistory_rv.setVisibility(View.GONE);
+          orderhistory_noOrderLL.setVisibility(View.VISIBLE);
+      }
+      else
+      {
+          orderhistory_rv.setLayoutManager(linearLayoutManager);
+          orderhistory_rv.setAdapter(orderHistoryAdapter);
+      }
 
     }
 

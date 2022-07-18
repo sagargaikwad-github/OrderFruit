@@ -2,6 +2,8 @@ package com.example.orderfruit.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -20,30 +22,30 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Locale;
 
 public class User_Registration_Activity extends AppCompatActivity {
-    EditText name, phone, password1, password2;
-    Button register;
+    EditText name_et, phone_et, password1_et, password2_et;
+    Button register_btn;
     String getName,getPhone,getPassword1,getPassword2;
     TextInputLayout nameLayout, phoneLayout, password1Layout, password2Layout;
-    TextView already_a_user;
+    TextView already_a_user_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_registration);
 
-        name = findViewById(R.id.reg_name_et);
+        name_et = findViewById(R.id.reg_name_et);
         nameLayout = findViewById(R.id.name_et_layout);
-        phone = findViewById(R.id.reg_phone_et);
+        phone_et = findViewById(R.id.reg_phone_et);
         phoneLayout = findViewById(R.id.phone_et_layout);
 
-        password1 = findViewById(R.id.confirmpass_et);
+        password1_et = findViewById(R.id.confirmpass_et);
         password1Layout = findViewById(R.id.confirmpass_et_layout);
 
-        password2 = findViewById(R.id.confirmpass_et_2);
+        password2_et= findViewById(R.id.confirmpass_et_2);
         password2Layout = findViewById(R.id.confirmpass_et_layout_2);
 
-        register = findViewById(R.id.register_btn);
-        already_a_user=findViewById(R.id.already_a_user);
+        register_btn = findViewById(R.id.register_btn);
+        already_a_user_tv=findViewById(R.id.already_a_user);
 
         SQLiteData sqLiteData = new SQLiteData(this);
 
@@ -54,13 +56,13 @@ public class User_Registration_Activity extends AppCompatActivity {
 
 
 
-        register.setOnClickListener(new View.OnClickListener() {
+        register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getName = name.getText().toString().trim();
-                getPhone = phone.getText().toString().trim();
-                getPassword1 = password1.getText().toString().trim();
-                getPassword2 = password2.getText().toString().trim();
+                getName = name_et.getText().toString().trim();
+                getPhone = phone_et.getText().toString().trim();
+                getPassword1 = password1_et.getText().toString().trim();
+                getPassword2 = password2_et.getText().toString().trim();
 
                 if (getName.isEmpty()) {
                     nameLayout.setError("Name Cannot be empty");
@@ -132,7 +134,7 @@ public class User_Registration_Activity extends AppCompatActivity {
             }
 
         });
-        already_a_user.setOnClickListener(new View.OnClickListener() {
+        already_a_user_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(User_Registration_Activity.this,User_Login_Activity.class);
@@ -143,7 +145,16 @@ public class User_Registration_Activity extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
+    public void onBackPressed() {
+        new AlertDialog.Builder(User_Registration_Activity.this)
+                .setMessage("Do You Want to exit ? ")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finishAffinity();
+                    }
+                })
+                .setNegativeButton("No",null)
+                .show();
     }
 }

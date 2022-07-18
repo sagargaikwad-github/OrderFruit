@@ -26,6 +26,7 @@ public class FavouriteListDisplay extends AppCompatActivity implements Interface
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite_list_display);
+        getSupportActionBar().setTitle("Favourite Fruits");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         favourite_list_display_rv=findViewById(R.id.favourite_list_display_rv);
@@ -106,4 +107,6 @@ public class FavouriteListDisplay extends AppCompatActivity implements Interface
 
 
     }
+
+
 }

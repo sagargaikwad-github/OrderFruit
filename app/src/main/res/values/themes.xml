@@ -3,9 +3,11 @@
     <style name="Theme.OrderFruit" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/action_bar</item>
+
+        <item name="colorPrimaryVariant">@color/NewLookLight</item>
 <!--        <item name="colorOnPrimary">@color/white</item>-->
         <item name="colorOnPrimary">#000000</item>
+
         <item name="colorPrimaryDark">@color/action_bar</item>
 
 
@@ -18,12 +20,16 @@
         <!-- Customize your theme here. -->
     </style>
 
+<!--    <style name="Dashboard.Theme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">-->
+<!--        <item name="title">Order Fruit</item>-->
+<!--        <item name="colorPrimary">@color/action_bar</item>-->
+<!--        <item name="colorPrimaryDark">@color/action_bar</item>-->
+<!--    </style>-->
     <style name="Dashboard.Theme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="title">Order Fruit</item>
-        <item name="colorPrimary">@color/action_bar</item>
-        <item name="colorPrimaryDark">@color/action_bar</item>
+        <item name="colorPrimaryDark">@color/NewLookDark</item>
+        <item name="colorPrimary">@color/NewLookPrimary</item>
     </style>
-
 
     <style name="NavigationDrawer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:textSize">22sp</item>

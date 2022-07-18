@@ -2,6 +2,8 @@ package com.example.orderfruit.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,7 +23,7 @@ public class User_Login_Activity extends AppCompatActivity {
     EditText user_login_et,user_password_et;
     String login,password;
     Button login_btn;
-    TextView new_user,forget_password;
+    TextView new_user_tv,forget_password_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,8 @@ public class User_Login_Activity extends AppCompatActivity {
         user_login_et=findViewById(R.id.user_login_et);
         user_password_et=findViewById(R.id.user_password_et);
         login_btn=findViewById(R.id.login_btn);
-        new_user=findViewById(R.id.new_user_tv);
-        forget_password=findViewById(R.id.forget_password);
+        new_user_tv=findViewById(R.id.new_user_tv);
+        forget_password_tv =findViewById(R.id.forget_password);
 
 
         SQLiteData sqLiteData=new SQLiteData(User_Login_Activity.this);
@@ -91,7 +93,7 @@ public class User_Login_Activity extends AppCompatActivity {
             }
         });
 
-        new_user.setOnClickListener(new View.OnClickListener() {
+        new_user_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(User_Login_Activity.this,User_Registration_Activity.class);
@@ -99,7 +101,7 @@ public class User_Login_Activity extends AppCompatActivity {
             }
         });
 
-        forget_password.setOnClickListener(new View.OnClickListener() {
+        forget_password_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(User_Login_Activity.this,User_Forget_Password.class);
@@ -113,8 +115,18 @@ public class User_Login_Activity extends AppCompatActivity {
 
 
     }
+
     @Override
-    public void finish() {
-        finishAffinity();
+    public void onBackPressed() {
+        new AlertDialog.Builder(User_Login_Activity.this)
+                .setMessage("Do You Want to exit ? ")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finishAffinity();
+                    }
+                })
+                .setNegativeButton("No",null)
+                .show();
     }
 }

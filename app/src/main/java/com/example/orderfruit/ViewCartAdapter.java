@@ -52,10 +52,10 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
         for(int i = 0; i < arrayList.size(); i++){
             if(arrayList.get(i).getFruit_addtocart()>0)
             {
-                int a=arrayList.get(i).getFruit_price();
-                int b=arrayList.get(i).getFruit_addtocart();
-                int j=a*b;
-                sum=sum+j;
+                int getFruitPrice=arrayList.get(i).getFruit_price();
+                int getFruitWeight=arrayList.get(i).getFruit_addtocart();
+                int PriceandWeight=getFruitPrice*getFruitWeight;
+                sum=sum+PriceandWeight;
             }
             else
             {
@@ -84,10 +84,11 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
                    for(int i = 0; i < arrayList.size(); i++){
                        if(arrayList.get(i).getFruit_addtocart()>0)
                        {
-                           int a=arrayList.get(i).getFruit_price();
-                           int b=arrayList.get(i).getFruit_addtocart();
-                           int j=a*b;
-                           sum=sum+j;
+                           int getFruitPrice=arrayList.get(i).getFruit_price();
+                           int getFruitWeight=arrayList.get(i).getFruit_addtocart();
+                           int PriceandWeight=getFruitPrice*getFruitWeight;
+                           sum=sum+PriceandWeight;
+                           ((ViewCart) context).onResume();
                        }
                        else
                        {
@@ -103,7 +104,7 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
 
                 //((ViewCart) context).onResume();
 
-                ((ViewCart) context).getdata(sum);
+
             }
 
 
@@ -123,16 +124,17 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
                {
                    remove=remove-1;
                    holder.viewcart_cart.setText(String.valueOf(remove));
+                   addToCart_interface.add_to_cart(id,remove);
 
                    sum=0;
                    for(int i = 0; i < arrayList.size(); i++){
                        if(arrayList.get(i).getFruit_addtocart()>0)
                        {
-                           int a=arrayList.get(i).getFruit_price();
-                           int b=arrayList.get(i).getFruit_addtocart();
-                           int j=a*b;
-                           sum=sum+j;
-
+                           int getFruitPrice=arrayList.get(i).getFruit_price();
+                           int getFruitWeight=arrayList.get(i).getFruit_addtocart();
+                           int PriceandWeight=getFruitPrice*getFruitWeight;
+                           sum=sum+PriceandWeight;
+                           ((ViewCart) context).onResume();
                        }
                        else
                        {
@@ -141,7 +143,7 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
 
 
                  // ((ViewCart) context).onResume();
-                   ((ViewCart) context).getdata(sum);
+
 
                }
                 addToCart_interface.add_to_cart(id,remove);

@@ -13,8 +13,7 @@ public class orderHistoryData {
     String orderfruitID;
     String orderWeight;
 
-
-
+    
     public String getOrderWeight() {
         return orderWeight;
     }

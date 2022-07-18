@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#5030bc"
-    android:paddingBottom="12dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/NewLookLight"
+    android:paddingBottom="12dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleImageView"
@@ -36,10 +36,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Sagar Gaikwad"
-        android:textSize="22sp"
-        android:textColor="@color/white"
         android:fontFamily="@font/fredoka_one"
+        android:text="Sagar Gaikwad"
+        android:textColor="@color/white"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="@+id/circleImageView"
         app:layout_constraintHorizontal_bias="0.139"
         app:layout_constraintStart_toStartOf="@+id/circleImageView"

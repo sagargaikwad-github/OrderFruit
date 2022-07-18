@@ -20,4 +20,10 @@
     <color name="PaymentSucessful">#0CEA15</color>
     <color name="PaymentFailed">#FF0000</color>
 
+    
+    <color name="NewLookDark">#001114</color>
+    <color name="NewLookPrimary">#00363a</color>
+    <color name="NewLookLight">#326064</color>
+
+
 </resources>

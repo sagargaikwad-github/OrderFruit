@@ -195,7 +195,7 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
     @Override
     protected void onResume() {
         super.onResume();
-        Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
 
     }
 

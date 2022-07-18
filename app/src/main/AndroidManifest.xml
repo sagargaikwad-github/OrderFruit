@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.orderfruit">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -13,7 +14,9 @@
         android:theme="@style/Theme.OrderFruit">
         <activity
             android:name=".Orderview"
-            android:exported="false" />
+            android:exported="true"
+            android:theme="@style/Dashboard.Theme"
+            android:parentActivityName=".OrderHistory"/>
         <activity
             android:name=".OrderHistory"
             android:exported="false"

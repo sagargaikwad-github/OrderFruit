@@ -15,7 +15,7 @@ import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
 
 public class TodaysDeal extends AppCompatActivity implements InterfaceData {
-    RecyclerView Todays_deal;
+    RecyclerView Todays_deal_rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +26,11 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
         getSupportActionBar().setTitle("Today's Trending");
 
 
-        Todays_deal=findViewById(R.id.todaysdeal_viewfruit_recyclerview);
+        Todays_deal_rv=findViewById(R.id.todaysdeal_viewfruit_recyclerview);
         SQLiteData sqLiteData=new SQLiteData(this);
-        Todays_deal.setLayoutManager(new LinearLayoutManager(this));
+        Todays_deal_rv.setLayoutManager(new LinearLayoutManager(this));
         ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getTopDeals(),TodaysDeal.this,this);
-        Todays_deal.setAdapter(viewFruitAdapter);
+        Todays_deal_rv.setAdapter(viewFruitAdapter);
     }
 
     @Override
@@ -45,21 +45,21 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
 
     @Override
     public void Favourite_fruite(int id, int val) {
-        Parcelable state=Todays_deal.getLayoutManager().onSaveInstanceState();
+        Parcelable state=Todays_deal_rv.getLayoutManager().onSaveInstanceState();
         SQLiteData sqLiteData=new SQLiteData(this);
         sqLiteData.favoutite_update(id, val);
         ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getTopDeals(),TodaysDeal.this,this);
-        Todays_deal.setAdapter(viewFruitAdapter);
-        Todays_deal.getLayoutManager().onRestoreInstanceState(state);
+        Todays_deal_rv.setAdapter(viewFruitAdapter);
+        Todays_deal_rv.getLayoutManager().onRestoreInstanceState(state);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Parcelable state=Todays_deal.getLayoutManager().onSaveInstanceState();
+        Parcelable state=Todays_deal_rv.getLayoutManager().onSaveInstanceState();
         SQLiteData sqLiteData=new SQLiteData(this);
         ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getTopDeals(),TodaysDeal.this,this);
-        Todays_deal.setAdapter(viewFruitAdapter);
-        Todays_deal.getLayoutManager().onRestoreInstanceState(state);
+        Todays_deal_rv.setAdapter(viewFruitAdapter);
+        Todays_deal_rv.getLayoutManager().onRestoreInstanceState(state);
     }
 }

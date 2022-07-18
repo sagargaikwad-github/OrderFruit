@@ -21,7 +21,7 @@ import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
 
 public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
-    RecyclerView viewmorefruits;
+    RecyclerView viewmorefruits_rv;
     ViewFruitAdapter viewFruitAdapter;
 
     @Override
@@ -30,11 +30,11 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
         setContentView(R.layout.activity_view_more_fruits);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-         viewmorefruits=findViewById(R.id.todaysdeal_viewfruit_recyclerview);
+        viewmorefruits_rv=findViewById(R.id.todaysdeal_viewfruit_recyclerview);
          SQLiteData sqLiteData=new SQLiteData(ViewMoreFruits.this);
-         viewmorefruits.setLayoutManager(new LinearLayoutManager(this));
+        viewmorefruits_rv.setLayoutManager(new LinearLayoutManager(this));
          viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this);
-         viewmorefruits.setAdapter(viewFruitAdapter);
+        viewmorefruits_rv.setAdapter(viewFruitAdapter);
 
     }
 
@@ -53,10 +53,10 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
       SQLiteData sqLiteData=new SQLiteData(this);
       sqLiteData.favoutite_update(id, val);
 
-        Parcelable state=viewmorefruits.getLayoutManager().onSaveInstanceState();
+        Parcelable state=viewmorefruits_rv.getLayoutManager().onSaveInstanceState();
         viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this);
-        viewmorefruits.setAdapter(viewFruitAdapter);
-        viewmorefruits.getLayoutManager().onRestoreInstanceState(state);
+        viewmorefruits_rv.setAdapter(viewFruitAdapter);
+        viewmorefruits_rv.getLayoutManager().onRestoreInstanceState(state);
 
     }
 
@@ -70,10 +70,10 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
     protected void onResume() {
         super.onResume();
         SQLiteData sqLiteData=new SQLiteData(this);
-        Parcelable state=viewmorefruits.getLayoutManager().onSaveInstanceState();
+        Parcelable state=viewmorefruits_rv.getLayoutManager().onSaveInstanceState();
         viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this);
-        viewmorefruits.setAdapter(viewFruitAdapter);
-        viewmorefruits.getLayoutManager().onRestoreInstanceState(state);
+        viewmorefruits_rv.setAdapter(viewFruitAdapter);
+        viewmorefruits_rv.getLayoutManager().onRestoreInstanceState(state);
 
     }
 

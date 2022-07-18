@@ -4,13 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,12 +16,8 @@ import com.example.orderfruit.model.SQLiteData;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.sql.Blob;
-
 public class UserProfile extends AppCompatActivity {
-    ImageView UserProfilePhoto,UserProfileIV;
+    ImageView AddNew_IV,UserProfile_IV;
     TextInputLayout NameLayout,PhoneLayout,AddressLayout,Address2Layout;
     TextInputEditText NameEditText,PhoneEditText,AddressEditText,Address2EditText;
     Button SaveBtn;
@@ -41,8 +32,8 @@ public class UserProfile extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("User Profile");
 
-        UserProfileIV=findViewById(R.id.userProfileIV);
-        UserProfilePhoto=findViewById(R.id.userProfilePhoto);
+        UserProfile_IV=findViewById(R.id.userProfileIV);
+        AddNew_IV=findViewById(R.id.AddNew_IV);
         SaveBtn=findViewById(R.id.userProfileSaveBTN);
 
         NameLayout=findViewById(R.id.nameTLayout);
@@ -68,7 +59,7 @@ public class UserProfile extends AppCompatActivity {
         AddressEditText.setText(address1);
         Address2EditText.setText(address2);
 
-        UserProfilePhoto.setOnClickListener(new View.OnClickListener() {
+        AddNew_IV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -119,7 +110,7 @@ public class UserProfile extends AppCompatActivity {
         if(requestCode==1 && resultCode==RESULT_OK && data!=null)
         {
             Uri selectedImage=data.getData();
-            UserProfileIV.setImageURI(selectedImage);
+            UserProfile_IV.setImageURI(selectedImage);
         }
     }
 }

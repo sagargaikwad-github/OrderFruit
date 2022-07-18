@@ -43,26 +43,37 @@ public class orderHistoryAdapter extends RecyclerView.Adapter<orderHistoryAdapte
 
         holder.orderDate.setText("Date : "+arrayList.get(position).getOrderdate());
        String status= arrayList.get(position).getOrderstats();
-        if(status.contains("Payment Sucessful"))
-        {
-            holder.orderstatus.setText("Order Status : Payment Sucessful");
+//        if(status.contains("Payment Sucessful"))
+//        {
+            holder.orderstatus.setText("Order Status : "+status);
             holder.orderstatus.setTextColor(Color.parseColor("#0CEA15"));
+
+            if(status.contains("Payment Sucessful"))
+            {
+
+            }
+            else
+            {
+                holder.orderstatus.setText("Order Status : Payment Failed");
+                holder.orderstatus.setTextColor(Color.parseColor("#FF0000"));
+            }
 
             holder.orderdetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(context,Orderview.class);
-                    intent.putExtra("position",position);
-                    context.startActivity(intent);
+
+                        Intent intent=new Intent(context,Orderview.class);
+                        intent.putExtra("orderid",arrayList.get(position).getOrderid());
+                        intent.putExtra("getquantity",arrayList.get(position).getOrderquanity());
+                        intent.putExtra("gettotalprice",arrayList.get(position).getOrderprice());
+                        context.startActivity(intent);
 
                 }
             });
-        }
-        else
-        {
-            holder.orderstatus.setText("Order Status : Payment Failed");
-            holder.orderstatus.setTextColor(Color.parseColor("#FF0000"));
-        }
+      //  }
+//        else
+//        {
+                    //}
 
         holder.ordertrackno.setText("Track NO : #4444");
         holder.orderprice.setText("Price : ₹"+arrayList.get(position).getOrderprice());

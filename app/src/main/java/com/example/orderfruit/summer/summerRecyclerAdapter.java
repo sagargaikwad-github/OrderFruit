@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,14 +20,19 @@ import com.example.orderfruit.model.FruitData;
 import com.example.orderfruit.viewfruit.FruitViewActivity;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class summerRecyclerAdapter extends RecyclerView.Adapter<summerRecyclerAdapter.holder> {
+public class summerRecyclerAdapter extends RecyclerView.Adapter<summerRecyclerAdapter.holder> implements Filterable {
     ArrayList<FruitData> fruitData=new ArrayList<>();
     Context context;
+    ArrayList<FruitData>backup=new ArrayList<>();
+
+
 
     public summerRecyclerAdapter(ArrayList<FruitData> fruitData, Context context) {
         this.fruitData = fruitData;
         this.context = context;
+        backup=new ArrayList<>(fruitData);
     }
 
     @NonNull
@@ -239,9 +246,43 @@ public class summerRecyclerAdapter extends RecyclerView.Adapter<summerRecyclerAd
         }
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+    Filter filter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+           ArrayList<FruitData>filterdata=new ArrayList<>();
+           if(charSequence.toString().isEmpty())
+           {
+               filterdata.addAll(backup);
+           }
+           else
+           {
+               for(FruitData obj:backup)
+               {
+                   if(obj.getFruit_name().toString().toLowerCase().contains(charSequence.toString().toLowerCase()))
+                   {
+                       filterdata.add(obj);
+                   }
+               }
+           }
+           FilterResults results=new FilterResults();
+           results.values=filterdata;
+           return results;
+        }
 
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            fruitData.clear();
+            fruitData.addAll((ArrayList<FruitData>)filterResults.values);
+            notifyDataSetChanged();
 
-     public class holder extends RecyclerView.ViewHolder {
+        }
+    };
+
+    public class holder extends RecyclerView.ViewHolder {
         TextView summer_fruit_name;
         public ImageView summer_fruit_image;
 

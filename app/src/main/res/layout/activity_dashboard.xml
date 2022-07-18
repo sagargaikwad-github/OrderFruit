@@ -46,13 +46,28 @@
             <!--              >-->
             <!--            </com.google.android.material.slider.Slider>-->
 
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/searchview_bg"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="5dp"
+                android:hint="Search Fruit Here"
+                android:maxLines="1"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView">
 
                 <com.denzcoskun.imageslider.ImageSlider
                     android:id="@+id/image_slider"
@@ -64,6 +79,7 @@
                     app:iss_auto_cycle="true"
                     app:iss_corner_radius="50"
                     app:iss_period="2000"></com.denzcoskun.imageslider.ImageSlider>
+
             </androidx.cardview.widget.CardView>
 
             <View

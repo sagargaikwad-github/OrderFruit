@@ -36,6 +36,7 @@ public class SplashScreen extends AppCompatActivity {
                 {
                     Intent intent1=new Intent(SplashScreen.this, Dashboard_Activity.class);
                     startActivity(intent1);
+                    SplashScreen.this.finish();
                 }
                 else
                 {
@@ -43,16 +44,18 @@ public class SplashScreen extends AppCompatActivity {
                     {
                         Intent intent1=new Intent(SplashScreen.this,User_Login_Activity.class);
                         startActivity(intent1);
+                        SplashScreen.this.finish();
                     }
                     else
                     {
                         Intent intent1=new Intent(SplashScreen.this, User_Registration_Activity.class);
                         startActivity(intent1);
+                        SplashScreen.this.finish();
                     }
                 }
 
             }
-        },1000);
+           },1400);
     }
 
 }

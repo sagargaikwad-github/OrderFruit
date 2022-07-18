@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ViewCart"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    tools:context=".ViewCart">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:visibility="visible">-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:visibility="visible"
+        android:orientation="vertical"
         android:layout_height="match_parent">
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/viewcart_LL"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_marginTop="65dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,19 +38,19 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView5"
-                android:layout_marginTop="20dp"
-                android:elevation="5dp"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                android:layout_marginTop="20dp"
+                android:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewcart_rv">
 
                 <RelativeLayout
-                    android:padding="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
 
                     <TextView
                         android:id="@+id/textView6"
@@ -120,79 +121,106 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-         <LinearLayout
-             android:layout_width="match_parent"
-             android:orientation="vertical"
-             android:padding="10dp"
-             android:layout_marginTop="20dp"
-             android:layout_height="wrap_content">
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:textSize="20sp"
-                 android:text="Deliver to :"/>
-             <TextView
-                 android:id="@+id/customer_info_name_TV"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:textSize="20sp"
-                 android:text="Name "/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-             <RadioGroup
-                 android:layout_width="match_parent"
-                 android:orientation="horizontal"
-                 android:id="@+id/rd"
-                 android:layout_height="match_parent">
-                 <RadioButton
-                     android:id="@+id/address1"
-                     android:layout_margin="5dp"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:onClick="onRadioButtonClick"
-                     android:text="Address 1"
-                     tools:ignore="OnClick"></RadioButton>
-                 <RadioButton
-                     android:id="@+id/address2"
-                     android:layout_margin="5dp"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:onClick="onRadioButtonClick"
-                     android:text="Address 2"
-                     tools:ignore="OnClick"></RadioButton>
-                 <RadioButton
-                     android:id="@+id/address3"
-                     android:layout_margin="5dp"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:onClick="onRadioButtonClick"
-                     android:text="Custom Address"
-                     tools:ignore="OnClick"></RadioButton>
-             </RadioGroup>
-             <EditText
-                 android:id="@+id/customer_info_address_ET"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:padding="15dp"
-                 android:textSize="20sp"
-                 android:hint="Address"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deliver to :"
+                    android:textSize="20sp" />
 
-             <TextView
-                 android:id="@+id/customer_info_phone_TV"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginLeft="10dp"
-                 android:text="Phone"
-                 android:textSize="22sp" />
+                <TextView
+                    android:id="@+id/customer_info_name_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name "
+                    android:textSize="20sp" />
 
-             <EditText
-                 android:id="@+id/customer_info_phone_ET"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:textSize="20sp"
-                 android:inputType="phone"
-                 android:layout_marginTop="5dp"
-                 android:hint="Alternative Phone"/>
-         </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/rd"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/address1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:onClick="onRadioButtonClick"
+                        android:text="Address 1"
+                        tools:ignore="OnClick"></RadioButton>
+
+                    <RadioButton
+                        android:id="@+id/address2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:onClick="onRadioButtonClick"
+                        android:text="Address 2"
+                        tools:ignore="OnClick"></RadioButton>
+                </RadioGroup>
+<!--                <EditText-->
+<!--                    android:id="@+id/customer_info_address_ET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Address"-->
+<!--                    android:padding="15dp"-->
+<!--                    android:textSize="20sp" />-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="350dp"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="60"
+                    android:maxLines="5"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/customer_info_address_ET"
+                        android:layout_width="350dp"
+                        android:layout_height="100dp"
+                        android:hint="Address " />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/customer_info_phone_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Phone"
+                    android:textSize="19sp" />
+
+<!--                <EditText-->
+<!--                    android:id="@+id/customer_info_phone_ET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:hint="Alternative Phone"-->
+<!--                    android:inputType="phone"-->
+<!--                    android:textSize="20sp" />-->
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="350dp"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="10"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/customer_info_phone_ET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Alternative Phone"
+                        android:inputType="phone"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
             <Button
                 android:id="@+id/checkout"
                 android:layout_width="wrap_content"
@@ -205,17 +233,55 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView5"
                 app:layout_constraintVertical_bias="1.0" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <ImageView
+<!--    <ImageView-->
+<!--        android:id="@+id/empty_iv"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--       android:src="@drawable/ic_fruit_logo"-->
+<!--        android:scaleType="fitCenter"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"></ImageView>-->
+        <LinearLayout
             android:id="@+id/empty_iv"
             android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="150dp"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/empty_cart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Your Cart is Empty !"
+                android:layout_marginTop="10dp"
+                android:textSize="22sp"
+                android:fontFamily="@font/alata"
+                android:textColor="@color/black"
+                android:gravity="center"></TextView>
+            <Button
+                android:id="@+id/viewcart_startshopping_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="200dp"
+                android:text="Start Shopping">
+            </Button>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </ScrollView>

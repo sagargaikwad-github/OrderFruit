@@ -21,8 +21,8 @@ import java.nio.file.FileVisitOption;
 public class User_Forget_Password extends AppCompatActivity {
     TextInputLayout phone_layout, name_layout;
     EditText phone_et, name_et;
-    Button find;
-    TextView backtologin, username_password_display;
+    Button find_btn;
+    TextView backtologin_tv, username_password_display_tv;
     String getPhone, getName;
 
     @Override
@@ -36,14 +36,14 @@ public class User_Forget_Password extends AppCompatActivity {
         name_layout = findViewById(R.id.forget_name_layout);
         name_et = findViewById(R.id.forget_name_et);
 
-        find = findViewById(R.id.find_account);
+        find_btn = findViewById(R.id.find_account);
 
-        backtologin = findViewById(R.id.back_to_login);
+        backtologin_tv = findViewById(R.id.back_to_login);
 //        username_password_display = findViewById(R.id.display_info);
 
         SQLiteData sqLiteData = new SQLiteData(this);
 
-        find.setOnClickListener(new View.OnClickListener() {
+        find_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getPhone = phone_et.getText().toString().trim();
@@ -91,7 +91,7 @@ public class User_Forget_Password extends AppCompatActivity {
 
             }
         });
-        backtologin.setOnClickListener(new View.OnClickListener() {
+        backtologin_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(User_Forget_Password.this,User_Login_Activity.class);

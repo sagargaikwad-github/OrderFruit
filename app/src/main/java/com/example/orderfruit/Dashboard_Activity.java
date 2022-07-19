@@ -1,40 +1,39 @@
 package com.example.orderfruit;
 
-import static java.util.Calendar.APRIL;
-import static java.util.Calendar.FEBRUARY;
-import static java.util.Calendar.JANUARY;
-import static java.util.Calendar.JULY;
-
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SyncRequest;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -47,6 +46,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.orderfruit.cart.ViewCart;
 import com.example.orderfruit.category.CategoryAdapter;
 import com.example.orderfruit.category.CategoryData;
 import com.example.orderfruit.fresshfruit.FreshFruitAdapter;
@@ -61,18 +61,11 @@ import com.example.orderfruit.viewfruit.FruitViewActivity;
 import com.example.orderfruit.viewmorefruits.ViewMoreFruits;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textview.MaterialTextView;
-
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
-
-import javax.sql.StatementEvent;
 
 public class Dashboard_Activity extends AppCompatActivity implements InterfaceData, NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;
@@ -93,9 +86,10 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
     TextView ViewMore;
     String Phone;
     TextView Nav_name,Nav_phone,you_may_also_like_tv;
+    ImageView Nav_profile;
+    FloatingActionButton Nav_camera;
     AutoCompleteTextView autoCompleteTextView;
-
-        ArrayList<FruitData>fruitData;
+    ArrayList<FruitData>fruitData;
     ArrayAdapter<String> arrayAdapter;
 
     @SuppressLint("WrongThread")
@@ -218,7 +212,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
           you_may_like_recyclerview = findViewById(R.id.you_may_like_recyclerview);
 
-             Calendar mCalendar = Calendar.getInstance();
+            Calendar mCalendar = Calendar.getInstance();
             String month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
             int monthNumber  = mCalendar.get(Calendar.MONTH);
 
@@ -297,6 +291,9 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
             View viewheader = nav_view.getHeaderView(0);
             Nav_name = viewheader.findViewById(R.id.nav_header_name_tv);
             Nav_phone = viewheader.findViewById(R.id.nav_header_phone_tv);
+            Nav_profile = viewheader.findViewById(R.id.nav_header_profile_iv);
+
+            Nav_camera = viewheader.findViewById(R.id.fab_btn);
 
             Cursor headerdata = sqLiteData.headerData();
             if (headerdata != null) {
@@ -304,8 +301,37 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                     do {
                         String name = headerdata.getString(0);
                         String phone = headerdata.getString(1);
+
+                        byte[] blob=headerdata.getBlob(8);
+
+                        if(blob!=null)
+                        {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+                            Nav_profile.setImageBitmap(bitmap);
+                        }
+
+
+
+
+
+
                         Nav_name.setText(name);
                         Nav_phone.setText(phone);
+                        Nav_camera.setOnClickListener(new View.OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.M)
+                            @Override
+                            public void onClick(View view) {
+                                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                                {
+                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                                }
+                                else
+                                {
+                                    Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                    startActivityForResult(gallartintent,1);
+                                }
+                            }
+                        });
                     } while (headerdata.moveToNext());
                 }
             } else {
@@ -406,7 +432,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
         switch (item.getItemId())
         {
             case R.id.actionbar_cart:
-                Intent intent=new Intent(this,ViewCart.class);
+                Intent intent=new Intent(this, ViewCart.class);
                 startActivity(intent);
                 break;
             case R.id.actionbar_favourite:
@@ -543,23 +569,43 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
         }
 
-        Cursor headerdata=sqLiteData.headerData();
-        if(headerdata!=null)
-        {
-            if(headerdata.moveToFirst())
-            {
-                do{
-                    String name=headerdata.getString(0);
-                    String phone=headerdata.getString(1);
-                    Nav_name.setText(name);
-                    Nav_phone.setText(phone);
-                }while (headerdata.moveToNext());
-            }
-        }
-        else
-        {
+                 Cursor headerdata = sqLiteData.headerData();
+                    if (headerdata != null) {
+                        if (headerdata.moveToFirst()) {
+                            do {
+                                String name = headerdata.getString(0);
+                                String phone = headerdata.getString(1);
 
-        }
+                                byte[] blob=headerdata.getBlob(8);
+                                if(blob!=null)
+                                {
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+                                    Nav_profile.setImageBitmap(bitmap);
+                                }
+
+
+                                Nav_name.setText(name);
+                                Nav_phone.setText(phone);
+                                Nav_camera.setOnClickListener(new View.OnClickListener() {
+                                    @RequiresApi(api = Build.VERSION_CODES.M)
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                                        {
+                                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                                        }
+                                        else
+                                        {
+                                            Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                            startActivityForResult(gallartintent,1);
+                                        }
+                                    }
+                                });
+                            } while (headerdata.moveToNext());
+                        }
+                    } else {
+
+                    }
     }
 
     @Override
@@ -645,6 +691,66 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
             return false;
         }
 
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(galleryIntent,1);
+                } else {
+                    Toast.makeText(Dashboard_Activity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+//            Uri selectedImage = data.getData();
+//            UserProfile_IV.setImageURI(selectedImage);
+
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            if (selectedImage != null) {
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                if (cursor != null) {
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    Bitmap bv = (BitmapFactory.decodeFile(picturePath));
+                    cursor.close();
+
+
+                    //UserProfile_IV.setImageBitmap(bv);
+
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bv.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                    byte[] img1 = byteArrayOutputStream.toByteArray();
+                    SQLiteData sqlIteData = new SQLiteData(Dashboard_Activity.this);
+                    sqlIteData.addProfilePic(img1, Nav_phone.getText().toString());
+                    Toast.makeText(Dashboard_Activity.this, "Photo saved", Toast.LENGTH_SHORT).show();
+
+
+                    Cursor res=sqlIteData.search(Nav_phone.getText().toString());
+                    if(res.moveToFirst())
+                    {
+                        do{
+                            byte[] bytes=res.getBlob(8);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            Nav_profile.setImageBitmap(bitmap);
+                        }while(res.moveToNext());
+                    }
+                    else {
+                        Toast.makeText(Dashboard_Activity.this, "Data Not Found", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }
+        }
     }
 }
 

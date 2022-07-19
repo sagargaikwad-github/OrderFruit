@@ -7,6 +7,7 @@
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/drawable/card_edge.xml" value="0.2115" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/drawable/circle.xml" value="0.1" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/drawable/ic_actionbar_fav.xml" value="0.2115" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/drawable/ic_arrow_back.xml" value="0.137" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/drawable/ic_cart.xml" value="0.137" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/drawable/ic_favourite.xml" value="0.2115" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/drawable/ic_password_logo.xml" value="0.2115" />
@@ -25,7 +26,7 @@
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_fruit_view.xml" value="0.33" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_mostly_viewd.xml" value="0.19010416666666666" />
-        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_order_history.xml" value="0.14" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_order_history.xml" value="0.21" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_orderview.xml" value="0.25" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_popular_fruits.xml" value="0.20416666666666666" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_seasonal_fruits.xml" value="0.20416666666666666" />
@@ -36,9 +37,9 @@
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_user_profile.xml" value="0.25" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_user_registration.xml" value="0.20416666666666666" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_view_all_category.xml" value="0.1" />
-        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_view_cart.xml" value="0.22" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_view_cart.xml" value="0.170261066969353" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_view_fruit.xml" value="0.20416666666666666" />
-        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_view_more_fruits.xml" value="0.1" />
+        <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/activity_view_more_fruits.xml" value="0.18" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/all_catagories_row.xml" value="0.2028985507246377" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/allfruits_item.xml" value="0.33" />
         <entry key="..\:/Android Project/OrderFruit/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.33" />

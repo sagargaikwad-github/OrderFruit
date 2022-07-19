@@ -1,11 +1,15 @@
 package com.example.orderfruit;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -20,8 +24,13 @@ public class OrderHistory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_history);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Order History");
+
+        Toolbar nav_toolbar = findViewById(R.id.nav_toolbar);
+        setSupportActionBar(nav_toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+        actionBar.setTitle("Order History");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         orderhistory_rv=findViewById(R.id.orderhistory_rv);
         orderhistory_noOrderLL=findViewById(R.id.orderhistory_noOrderLL);
@@ -52,5 +61,14 @@ public class OrderHistory extends AppCompatActivity {
         Intent intent=new Intent(this,Dashboard_Activity.class);
         startActivity(intent);
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return true;
     }
 }

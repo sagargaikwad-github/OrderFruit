@@ -3,6 +3,8 @@
     package="com.example.orderfruit">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,42 +13,31 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.OrderFruit">
         <activity
             android:name=".Orderview"
-            android:exported="true"
-            android:theme="@style/Dashboard.Theme"
-            android:parentActivityName=".OrderHistory"/>
+            android:exported="true" />
         <activity
             android:name=".OrderHistory"
             android:exported="false"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+            />
         <activity
-            android:name=".ViewCart"
-            android:exported="true"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+            android:name=".cart.ViewCart"
+            android:exported="true" />
         <activity
             android:name=".user.UserProfile"
-            android:exported="true"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+            android:exported="true" />
         <activity
             android:name=".FavouriteListDisplay"
             android:exported="false"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+            />
         <activity
             android:name=".summer.SummerViewFruit"
-            android:exported="false"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+            android:exported="false" />
         <activity
             android:name=".viewmorefruits.ViewMoreFruits"
-            android:exported="true"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+            android:exported="true" />
         <activity
             android:name=".dashboardfruits.DashboardFruits"
             android:exported="false" />
@@ -57,9 +48,8 @@
             android:theme="@style/Dashboard.Theme" />
         <activity
             android:name=".Categories.allcatagories.AllCatagoriesMain"
-            android:exported="true"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+            android:exported="false"
+            />
         <activity
             android:name=".viewfruit.View_All_Category"
             android:exported="true"
@@ -95,24 +85,17 @@
             android:exported="true" />
         <activity
             android:name=".Categories.todaysDeal.TodaysDeal"
-            android:exported="false"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+            android:exported="false" />
         <activity
             android:name=".Categories.seasonal.SeasonalFruits"
             android:exported="false"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+             />
         <activity
             android:name=".Categories.popular.PopularFruits"
-            android:exported="false"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+            android:exported="false" />
         <activity
             android:name=".Categories.mostlyviewed.MostlyViewd"
-            android:exported="false"
-            android:parentActivityName=".Dashboard_Activity"
-            android:theme="@style/Dashboard.Theme" />
+            android:exported="false" />
 
         <receiver
             android:name="com.razorpay.RzpTokenReceiver"

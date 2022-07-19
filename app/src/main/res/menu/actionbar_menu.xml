@@ -6,7 +6,7 @@
         android:id="@+id/actionbar_favourite"
         app:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_actionbar_fav"
-        android:title="Favourite" />
+        android:title="" />
     <item
         android:id="@+id/actionbar_cart"
         android:icon="@drawable/ic_cart"

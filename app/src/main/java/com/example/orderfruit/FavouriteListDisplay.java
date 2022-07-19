@@ -1,11 +1,15 @@
 package com.example.orderfruit;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -26,8 +30,15 @@ public class FavouriteListDisplay extends AppCompatActivity implements Interface
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite_list_display);
-        getSupportActionBar().setTitle("Favourite Fruits");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setTitle("Favourite Fruits");
+
+
+        Toolbar nav_toolbar = findViewById(R.id.nav_toolbar);
+        setSupportActionBar(nav_toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+        actionBar.setTitle("Favourites");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         favourite_list_display_rv=findViewById(R.id.favourite_list_display_rv);
         favourite_list_display_LL=findViewById(R.id.favourite_list_display_linearlayout);
@@ -106,6 +117,15 @@ public class FavouriteListDisplay extends AppCompatActivity implements Interface
         }
 
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return true;
     }
 
 

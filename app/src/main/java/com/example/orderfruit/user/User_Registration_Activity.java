@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -19,6 +22,7 @@ import com.example.orderfruit.R;
 import com.example.orderfruit.model.SQLiteData;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 
 public class User_Registration_Activity extends AppCompatActivity {
@@ -128,6 +132,12 @@ public class User_Registration_Activity extends AppCompatActivity {
                     myEdit.putString("Register",isRegister);
                     myEdit.apply();
 
+                    Bitmap bitmap = BitmapFactory.decodeResource(User_Registration_Activity.this.getResources(), R.drawable.ic_profile_default);
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+                    byte[] img = byteArrayOutputStream.toByteArray();
+                    SQLiteData db=new SQLiteData(User_Registration_Activity.this);
+                    boolean insert = db.insertImage(img);
 
                     Toast.makeText(User_Registration_Activity.this, "Record Added Sucessfully", Toast.LENGTH_SHORT).show();
                 }

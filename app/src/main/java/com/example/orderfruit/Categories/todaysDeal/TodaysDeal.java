@@ -1,11 +1,15 @@
 package com.example.orderfruit.Categories.todaysDeal;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -22,8 +26,7 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todays_deal);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Today's Trending");
+
 
 
         Todays_deal_rv=findViewById(R.id.todaysdeal_viewfruit_recyclerview);
@@ -31,6 +34,14 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
         Todays_deal_rv.setLayoutManager(new LinearLayoutManager(this));
         ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getTopDeals(),TodaysDeal.this,this);
         Todays_deal_rv.setAdapter(viewFruitAdapter);
+
+
+
+        Toolbar nav_toolbar = findViewById(R.id.nav_toolbar);
+        setSupportActionBar(nav_toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -61,5 +72,15 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
         ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getTopDeals(),TodaysDeal.this,this);
         Todays_deal_rv.setAdapter(viewFruitAdapter);
         Todays_deal_rv.getLayoutManager().onRestoreInstanceState(state);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return true;
     }
 }

@@ -1,11 +1,15 @@
 package com.example.orderfruit.Categories.seasonal;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,8 +34,12 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seasonal_fruits);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Toolbar nav_toolbar = findViewById(R.id.nav_toolbar);
+        setSupportActionBar(nav_toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         sp=findViewById(R.id.spinner);
         Seasonal_rv=findViewById(R.id.seasonal_recyclerview);
@@ -122,7 +130,6 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
         super.onResume();
         SQLiteData sqLiteData=new SQLiteData(getApplicationContext());
 
-        Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
 
         if(Season=="Summer")
         {
@@ -152,5 +159,14 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
         }
 
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return true;
     }
 }

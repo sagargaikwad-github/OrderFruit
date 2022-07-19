@@ -4,22 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.orderfruit.Categories.mostlyviewed.MostlyViewd;
-import com.example.orderfruit.InterfaceData;
 import com.example.orderfruit.R;
-import com.example.orderfruit.ViewCart;
+import com.example.orderfruit.cart.ViewCart;
 import com.example.orderfruit.model.SQLiteData;
-
-import java.util.ArrayList;
 
 public class FruitViewActivity extends AppCompatActivity {
     TextView fruitname,fruitprice,fruitdesc1,fruitdesc2,fruitdesc3,fruitdesc4,fruitcart,fruitview_advantage,fruitview_add_to_cart_num;
@@ -67,7 +61,7 @@ public class FruitViewActivity extends AppCompatActivity {
         String desc4=bundle.getString("FruitDesc4");
         int addtocart=bundle.getInt("FruitCart");
 
-
+        getSupportActionBar().setTitle(name);
 
         fruitname.setText(name);
         fruitprice.setText("₹ "+String.valueOf(price)+" /"+"kg");

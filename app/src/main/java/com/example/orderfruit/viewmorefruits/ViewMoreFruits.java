@@ -1,6 +1,9 @@
 package com.example.orderfruit.viewmorefruits;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -28,7 +32,14 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_more_fruits);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Toolbar nav_toolbar = findViewById(R.id.nav_toolbar);
+        setSupportActionBar(nav_toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+        actionBar.setTitle("Order Fruits");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         viewmorefruits_rv=findViewById(R.id.todaysdeal_viewfruit_recyclerview);
          SQLiteData sqLiteData=new SQLiteData(ViewMoreFruits.this);
@@ -80,6 +91,16 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
     @Override
     protected void onRestart() {
         super.onRestart();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            super.onBackPressed();
+            return true;
+        }
+        return true;
     }
 
 }

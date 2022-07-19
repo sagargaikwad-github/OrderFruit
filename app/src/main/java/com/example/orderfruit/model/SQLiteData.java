@@ -5,6 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+
+import com.example.orderfruit.R;
 
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -236,7 +241,9 @@ public class SQLiteData extends SQLiteOpenHelper {
         cv.put("Address2", "");
         cv.put("ZipCode", "");
         cv.put("Email", "");
-        cv.put("Image", "");
+        cv.put("Image","");
+
+
 
         long res = db.insert("registration", null, cv);
         if (res == -1)
@@ -651,7 +658,7 @@ public class SQLiteData extends SQLiteOpenHelper {
         cv.put("fruit_id", fruit_id);
         cv.put("fruit_weight", fruit_weight);
 
-       sqLiteDatabase.insert("order_history_1", null, cv);
+        sqLiteDatabase.insert("order_history_1", null, cv);
 
     }
 
@@ -716,7 +723,6 @@ public class SQLiteData extends SQLiteOpenHelper {
     }
 
 
-
     public ArrayList<FruitData> getOrderData(String[] ids) {
         ArrayList<FruitData> getdata = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -752,35 +758,70 @@ public class SQLiteData extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("add_to_cart", num);
-        sqLiteDatabase.update("fruits_main", cv,null,null);
+        sqLiteDatabase.update("fruits_main", cv, null, null);
     }
+
     public ArrayList<FruitData> getFromSearch(String fname) {
         ArrayList<FruitData> getdata1 = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery("Select * from fruits_main where name=?", new String[]{fname});
 
-            if (cursor.moveToFirst()) {
-                do {
-                    int fruit_id = cursor.getInt(0);
-                    String fruit_name = cursor.getString(1);
-                    int fruit_price = cursor.getInt(2);
-                    int fruit_quantity = cursor.getInt(3);
-                    String fruit_description_1 = cursor.getString(4);
-                    String fruit_description_2 = cursor.getString(5);
-                    String fruit_description_3 = cursor.getString(6);
-                    String fruit_description_4 = cursor.getString(7);
-                    byte[] fruit_image = cursor.getBlob(8);
-                    int fruit_addtocart = cursor.getInt(9);
-                    int fruit_favourite = cursor.getInt(10);
-                    String fruit_category = cursor.getString(11);
-                    String fruit_season = cursor.getString(12);
+        if (cursor.moveToFirst()) {
+            do {
+                int fruit_id = cursor.getInt(0);
+                String fruit_name = cursor.getString(1);
+                int fruit_price = cursor.getInt(2);
+                int fruit_quantity = cursor.getInt(3);
+                String fruit_description_1 = cursor.getString(4);
+                String fruit_description_2 = cursor.getString(5);
+                String fruit_description_3 = cursor.getString(6);
+                String fruit_description_4 = cursor.getString(7);
+                byte[] fruit_image = cursor.getBlob(8);
+                int fruit_addtocart = cursor.getInt(9);
+                int fruit_favourite = cursor.getInt(10);
+                String fruit_category = cursor.getString(11);
+                String fruit_season = cursor.getString(12);
 
-                    getdata1.add(new FruitData(fruit_id, fruit_name,
-                            fruit_price, fruit_quantity, fruit_description_1, fruit_description_2, fruit_description_3,
-                            fruit_description_4, fruit_image, fruit_addtocart, fruit_favourite, fruit_category, fruit_season));
-                } while (cursor.moveToNext());
-            }
-            return getdata1;
+                getdata1.add(new FruitData(fruit_id, fruit_name,
+                        fruit_price, fruit_quantity, fruit_description_1, fruit_description_2, fruit_description_3,
+                        fruit_description_4, fruit_image, fruit_addtocart, fruit_favourite, fruit_category, fruit_season));
+            } while (cursor.moveToNext());
         }
+        return getdata1;
+    }
+
+    public boolean addProfilePic(byte[] photo1,String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("Image", photo1);
+        long res = db.update("registration",cv,"phone=?",new String[]{phone});
+        if (res == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public Cursor search(String a)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from registration where phone=?",new String[]{a});
+        return res;
+    }
+
+
+    public boolean insertImage(byte[] img) {
+            SQLiteDatabase db=this.getWritableDatabase();
+            ContentValues cv=new ContentValues();
+            cv.put("Image",img);
+            long res= db.update("registration",cv,null,null);
+            if(res==-1)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
 
     }
+}

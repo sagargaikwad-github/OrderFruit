@@ -16,10 +16,10 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.OrderFruit">
         <activity
-            android:name=".Orderview"
+            android:name=".order.Orderview"
             android:exported="true" />
         <activity
-            android:name=".OrderHistory"
+            android:name=".order.OrderHistory"
             android:exported="false"
             />
         <activity
@@ -29,7 +29,7 @@
             android:name=".user.UserProfile"
             android:exported="true" />
         <activity
-            android:name=".FavouriteListDisplay"
+            android:name=".favourites.FavouriteListDisplay"
             android:exported="false"
             />
         <activity
@@ -38,9 +38,7 @@
         <activity
             android:name=".viewmorefruits.ViewMoreFruits"
             android:exported="true" />
-        <activity
-            android:name=".dashboardfruits.DashboardFruits"
-            android:exported="false" />
+
         <activity
             android:name=".viewfruit.FruitViewActivity"
             android:exported="true"
@@ -76,12 +74,9 @@
             android:exported="true" />
         <activity
             android:name=".user.User_Registration_Activity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
-        <activity
-            android:name=".viewfruit.DashboardFruits"
             android:exported="true" />
         <activity
             android:name=".Categories.todaysDeal.TodaysDeal"

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/oh_bsheet_layout"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout2"
@@ -29,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:text="Deliver to :"
             android:textColor="#000000"
@@ -61,62 +60,70 @@
             android:textColor="#000000"
             android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/orderview_fruitlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_gravity="center"
-        android:text="Bill"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/orderview_fruitlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="35dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="BILL"
+            android:textColor="#000000"
+            android:textSize="40sp"
+            android:textStyle="bold" />
 
         <LinearLayout
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/orderview_LinearLayout">
+            android:id="@+id/orderview_LinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="#000000"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Fruit Name"
-            android:textColor="#000000"></TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Fruit Name"
+                android:textColor="#FFFFFF"></TextView>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Total Gross"
-            android:textColor="#000000"></TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Total Gross"
+                android:textColor="#FFFFFF"></TextView>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Per Kg Price"
-            android:textColor="#000000" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Per Kg Price"
+                android:textColor="#FFFFFF" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Total"
-            android:textColor="#000000"></TextView>
-    </LinearLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Total"
+                android:textColor="#FFFFFF"></TextView>
+        </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="10dp"
-        android:id="@+id/orderview_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/orderview_LinearLayout" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orderview_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/orderview_LinearLayout"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp" />
 
 <View
     android:layout_width="match_parent"
@@ -130,7 +137,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -138,7 +147,89 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Total : "
+                android:text=""
+                android:textColor="#000000"></TextView>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#000000"></TextView>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Subtotal "
+                android:textColor="#000000"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/subtotal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="#000000"></TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#000000"></TextView>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity=""
+                android:text=""
+                android:textColor="#000000"></TextView>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Delivery Charge "
+               android:gravity="center"
+                android:textColor="#000000"
+                 />
+
+            <TextView
+                android:id="@+id/deliverycharge"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#000000"></TextView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
                 android:textColor="#000000"></TextView>
 
             <TextView
@@ -147,43 +238,55 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Total Gross"
+                android:text=""
                 android:textColor="#000000"></TextView>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:text="Total "
+                android:background="@color/black"
+                android:textColor="@color/white"
+                android:paddingStart="5dp"
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/totalprice_tv"
+                android:id="@+id/total"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Total"
-                android:textColor="#000000"></TextView>
+                android:text=""
+                android:background="@color/black"
+                android:textColor="@color/white"></TextView>
         </LinearLayout>
+
+
         <TextView
-            android:layout_marginTop="50dp"
             android:id="@+id/orderstatus_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:layout_marginLeft="20dp"
-            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/searchview_bg"
             android:backgroundTint="@color/box_color"
-            android:text="Order Status"
+            android:padding="8dp"
+            android:text="Payment Status"
             android:textColor="@color/black"
             android:textSize="16sp"></TextView>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/amaranth_bold"
             android:gravity="center"
             android:text="A place for veggies and fruits ..Keep Shopping..!"
             android:textColor="@color/black"
-            android:textSize="16sp"></TextView>
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp"
+            android:textStyle="bold"></TextView>
 
     </LinearLayout>
 </ScrollView>

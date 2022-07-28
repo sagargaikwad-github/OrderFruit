@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.orderfruit.AddToCart_Interface;
+import com.example.orderfruit.Interface.AddToCart_Interface;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.FruitData;
 
@@ -44,7 +44,14 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
     @Override
     public void onBindViewHolder(@NonNull holder holder, @SuppressLint("RecyclerView") int position) {
         holder.viewcart_fruitname.setText(arrayList.get(position).getFruit_name());
-        holder.viewcart_fruitweight.setText(String.valueOf(arrayList.get(position).getFruit_addtocart())+" KG");
+        if(arrayList.get(position).getFruit_name().contains("Coconuts"))
+        {
+            holder.viewcart_fruitweight.setText(String.valueOf(arrayList.get(position).getFruit_addtocart())+" Piece");
+        }
+        else
+        {
+            holder.viewcart_fruitweight.setText(String.valueOf(arrayList.get(position).getFruit_addtocart())+" KG");
+        }
         holder.viewcart_cart.setText(String.valueOf(arrayList.get(position).getFruit_addtocart()));
         holder.viewcart_price.setText(String.valueOf("₹"+arrayList.get(position).getFruit_price()*arrayList.get(position).getFruit_addtocart()));
 
@@ -118,7 +125,6 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
                if(remove<1)
                {
                    Toast.makeText(context.getApplicationContext(), "Atlest 1 KG", Toast.LENGTH_SHORT).show();
-
                }
                else
                {
@@ -144,8 +150,8 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
 
                  // ((ViewCart) context).onResume();
 
-
                }
+
                 addToCart_interface.add_to_cart(id,remove);
                 holder.viewcart_fruitweight.setText(String.valueOf(remove));
                 holder.viewcart_price.setText(String.valueOf(remove*arrayList.get(position).getFruit_price()));
@@ -186,9 +192,6 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
 
     }
 
-
-
-
     @Override
     public int getItemCount() {
         return arrayList.size();
@@ -205,7 +208,6 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
             viewcart_price=itemView.findViewById(R.id.viewcart_row_price);
             viewcart_row_minus=itemView.findViewById(R.id.viewcart_row_minus);
             viewcart_row_plus=itemView.findViewById(R.id.viewcart_row_plus);
-
 
         }
     }

@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.example.orderfruit.InterfaceData;
+import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
@@ -30,7 +30,7 @@ public class MostlyViewd extends AppCompatActivity implements InterfaceData {
         setSupportActionBar(nav_toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-        actionBar.setTitle("Popular Fruits");
+        actionBar.setTitle("Mostly Viewed");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 

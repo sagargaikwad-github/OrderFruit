@@ -48,15 +48,18 @@
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextView"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
                 android:background="@drawable/searchview_bg"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="5dp"
                 android:hint="Search Fruit Here"
                 android:maxLines="1"
                 android:padding="10dp"
+                android:singleLine="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -74,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="230dp"
                     android:layout_margin="16dp"
-                    android:layout_marginTop="8dp"
+                    android:background="@drawable/searchview_bg"
                     android:elevation="8dp"
                     app:iss_auto_cycle="true"
                     app:iss_corner_radius="50"
@@ -179,8 +182,9 @@
 
             <TextView
                 android:id="@+id/view_more"
-                android:layout_width="107dp"
-                android:layout_height="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_marginBottom="15dp"
                 android:text="View More...  "
                 android:textSize="15sp"
@@ -208,15 +212,16 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Log out"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+<!--            <TextView-->
+<!--                android:id="@+id/logout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Log out"-->
+<!--                android:padding="10dp"-->
+<!--                android:layout_marginTop="200dp"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="16sp" />-->
 
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>

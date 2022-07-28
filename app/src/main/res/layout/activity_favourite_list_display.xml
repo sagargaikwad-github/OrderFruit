@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FavouriteListDisplay">
+    tools:context=".favourites.FavouriteListDisplay">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout2"
         android:layout_width="match_parent"
@@ -54,9 +54,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favourite_list_display_rv"
-        android:layout_width="409dp"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginEnd="2dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

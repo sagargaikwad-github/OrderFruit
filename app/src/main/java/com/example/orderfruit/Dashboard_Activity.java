@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -19,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +40,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -45,24 +50,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.orderfruit.Categories.todaysDeal.TodaysDeal;
+import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.cart.ViewCart;
 import com.example.orderfruit.category.CategoryAdapter;
 import com.example.orderfruit.category.CategoryData;
+import com.example.orderfruit.favourites.FavouriteListDisplay;
 import com.example.orderfruit.fresshfruit.FreshFruitAdapter;
 import com.example.orderfruit.model.FruitData;
 import com.example.orderfruit.model.SQLiteData;
+import com.example.orderfruit.order.OrderHistory;
 import com.example.orderfruit.summer.SummerImageData;
 import com.example.orderfruit.summer.SummerViewFruit;
 import com.example.orderfruit.summer.summerRecyclerAdapter;
 import com.example.orderfruit.user.UserProfile;
 import com.example.orderfruit.user.User_Login_Activity;
 import com.example.orderfruit.viewfruit.FruitViewActivity;
+import com.example.orderfruit.viewfruit.View_All_Category;
 import com.example.orderfruit.viewmorefruits.ViewMoreFruits;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -110,23 +122,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
         }else
         {
-            new AlertDialog.Builder(Dashboard_Activity.this)
-                    .setMessage("No Internet Connection !")
-                    .setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                           if(isOnline(getApplicationContext()))
-                           {
-
-                           }
-                           else
-                           {
-                               getConn();
-                           }
-                        }
-                    })
-                    .setCancelable(false)
-                    .show();
+           getConn();
 
         }
         setNavigationViewListener();
@@ -134,11 +130,36 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
             imageSlider = findViewById(R.id.image_slider);
             ArrayList<SlideModel> slideModels = new ArrayList<>();
-            slideModels.add(new SlideModel("https://i.pinimg.com/originals/71/1c/45/711c451bd36e29a7b440ddb3125e03f3.jpg", ScaleTypes.FIT));
-            slideModels.add(new SlideModel("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR6KmspSy7yDl6Wl7895mvE4vR9tBFxIsPGg&usqp=CAU", ScaleTypes.FIT));
-            slideModels.add(new SlideModel("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu_zAomeE5h3ftWvdzNwQAOrxaFqH6g2rEfA&usqp=CAU", ScaleTypes.FIT));
-            slideModels.add(new SlideModel("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXmgXbqGInKIpIbNEfYUIlba6Z_yRtbN_amQ&usqp=CAU", ScaleTypes.FIT));
+            slideModels.add(new SlideModel(R.drawable.imageslider2, ScaleTypes.FIT));
+            slideModels.add(new SlideModel(R.drawable.imageslider3, ScaleTypes.FIT));
+            slideModels.add(new SlideModel(R.drawable.imageslider5, ScaleTypes.FIT));
             imageSlider.setImageList(slideModels, ScaleTypes.FIT);
+
+        for(int z=0;z<slideModels.size();z++) {
+            imageSlider.setItemClickListener(new ItemClickListener() {
+                @Override
+                public void onItemSelected(int i) {
+                    String mango = "Mango";
+                    String berry="Berry";
+                    switch (i) {
+                        case 0:
+                           Intent intent=new Intent(Dashboard_Activity.this, TodaysDeal.class);
+                           startActivity(intent);
+                            break;
+                        case 1:
+                            Intent intent1=new Intent(Dashboard_Activity.this, View_All_Category.class);
+                            intent1.putExtra("Mango",mango);
+                            startActivity(intent1);
+                            break;
+                        case 2:
+                            Intent intent2=new Intent(Dashboard_Activity.this, View_All_Category.class);
+                            intent2.putExtra("Berry",berry);
+                            startActivity(intent2);
+                            break;
+                    }
+                }
+            });
+        }
 
 
             category.add(new CategoryData(R.drawable.all_catagory, "All Categories"));
@@ -186,7 +207,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
             SharedPreferences sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
 
-            logout = findViewById(R.id.logout);
+            //logout = findViewById(R.id.logout);
 
             drawerLayout = findViewById(R.id.dashboard_drawer_layout);
             toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
@@ -240,32 +261,32 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
             }
 
-            logout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.clear();
-                    editor.apply();
-
-                    Toast.makeText(Dashboard_Activity.this, "Logout Succesful", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Dashboard_Activity.this, User_Login_Activity.class);
-                    startActivity(intent);
-
-
-                    Cursor headerdata = sqLiteData.headerData();
-                    if (headerdata != null) {
-                        if (headerdata.moveToFirst()) {
-                            do {
-                                String phone = headerdata.getString(1);
-                                sqLiteData.UpdateLogin(phone, 0);
-                            } while (headerdata.moveToNext());
-                        }
-                    } else {
-
-                    }
-
-                }
-            });
+//            logout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    editor.clear();
+//                    editor.apply();
+//
+//                    Toast.makeText(Dashboard_Activity.this, "Logout Succesful", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(Dashboard_Activity.this, User_Login_Activity.class);
+//                    startActivity(intent);
+//
+//
+//                    Cursor headerdata = sqLiteData.headerData();
+//                    if (headerdata != null) {
+//                        if (headerdata.moveToFirst()) {
+//                            do {
+//                                String phone = headerdata.getString(1);
+//                                sqLiteData.UpdateLogin(phone, 0);
+//                            } while (headerdata.moveToNext());
+//                        }
+//                    } else {
+//
+//                    }
+//
+//                }
+//            });
 
             ViewMore.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -311,10 +332,6 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                         }
 
 
-
-
-
-
                         Nav_name.setText(name);
                         Nav_phone.setText(phone);
                         Nav_camera.setOnClickListener(new View.OnClickListener() {
@@ -324,6 +341,12 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                                 {
                                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+
+                                    Toast toast = Toast.makeText(Dashboard_Activity.this,"bbb", Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.START, 90, 0);
+                                    toast.show();
+
+
                                 }
                                 else
                                 {
@@ -333,6 +356,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                             }
                         });
                     } while (headerdata.moveToNext());
+
                 }
             } else {
 
@@ -436,14 +460,11 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                 startActivity(intent);
                 break;
             case R.id.actionbar_favourite:
-                Intent intent1=new Intent(this,FavouriteListDisplay.class);
+                Intent intent1=new Intent(this, FavouriteListDisplay.class);
                 startActivity(intent1);
                 break;
 
-            case R.id.nav_home:
-                Intent intent2=new Intent(this,ViewCart.class);
-                startActivity(intent2);
-                break;
+
 
 
 
@@ -590,9 +611,17 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                                     @RequiresApi(api = Build.VERSION_CODES.M)
                                     @Override
                                     public void onClick(View view) {
-                                        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
                                         {
-                                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                                            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                                            {
+                                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                                            }
+                                            else
+                                            {
+                                                Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                                startActivityForResult(gallartintent,1);
+                                            }
                                         }
                                         else
                                         {
@@ -628,7 +657,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                startActivity(intent2);
                break;
            case R.id.nav_orders:
-               Intent intent=new Intent(this,OrderHistory.class);
+               Intent intent=new Intent(this, OrderHistory.class);
                startActivity(intent);
                break;
            case R.id.nav_share:
@@ -671,10 +700,41 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                }
                startActivity(intent4);
                break;
+           case R.id.nav_logout:
+               SharedPreferences sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
+               SharedPreferences.Editor editor = sharedPreferences.edit();
+               editor.clear();
+               editor.apply();
+
+               Toast.makeText(Dashboard_Activity.this, "Logout Succesful", Toast.LENGTH_SHORT).show();
+               Intent intent5 = new Intent(Dashboard_Activity.this, User_Login_Activity.class);
+               startActivity(intent5);
+
+            SQLiteData sqLiteData1=new SQLiteData(Dashboard_Activity.this);
+               Cursor headerdata1 = sqLiteData1.headerData();
+               if (headerdata1 != null) {
+                   if (headerdata1.moveToFirst()) {
+                       do {
+                           String phone = headerdata1.getString(1);
+                           sqLiteData1.UpdateLogin(phone, 0);
+                       } while (headerdata1.moveToNext());
+                   }
+               } else {
+
+               }
+               break;
+
+           case R.id.nav_home1:
+              onResume();
+              break;
        }
+
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+
     }
+
     private void setNavigationViewListener() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.dashboard_navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -727,12 +787,34 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
                     //UserProfile_IV.setImageBitmap(bv);
 
+
+
+
+                    //Handling Image Rotation
+                    Bitmap myBitmap = BitmapFactory.decodeFile(picturePath);
+                    ExifInterface exif = null;
+                    try {
+                        exif = new ExifInterface(picturePath);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                        int rotationInDegrees = exifToDegrees(rotation);
+                        int deg = rotationInDegrees;
+                        Matrix matrix = new Matrix();
+                        if (rotation != 0f) {
+                            matrix.preRotate(rotationInDegrees);
+                            myBitmap = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true);
+
+                        }
+
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bv.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                    myBitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
                     byte[] img1 = byteArrayOutputStream.toByteArray();
+
                     SQLiteData sqlIteData = new SQLiteData(Dashboard_Activity.this);
                     sqlIteData.addProfilePic(img1, Nav_phone.getText().toString());
-                    Toast.makeText(Dashboard_Activity.this, "Photo saved", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Dashboard_Activity.this, "Profile Picture Updated", Toast.LENGTH_SHORT).show();
 
 
                     Cursor res=sqlIteData.search(Nav_phone.getText().toString());
@@ -752,5 +834,14 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
             }
         }
     }
+    private static int exifToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
+        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
+        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
+        return 0;
+    }
+
+
+
 }
 

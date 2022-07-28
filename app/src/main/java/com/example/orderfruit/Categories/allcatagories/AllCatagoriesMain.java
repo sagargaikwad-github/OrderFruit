@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 import com.example.orderfruit.R;
 
-public class AllCatagoriesMain extends AppCompatActivity {
+public class AllCatagoriesMain extends AppCompatActivity  {
     RecyclerView allCatagoriesRecyclerview;
 
     @Override
@@ -46,4 +46,6 @@ public class AllCatagoriesMain extends AppCompatActivity {
         }
         return true;
     }
+
+
 }

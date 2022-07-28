@@ -32,6 +32,7 @@ public class SplashScreen extends AppCompatActivity {
                 String isLogin=sharedPreferences.getString("Login"," ");
 
 
+
                 if(isLogin.contains("Login"))
                 {
                     Intent intent1=new Intent(SplashScreen.this, Dashboard_Activity.class);
@@ -55,7 +56,7 @@ public class SplashScreen extends AppCompatActivity {
                 }
 
             }
-           },1400);
+           },1800);
     }
 
 }

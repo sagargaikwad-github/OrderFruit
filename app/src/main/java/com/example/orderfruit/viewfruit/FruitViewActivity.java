@@ -63,8 +63,16 @@ public class FruitViewActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(name);
 
+        if(name.contains("Coconuts"))
+        {
+            fruitprice.setText("₹ "+String.valueOf(price)+" /"+"piece");
+        }
+        else
+        {
+            fruitprice.setText("₹ "+String.valueOf(price)+" /"+"kg");
+        }
+
         fruitname.setText(name);
-        fruitprice.setText("₹ "+String.valueOf(price)+" /"+"kg");
         fruitdesc1.setText(desc1);
         fruitdesc2.setText(desc2);
         fruitdesc3.setText(desc3);
@@ -75,6 +83,7 @@ public class FruitViewActivity extends AppCompatActivity {
         if(favourite==1)
         {
             fruitfavourite_IV.setImageResource(R.drawable.favourite_red);
+
         }
         else
         {
@@ -247,7 +256,7 @@ public class FruitViewActivity extends AppCompatActivity {
               int add=Integer.parseInt(fruitcart.getText().toString());
                  if(add>=10)
                  {
-                     Toast.makeText(FruitViewActivity.this, "10 kg Limit Per Person", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(FruitViewActivity.this, "10 kg Limit", Toast.LENGTH_SHORT).show();
                      fruitcart.setText(String.valueOf(add));
                  }
                  else
@@ -284,12 +293,15 @@ public class FruitViewActivity extends AppCompatActivity {
                     favourite=1;
                     fruitfavourite_IV.setImageResource(R.drawable.favourite_red);
                     sqLiteData.favoutite_update(id,favourite);
+                    Toast.makeText(FruitViewActivity.this, "Added to Favourites", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     favourite=0;
                     fruitfavourite_IV.setImageResource(R.drawable.favourite_black);
                     sqLiteData.favoutite_update(id,favourite);
+                    Toast.makeText(FruitViewActivity.this, "Removed from Favourites", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -301,13 +313,14 @@ public class FruitViewActivity extends AppCompatActivity {
               int product=Integer.parseInt(fruitview_add_to_cart_num.getText().toString());
               SQLiteData sqLiteData=new SQLiteData(FruitViewActivity.this);
                  sqLiteData.addtocart(id,product);
-                 if(!fruitcart.getText().equals(0))
+                 int getCart= Integer.parseInt(fruitcart.getText().toString());
+                 if(!(getCart == 0))
                  {
                      Toast.makeText(FruitViewActivity.this,"Fruit Added Sucessfully",Toast.LENGTH_SHORT).show();
                  }
                  else
                  {
-
+                     Toast.makeText(FruitViewActivity.this, "Please add Atlest 1 KG", Toast.LENGTH_SHORT).show();
                  }
 
 
@@ -343,7 +356,7 @@ public class FruitViewActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Toast.makeText(this, "OnRestart", Toast.LENGTH_SHORT).show();
+
     }
 
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.1.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.1.2)" variant="fatal" version="7.1.2">
+
+    <issue
+        id="DuplicateIds"
+        message="Duplicate id `@+id/fruitview_addbtn_img`, already defined earlier in this layout"
+        errorLine1="                android:id=&quot;@+id/fruitview_addbtn_img&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/fruitview_row.xml"
+            line="112"
+            column="17"/>
+        <location
+            file="src/main/res/layout/fruitview_row.xml"
+            line="99"
+            column="17"
+            message="Duplicate id `@+id/fruitview_addbtn_img` originally defined here"/>
+    </issue>
+
+</issues>

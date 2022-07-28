@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.orderfruit.InterfaceData;
+import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.FruitData;
 import com.example.orderfruit.model.SQLiteData;
@@ -47,7 +46,14 @@ public class ViewFruitAdapter extends RecyclerView.Adapter<ViewFruitAdapter.hold
     @Override
     public void onBindViewHolder(@NonNull holder holder, @SuppressLint("RecyclerView") int position) {
         holder.fresh_fruit_name.setText(arrayList.get(position).getFruit_name());
-        holder.fresh_Fruit_price.setText(String.valueOf("₹"+arrayList.get(position).getFruit_price())+" /kg");
+        if(arrayList.get(position).getFruit_name().contains("Coconuts"))
+        {
+            holder.fresh_Fruit_price.setText(String.valueOf("₹"+arrayList.get(position).getFruit_price())+" /piece");
+        }
+       else
+        {
+            holder.fresh_Fruit_price.setText(String.valueOf("₹"+arrayList.get(position).getFruit_price())+" /kg");
+        }
 
         FruitData temp=arrayList.get(position);
 

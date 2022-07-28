@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".user.UserProfile">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout2"
@@ -43,6 +49,7 @@
         app:layout_constraintStart_toEndOf="@+id/userProfileIV"
         app:srcCompat="@drawable/ic_userprofilechange" />
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameTLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -59,6 +66,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameTBox"
             android:layout_width="match_parent"
+            android:maxLines="1"
+            android:singleLine="true"
             android:layout_height="wrap_content"></com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -137,4 +146,6 @@
         app:layout_constraintTop_toBottomOf="@+id/address2TLayout">
 
     </com.google.android.material.button.MaterialButton>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

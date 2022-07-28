@@ -41,6 +41,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
+
             <TextView
                 android:id="@+id/viewcart_row_minus"
                 android:layout_width="wrap_content"

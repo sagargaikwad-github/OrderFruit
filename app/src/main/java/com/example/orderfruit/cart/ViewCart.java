@@ -24,11 +24,12 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.orderfruit.AddToCart_Interface;
-import com.example.orderfruit.OrderHistory;
+import com.example.orderfruit.Interface.AddToCart_Interface;
+import com.example.orderfruit.order.OrderHistory;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.FruitData;
 import com.example.orderfruit.model.SQLiteData;
+import com.example.orderfruit.viewfruit.FruitViewActivity;
 import com.example.orderfruit.viewmorefruits.ViewMoreFruits;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.razorpay.Checkout;
@@ -51,6 +52,7 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
     String DATAname,DATAphone,DATAaddress1=" ",DATAaddress2=" ";
     Button checkout_btn,startshopping_btn;
     int Total;
+    BottomSheetDialog sheetDialog;
 
     RadioButton address1_radiobtn,address2_radiobtn,address3_radiobtn;
     TextView customer_info_name_TV,customer_info_phone_TV;
@@ -90,7 +92,7 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
         setSupportActionBar(nav_toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-        actionBar.setTitle("Favourites");
+        actionBar.setTitle("Cart");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
@@ -140,7 +142,7 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
                }
                else
                {
-                   BottomSheetDialog sheetDialog;
+
                    sheetDialog=new BottomSheetDialog(ViewCart.this,R.style.BottomSheetTheme);
 
                    LinearLayout sheetLayout=sheetDialog.findViewById(R.id.bottom_sheet_layout); //Layout id
@@ -192,7 +194,7 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
                                jsonObject.put("description","Test Payment");
                                jsonObject.put("currency","INR");
                                jsonObject.put("amount",amount);
-                               jsonObject.put("prefill.contact","9876543210");
+                               jsonObject.put("prefill.contact",DATAphone);
                                jsonObject.put("prefill.email","email@gmail.com");
                                checkout.open(ViewCart.this, jsonObject);
                            } catch (JSONException e) {
@@ -360,6 +362,11 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
         String phone2=customer_info_phone_ET.getText().toString();
         String total;
 
+        String itemtotal2=viewcart_ItemTotal.getText().toString();;
+        itemtotal2=itemtotal2.replace("₹ ","");
+        String item3=String.valueOf(itemtotal2);
+
+
         if(Total<499)
         {
             total= String.valueOf(Total+50);
@@ -412,11 +419,16 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
                 replaceAll("(^.|.$)", "  ").replace(", ", "  , " );
 
 
-        sqLiteData.addtohistory(orderid,name,address,total,phone,phone2,orderstatus,str,String.valueOf(getQuantity),getid,result_ScoreP1);
+        sqLiteData.addtohistory(orderid,name,address,item3,phone,phone2,orderstatus,str,String.valueOf(getQuantity),getid,result_ScoreP1);
 
         Intent intent=new Intent(this, OrderHistory.class);
         startActivity(intent);
         sqLiteData.removeCart(0);
+        sheetDialog.dismiss();
+        ViewCart.this.finish();
+
+        FruitViewActivity fruitViewActivity=new FruitViewActivity();
+        fruitViewActivity.finish();
 
     }
 
@@ -461,6 +473,10 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
         int getQuantity=0;
 
 
+        String itemtotal2=viewcart_ItemTotal.getText().toString();;
+        itemtotal2=itemtotal2.replace("₹ ","");
+        String item3=String.valueOf(itemtotal2);
+
         for(int j=0;j<GetFruits.size();j++)
         {
             fid=GetFruits.get(j).getFruit_id();
@@ -485,8 +501,8 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
                 replaceAll("(^.|.$)", "  ").replace(", ", "  , " );
 
 
-        sqLiteData.addtohistory(orderid,name,address,total,phone,phone2,orderstatus,str,String.valueOf(getQuantity),getid,result_ScoreP1);
-
+        sqLiteData.addtohistory(orderid,name,address,item3,phone,phone2,orderstatus,str,String.valueOf(getQuantity),getid,result_ScoreP1);
+        sheetDialog.dismiss();
 
 
     }

@@ -3,11 +3,9 @@ package com.example.orderfruit.fresshfruit;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.orderfruit.InterfaceData;
+import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.FruitViewActivity;
@@ -50,7 +48,14 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
     @Override
     public void onBindViewHolder(@NonNull holder holder, @SuppressLint("RecyclerView") int position) {
         holder.fresh_fruit_name.setText(freshFruitDatalist.get(position).getFruit_name());
-        holder.fresh_Fruit_price.setText(String.valueOf("₹"+freshFruitDatalist.get(position).getFruit_price())+" /kg");
+        if(freshFruitDatalist.get(position).getFruit_name().contains("Coconuts"))
+        {
+            holder.fresh_Fruit_price.setText(String.valueOf("₹"+freshFruitDatalist.get(position).getFruit_price())+" /piece");
+        }
+       else
+        {
+            holder.fresh_Fruit_price.setText(String.valueOf("₹"+freshFruitDatalist.get(position).getFruit_price())+" /kg");
+        }
 
         FruitData temp=freshFruitDatalist.get(position);
 
@@ -61,7 +66,12 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
         }
         else
         {
-            holder.fresh_Fruit_fav.setImageResource(R.drawable.favourite_black);
+            try {
+                holder.fresh_Fruit_fav.setImageResource(R.drawable.favourite_black);
+            }catch (Exception e)
+            {
+
+            }
         }
 
         holder.fresh_Fruit_fav.setOnClickListener(new View.OnClickListener() {

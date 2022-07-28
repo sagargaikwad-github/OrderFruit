@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.orderfruit.InterfaceData;
+import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.FruitData;
 import com.example.orderfruit.viewfruit.FruitViewActivity;

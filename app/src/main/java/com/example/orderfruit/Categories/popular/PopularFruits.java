@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.example.orderfruit.InterfaceData;
+import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;

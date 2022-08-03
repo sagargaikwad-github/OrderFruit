@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,15 +18,22 @@ import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class PopularFruits extends AppCompatActivity implements InterfaceData {
     RecyclerView popularfruits_rv;
+    ShimmerFrameLayout shimmerFrameLayout;
+    SQLiteData sqLiteData;
+    Parcelable state = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popular_fruits);
 
+        popularfruits_rv = findViewById(R.id.popularfruits_rv);
+        shimmerFrameLayout = findViewById(R.id.shimmer_popular);
 
         Toolbar nav_toolbar = findViewById(R.id.nav_toolbar);
         setSupportActionBar(nav_toolbar);
@@ -34,15 +42,10 @@ public class PopularFruits extends AppCompatActivity implements InterfaceData {
         actionBar.setTitle("Popular Fruits");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        sqLiteData = new SQLiteData(this);
+        shimmerFrameLayout.startShimmer();
 
 
-
-
-        SQLiteData sqLiteData=new SQLiteData(this);
-        popularfruits_rv=findViewById(R.id.popularfruits_rv);
-        popularfruits_rv.setLayoutManager(new LinearLayoutManager(this));
-        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), this,this);
-        popularfruits_rv.setAdapter(viewFruitAdapter);
     }
 
 
@@ -58,12 +61,12 @@ public class PopularFruits extends AppCompatActivity implements InterfaceData {
 
     @Override
     public void Favourite_fruite(int id, int val) {
-        SQLiteData sqLiteData=new SQLiteData(this);
+        SQLiteData sqLiteData = new SQLiteData(this);
         sqLiteData.favoutite_update(id, val);
 
 
-        Parcelable state=popularfruits_rv.getLayoutManager().onSaveInstanceState();
-        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this,this);
+        Parcelable state = popularfruits_rv.getLayoutManager().onSaveInstanceState();
+        ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, this);
         popularfruits_rv.setAdapter(viewFruitAdapter);
         popularfruits_rv.getLayoutManager().onRestoreInstanceState(state);
 
@@ -72,11 +75,51 @@ public class PopularFruits extends AppCompatActivity implements InterfaceData {
     @Override
     protected void onResume() {
         super.onResume();
-        SQLiteData sqLiteData=new SQLiteData(this);
-        Parcelable state=popularfruits_rv.getLayoutManager().onSaveInstanceState();
-        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this,this);
-        popularfruits_rv.setAdapter(viewFruitAdapter);
-        popularfruits_rv.getLayoutManager().onRestoreInstanceState(state);
+
+        if (shimmerFrameLayout.isShimmerStarted()) {
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    shimmerFrameLayout.stopShimmer();
+                    popularfruits_rv.setVisibility(View.VISIBLE);
+                    shimmerFrameLayout.setVisibility(View.GONE);
+
+
+                    try {
+                        state = popularfruits_rv.getLayoutManager().onSaveInstanceState();
+                    } catch (Exception e) {
+
+                    }
+
+                    if (state == null) {
+                        popularfruits_rv.setLayoutManager(new LinearLayoutManager(PopularFruits.this));
+                        ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, PopularFruits.this);
+                        popularfruits_rv.setAdapter(viewFruitAdapter);
+                    } else {
+                        popularfruits_rv.setLayoutManager(new LinearLayoutManager(PopularFruits.this));
+                        ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, PopularFruits.this);
+                        popularfruits_rv.setAdapter(viewFruitAdapter);
+                        popularfruits_rv.getLayoutManager().onRestoreInstanceState(state);
+                    }
+
+                }
+            }, 2000);
+        }
+        else
+        {
+            try {
+                state = popularfruits_rv.getLayoutManager().onSaveInstanceState();
+            } catch (Exception e) {
+
+            }
+            popularfruits_rv.setLayoutManager(new LinearLayoutManager(PopularFruits.this));
+            ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, PopularFruits.this);
+            popularfruits_rv.setAdapter(viewFruitAdapter);
+            popularfruits_rv.getLayoutManager().onRestoreInstanceState(state);
+        }
+
+
     }
 
     @Override

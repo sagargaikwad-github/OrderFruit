@@ -695,7 +695,7 @@ public class SQLiteData extends SQLiteOpenHelper {
     public ArrayList<orderHistoryData> getOrder(int num) {
         ArrayList<orderHistoryData> getlist = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor c = sqLiteDatabase.rawQuery("select * from order_history_1 where order_id=" + num, null);
+        Cursor c = sqLiteDatabase.rawQuery("select * from order_history_1 where  order_id=" + num, null);
 
         if (c.moveToFirst()) {
             do {
@@ -722,6 +722,32 @@ public class SQLiteData extends SQLiteOpenHelper {
 
     }
 
+
+
+        if (c.moveToFirst()) {
+            do {
+                int order_id = c.getInt(0);
+                String name = c.getString(1);
+                String address = c.getString(2);
+                String price = c.getString(3);
+                String phone = c.getString(4);
+                String phone2 = c.getString(5);
+                String order_status = c.getString(6);
+                String date = c.getString(7);
+                String quantity = c.getString(8);
+                String fruit_id = c.getString(9);
+                String fruit_weight = c.getString(10);
+
+                getlist.add(new orderHistoryData(order_id, name, address, price, phone, phone2, order_status, date, quantity, fruit_id, fruit_weight));
+            } while (c.moveToNext());
+        } else {
+
+        }
+
+        return getlist;
+
+
+    }
 
     public ArrayList<FruitData> getOrderData(String[] ids) {
         ArrayList<FruitData> getdata = new ArrayList<>();

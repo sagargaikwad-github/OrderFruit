@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.orderfruit.R;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class AllCatagoriesMain extends AppCompatActivity  {
     RecyclerView allCatagoriesRecyclerview;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class AllCatagoriesMain extends AppCompatActivity  {
 
         String AllCatagories[] = {"Apple", "Mango", "Berry", "Nuts", "Banana", "Seedless"};
         allCatagoriesRecyclerview = findViewById(R.id.all_catagories_recyclerview);
+
 
         allCatagoriesRecyclerview.setLayoutManager(new GridLayoutManager(this, 2));
         AllCatagoriesAdapter allCatagoriesAdapter = new AllCatagoriesAdapter(AllCatagories, this);

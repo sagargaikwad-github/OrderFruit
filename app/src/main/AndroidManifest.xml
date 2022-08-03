@@ -49,7 +49,7 @@
             android:exported="false"
             />
         <activity
-            android:name=".viewfruit.View_All_Category"
+            android:name=".Categories.allcatagories.View_All_Category"
             android:exported="true"
             android:parentActivityName=".Categories.allcatagories.AllCatagoriesMain"
             android:theme="@style/Dashboard.Theme" />

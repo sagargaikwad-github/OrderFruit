@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +18,13 @@ import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class MostlyViewd extends AppCompatActivity implements InterfaceData {
     RecyclerView mostlyviewedfruits_rv;
+    ShimmerFrameLayout shimmerFrameLayout;
+    SQLiteData sqLiteData;
+    Parcelable state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +39,15 @@ public class MostlyViewd extends AppCompatActivity implements InterfaceData {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-        SQLiteData sqLiteData=new SQLiteData(this);
+        sqLiteData=new SQLiteData(this);
         mostlyviewedfruits_rv=findViewById(R.id.mostlyviwedfruits_rv);
+        shimmerFrameLayout=findViewById(R.id.shimmer_mostlyviewd);
 
-        mostlyviewedfruits_rv.setLayoutManager(new LinearLayoutManager(this));
-        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), this,this);
-        mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
+        shimmerFrameLayout.startShimmer();
+
+//        mostlyviewedfruits_rv.setLayoutManager(new LinearLayoutManager(this));
+//        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), this,this);
+//        mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
     }
 
     @Override
@@ -67,11 +75,51 @@ public class MostlyViewd extends AppCompatActivity implements InterfaceData {
     @Override
     protected void onResume() {
         super.onResume();
-        SQLiteData sqLiteData=new SQLiteData(this);
-        Parcelable state=mostlyviewedfruits_rv.getLayoutManager().onSaveInstanceState();
-        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,this);
-        mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
-        mostlyviewedfruits_rv.getLayoutManager().onRestoreInstanceState(state);
+
+        if(shimmerFrameLayout.isShimmerStarted())
+        {
+           new Handler().postDelayed(new Runnable() {
+               @Override
+               public void run() {
+                   shimmerFrameLayout.stopShimmer();
+                   shimmerFrameLayout.setVisibility(View.GONE);
+                   mostlyviewedfruits_rv.setVisibility(View.VISIBLE);
+                   try {
+                       state=mostlyviewedfruits_rv.getLayoutManager().onSaveInstanceState();
+                   }catch (Exception e)
+                   {
+
+                   }
+
+                   if(state==null)
+                   {
+                       mostlyviewedfruits_rv.setLayoutManager(new LinearLayoutManager(MostlyViewd.this));
+                       ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,MostlyViewd.this);
+                       mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
+                   }
+                   else
+                   {
+                       mostlyviewedfruits_rv.setLayoutManager(new LinearLayoutManager(MostlyViewd.this));
+                       ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,MostlyViewd.this);
+                       mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
+                       mostlyviewedfruits_rv.getLayoutManager().onRestoreInstanceState(state);
+                   }
+               }
+           },2000);
+        }
+        else
+        {
+            shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setVisibility(View.GONE);
+            mostlyviewedfruits_rv.setVisibility(View.VISIBLE);
+                state=mostlyviewedfruits_rv.getLayoutManager().onSaveInstanceState();
+                ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,this);
+                mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
+                mostlyviewedfruits_rv.getLayoutManager().onRestoreInstanceState(state);
+
+        }
+
+
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

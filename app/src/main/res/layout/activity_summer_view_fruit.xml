@@ -24,7 +24,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/todaysdeal_viewfruit_recyclerview"
+        android:id="@+id/summer_view_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="1dp"
@@ -34,5 +34,32 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_dashboard_viewall"
+        android:layout_width="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include layout="@layout/shimmerlayout_fruitrow"/>
+            <include layout="@layout/shimmerlayout_fruitrow"/>
+            <include layout="@layout/shimmerlayout_fruitrow"/>
+            <include layout="@layout/shimmerlayout_fruitrow"/>
+            <include layout="@layout/shimmerlayout_fruitrow"/>
+            <include layout="@layout/shimmerlayout_fruitrow"/>
+            <include layout="@layout/shimmerlayout_fruitrow"/>
+            <include layout="@layout/shimmerlayout_fruitrow"/>
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

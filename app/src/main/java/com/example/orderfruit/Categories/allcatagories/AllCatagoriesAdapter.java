@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.orderfruit.R;
-import com.example.orderfruit.viewfruit.View_All_Category;
 
 
 public class AllCatagoriesAdapter extends RecyclerView.Adapter<AllCatagoriesAdapter.holder> {

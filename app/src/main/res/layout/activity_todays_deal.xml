@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -25,11 +26,46 @@
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerframelayout_topdeals"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmerlayout_fruitrow"></include>
+
+            <include layout="@layout/shimmerlayout_fruitrow"></include>
+
+            <include layout="@layout/shimmerlayout_fruitrow"></include>
+
+            <include layout="@layout/shimmerlayout_fruitrow"></include>
+
+            <include layout="@layout/shimmerlayout_fruitrow"></include>
+
+            <include layout="@layout/shimmerlayout_fruitrow"></include>
+
+            <include layout="@layout/shimmerlayout_fruitrow"></include>
+
+            <include layout="@layout/shimmerlayout_fruitrow"></include>
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todaysdeal_viewfruit_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="1dp"
+        android:visibility="gone"
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"

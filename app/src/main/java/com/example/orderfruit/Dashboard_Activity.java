@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +19,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.Gravity;
@@ -38,10 +38,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.widget.Toolbar;
@@ -68,8 +69,9 @@ import com.example.orderfruit.summer.summerRecyclerAdapter;
 import com.example.orderfruit.user.UserProfile;
 import com.example.orderfruit.user.User_Login_Activity;
 import com.example.orderfruit.viewfruit.FruitViewActivity;
-import com.example.orderfruit.viewfruit.View_All_Category;
+import com.example.orderfruit.Categories.allcatagories.View_All_Category;
 import com.example.orderfruit.viewmorefruits.ViewMoreFruits;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -85,24 +87,28 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
     ActionBarDrawerToggle toggle;
     NavigationView nav_view;
     FloatingActionButton fab;
-    TextView logout,Dashboard_Viewall_TV;
+    TextView logout, Dashboard_Viewall_TV;
     ImageView Dashboard_Viewall_IV;
     ListView listView;
-    ArrayList<CategoryData>category=new ArrayList<>();
-    RecyclerView dashboard_recyclerview,you_may_like_recyclerview,fresh_fruit_recyclerview;
+    ArrayList<CategoryData> category = new ArrayList<>();
+    RecyclerView dashboard_recyclerview, you_may_like_recyclerview, fresh_fruit_recyclerview;
     CategoryAdapter categoryAdapter;
     ImageSlider imageSlider;
-    ArrayList<SummerImageData>Summer_Image_list;
+    ArrayList<SummerImageData> Summer_Image_list;
     summerRecyclerAdapter summerRecyclerAdapter;
     FreshFruitAdapter freshFruitAdapter;
     TextView ViewMore;
     String Phone;
-    TextView Nav_name,Nav_phone,you_may_also_like_tv;
+    TextView Nav_name, Nav_phone, you_may_also_like_tv;
     ImageView Nav_profile;
     FloatingActionButton Nav_camera;
     AutoCompleteTextView autoCompleteTextView;
-    ArrayList<FruitData>fruitData;
+    ArrayList<FruitData> fruitData;
     ArrayAdapter<String> arrayAdapter;
+    ShimmerFrameLayout shimmerFrameLayout;
+    DrawerLayout drawerLayout1;
+    Parcelable state = null;
+    NestedScrollView nestedScrollView;
 
     @SuppressLint("WrongThread")
     @Override
@@ -114,46 +120,53 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
         Dashboard_Viewall_TV = findViewById(R.id.dashboard_viewall_TV);
         Dashboard_Viewall_IV = findViewById(R.id.dashboard_viewall_IV);
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView);
-        you_may_also_like_tv=findViewById(R.id.you_may_also_like);
+        you_may_also_like_tv = findViewById(R.id.you_may_also_like);
+
+        fresh_fruit_recyclerview=findViewById(R.id.allFruits_rv);
+        you_may_like_recyclerview=findViewById(R.id.you_may_like_recyclerview);
 
 
-        if(isOnline(getApplicationContext()))
-        {
+        //drawerLayout1 = findViewById(R.id.mainDashboard);
+        nestedScrollView=findViewById(R.id.nestedscrollview);
+        shimmerFrameLayout = findViewById(R.id.shimmer_dashboard);
 
-        }else
-        {
-           getConn();
 
+        shimmerFrameLayout.startShimmer();
+
+
+        if (isOnline(getApplicationContext())) {
+
+        } else {
+            getConn();
         }
-        setNavigationViewListener();
 
 
-            imageSlider = findViewById(R.id.image_slider);
-            ArrayList<SlideModel> slideModels = new ArrayList<>();
-            slideModels.add(new SlideModel(R.drawable.imageslider2, ScaleTypes.FIT));
-            slideModels.add(new SlideModel(R.drawable.imageslider3, ScaleTypes.FIT));
-            slideModels.add(new SlideModel(R.drawable.imageslider5, ScaleTypes.FIT));
-            imageSlider.setImageList(slideModels, ScaleTypes.FIT);
+        imageSlider = findViewById(R.id.image_slider);
+        ArrayList<SlideModel> slideModels = new ArrayList<>();
+        slideModels.add(new SlideModel(R.drawable.imageslider2, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.imageslider3, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.imageslider5, ScaleTypes.FIT));
+        imageSlider.setImageList(slideModels, ScaleTypes.FIT);
 
-        for(int z=0;z<slideModels.size();z++) {
+        for (int z = 0; z < slideModels.size(); z++) {
             imageSlider.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onItemSelected(int i) {
                     String mango = "Mango";
-                    String berry="Berry";
+                    String berry = "Berry";
                     switch (i) {
                         case 0:
-                           Intent intent=new Intent(Dashboard_Activity.this, TodaysDeal.class);
-                           startActivity(intent);
+                            Intent intent = new Intent(Dashboard_Activity.this, TodaysDeal.class);
+                            startActivity(intent);
                             break;
                         case 1:
-                            Intent intent1=new Intent(Dashboard_Activity.this, View_All_Category.class);
-                            intent1.putExtra("Mango",mango);
+                            Intent intent1 = new Intent(Dashboard_Activity.this, View_All_Category.class);
+                            intent1.putExtra("Mango", mango);
                             startActivity(intent1);
                             break;
                         case 2:
-                            Intent intent2=new Intent(Dashboard_Activity.this, View_All_Category.class);
-                            intent2.putExtra("Berry",berry);
+                            Intent intent2 = new Intent(Dashboard_Activity.this, View_All_Category.class);
+                            intent2.putExtra("Berry", berry);
                             startActivity(intent2);
                             break;
                     }
@@ -162,240 +175,161 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
         }
 
 
-            category.add(new CategoryData(R.drawable.all_catagory, "All Categories"));
-            category.add(new CategoryData(R.drawable.deal, "Todays Deal"));
-            category.add(new CategoryData(R.drawable.seasonal, "Seasonal"));
-            category.add(new CategoryData(R.drawable.popular, "Popular"));
-            category.add(new CategoryData(R.drawable.mostly_viewed, "Mostly Viewed"));
+        category.add(new CategoryData(R.drawable.all_catagory, "All Categories"));
+        category.add(new CategoryData(R.drawable.deal, "Todays Deal"));
+        category.add(new CategoryData(R.drawable.seasonal, "Seasonal"));
+        category.add(new CategoryData(R.drawable.popular, "Popular"));
+        category.add(new CategoryData(R.drawable.mostly_viewed, "Mostly Viewed"));
 
 
-            Summer_Image_list = new ArrayList<>();
-            Summer_Image_list.add(new SummerImageData(0, R.drawable.summer_mango));
+        Summer_Image_list = new ArrayList<>();
+        Summer_Image_list.add(new SummerImageData(0, R.drawable.summer_mango));
 //        Summer_Image_list.add(new SummerImageData(1,R.drawable.summer_mango));
-            Summer_Image_list.add(new SummerImageData(1, R.drawable.summer_watermelon));
-            Summer_Image_list.add(new SummerImageData(2, R.drawable.summer_waxjambu));
-            Summer_Image_list.add(new SummerImageData(3, R.drawable.summer_karunda));
-            Summer_Image_list.add(new SummerImageData(4, R.drawable.summer_jackfruit));
-            Summer_Image_list.add(new SummerImageData(5, R.drawable.summer_papaya));
-            Summer_Image_list.add(new SummerImageData(6, R.drawable.summer_pineapple));
+        Summer_Image_list.add(new SummerImageData(1, R.drawable.summer_watermelon));
+        Summer_Image_list.add(new SummerImageData(2, R.drawable.summer_waxjambu));
+        Summer_Image_list.add(new SummerImageData(3, R.drawable.summer_karunda));
+        Summer_Image_list.add(new SummerImageData(4, R.drawable.summer_jackfruit));
+        Summer_Image_list.add(new SummerImageData(5, R.drawable.summer_papaya));
+        Summer_Image_list.add(new SummerImageData(6, R.drawable.summer_pineapple));
 
 
 //To add a Photo in summer table
-            if (Summer_Image_list != null) {
-                for (int i = 0; i < Summer_Image_list.size(); i++) {
-                    SQLiteData sqLiteData = new SQLiteData(Dashboard_Activity.this);
-                    Bitmap bitmap = BitmapFactory.decodeResource(Dashboard_Activity.this.getResources(), Summer_Image_list.get(i).getImage());
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
-                    byte[] img = byteArrayOutputStream.toByteArray();
-                    sqLiteData.addSummerImage(i, img);
-                }
+        if (Summer_Image_list != null) {
+            for (int i = 0; i < Summer_Image_list.size(); i++) {
+                SQLiteData sqLiteData = new SQLiteData(Dashboard_Activity.this);
+                Bitmap bitmap = BitmapFactory.decodeResource(Dashboard_Activity.this.getResources(), Summer_Image_list.get(i).getImage());
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+                byte[] img = byteArrayOutputStream.toByteArray();
+                sqLiteData.addSummerImage(i, img);
             }
+        }
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
 
 
-//       Fresh_Fruit_list.add(new FreshFruitData(0,"Apple",120,1,"An apple is an edible fruit produced by an apple tree. Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today",null,0));
-//       Fresh_Fruit_list.add(new FreshFruitData(1,"Watermelon",40,1,"An apple is an edible fruit produced by an apple tree. Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today",null,0));
-//       Fresh_Fruit_list.add(new FreshFruitData(2,"Orange",80,1,"An apple is an edible fruit produced by an apple tree. Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today",null,0));
-//       Fresh_Fruit_list.add(new FreshFruitData(3,"Pear",35,1,"An apple is an edible fruit produced by an apple tree. Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today",null,0));
-//       Fresh_Fruit_list.add(new FreshFruitData(4,"Cherry",100,1,"An apple is an edible fruit produced by an apple tree. Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today",null,0));
-//       Fresh_Fruit_list.add(new FreshFruitData(5,"Strawberry",120,1,"An apple is an edible fruit produced by an apple tree. Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today",null,0));
-//       Fresh_Fruit_list.add(new FreshFruitData(6,"Nectarine",800,1,"An apple is an edible fruit produced by an apple tree. Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today",null,0));
-//       Fresh_Fruit_list.add(new FreshFruitData(7,"Grape",50,1,"An apple is an edible fruit produced by an apple tree. Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today",null,0));
-//       Fresh_Fruit_list.add(new FreshFruitData(8,"Mango",200,1,"An apple is an edible fruit produced by an apple tree. Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today",null,0));
-//       Fresh_Fruit_list.add(new FreshFruitData(9,"Blueberry",60,1,"An apple is an edible fruit produced by an apple tree. Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today",null,0));
+        drawerLayout = findViewById(R.id.dashboard_drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.dashboard_navigation_view);
+        navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(this);
 
 
-            SharedPreferences sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
+        dashboard_recyclerview = findViewById(R.id.dashboard_recyclerview);
+        dashboard_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        categoryAdapter = new CategoryAdapter(category, Dashboard_Activity.this);
+        dashboard_recyclerview.setAdapter(categoryAdapter);
 
-            //logout = findViewById(R.id.logout);
-
-            drawerLayout = findViewById(R.id.dashboard_drawer_layout);
-            toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
-            drawerLayout.addDrawerListener(toggle);
-            toggle.syncState();
-
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        SQLiteData sqLiteData = new SQLiteData(Dashboard_Activity.this);
 
 
-            dashboard_recyclerview = findViewById(R.id.dashboard_recyclerview);
-            dashboard_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            categoryAdapter = new CategoryAdapter(category, Dashboard_Activity.this);
-            dashboard_recyclerview.setAdapter(categoryAdapter);
-
-            SQLiteData sqLiteData = new SQLiteData(Dashboard_Activity.this);
-
-
-
-            fresh_fruit_recyclerview = findViewById(R.id.allFruits_rv);
-            fresh_fruit_recyclerview.setLayoutManager(new LinearLayoutManager(this));
-            freshFruitAdapter = new FreshFruitAdapter(sqLiteData.getFruitMain(), Dashboard_Activity.this, this);
-            fresh_fruit_recyclerview.setAdapter(freshFruitAdapter);
-
-          you_may_like_recyclerview = findViewById(R.id.you_may_like_recyclerview);
-
-            Calendar mCalendar = Calendar.getInstance();
-            String month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-            int monthNumber  = mCalendar.get(Calendar.MONTH);
-
-            String getMonth[]={"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-            if(monthNumber<=2 || monthNumber<=11)
-            {
-                you_may_like_recyclerview = findViewById(R.id.you_may_like_recyclerview);
-                you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                //summerRecyclerAdapter=new summerRecyclerAdapter(sqLiteData.getSummerFruits(),Dashboard_Activity.this);
-                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonSummer(), Dashboard_Activity.this);
-                you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
-            }
-            else if(monthNumber>=3 || monthNumber<=6)
-            {
-
-                you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonMonsoon(), Dashboard_Activity.this);
-                you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
-            }else
-            {
-                you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                //summerRecyclerAdapter=new summerRecyclerAdapter(sqLiteData.getSummerFruits(),Dashboard_Activity.this);
-                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonWinter(), Dashboard_Activity.this);
-                you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
+        ViewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(Dashboard_Activity.this, ViewMoreFruits.class);
+                startActivity(intent1);
 
             }
+        });
 
-//            logout.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    SharedPreferences.Editor editor = sharedPreferences.edit();
-//                    editor.clear();
-//                    editor.apply();
+
+        Dashboard_Viewall_IV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Dashboard_Activity.this, SummerViewFruit.class);
+                startActivity(intent);
+            }
+        });
+
+
+        //Data Set to Navigation Header:
+//        nav_view = findViewById(R.id.dashboard_navigation_view);
+//        View viewheader = nav_view.getHeaderView(0);
+//        Nav_name = viewheader.findViewById(R.id.nav_header_name_tv);
+//        Nav_phone = viewheader.findViewById(R.id.nav_header_phone_tv);
+//        Nav_profile = viewheader.findViewById(R.id.nav_header_profile_iv);
 //
-//                    Toast.makeText(Dashboard_Activity.this, "Logout Succesful", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(Dashboard_Activity.this, User_Login_Activity.class);
-//                    startActivity(intent);
+//        Nav_camera = viewheader.findViewById(R.id.fab_btn);
 //
+//        Cursor headerdata = sqLiteData.headerData();
+//        if (headerdata != null) {
+//            if (headerdata.moveToFirst()) {
+//                do {
+//                    String name = headerdata.getString(0);
+//                    String phone = headerdata.getString(1);
 //
-//                    Cursor headerdata = sqLiteData.headerData();
-//                    if (headerdata != null) {
-//                        if (headerdata.moveToFirst()) {
-//                            do {
-//                                String phone = headerdata.getString(1);
-//                                sqLiteData.UpdateLogin(phone, 0);
-//                            } while (headerdata.moveToNext());
-//                        }
-//                    } else {
+//                    byte[] blob = headerdata.getBlob(8);
 //
+//                    if (blob != null) {
+//                        Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+//                        Nav_profile.setImageBitmap(bitmap);
 //                    }
 //
-//                }
-//            });
+//
+//                    Nav_name.setText(name);
+//                    Nav_phone.setText(phone);
+//                    Nav_camera.setOnClickListener(new View.OnClickListener() {
+//                        @RequiresApi(api = Build.VERSION_CODES.M)
+//                        @Override
+//                        public void onClick(View view) {
+//                            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+//
+//                                Toast toast = Toast.makeText(Dashboard_Activity.this, "bbb", Toast.LENGTH_LONG);
+//                                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.START, 90, 0);
+//                                toast.show();
+//
+//
+//                            } else {
+//                                Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                                startActivityForResult(gallartintent, 1);
+//                            }
+//                        }
+//                    });
+//                } while (headerdata.moveToNext());
+//
+//            }
+//        } else {
+//
+//        }
 
-            ViewMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent1 = new Intent(Dashboard_Activity.this, ViewMoreFruits.class);
-                    startActivity(intent1);
+        ArrayList<FruitData> getFruit = sqLiteData.getFruitMain();
+        String[] Fruits = new String[getFruit.size()];
+        for (int j = 0; j < getFruit.size(); j++) {
+            Fruits[j] = getFruit.get(j).getFruit_name();
+        }
 
-                }
-            });
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, Fruits);
+        autoCompleteTextView.setAdapter(adapter);
 
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String getdata = (String) adapterView.getItemAtPosition(i);
 
-            Dashboard_Viewall_IV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Dashboard_Activity.this, SummerViewFruit.class);
-                    startActivity(intent);
-                }
-            });
+                SQLiteData sqLiteData1 = new SQLiteData(Dashboard_Activity.this);
+                ArrayList<FruitData> arrayList = sqLiteData1.getFromSearch(getdata);
+                Intent intent = new Intent(Dashboard_Activity.this, FruitViewActivity.class);
+                intent.putExtra("FruitID", arrayList.get(0).getFruit_id());
+                intent.putExtra("FruitName", arrayList.get(0).getFruit_name());
+                intent.putExtra("FruitPrice", arrayList.get(0).getFruit_price());
+                intent.putExtra("FruitDesc1", arrayList.get(0).getFruit_description1());
+                intent.putExtra("FruitDesc2", arrayList.get(0).getFruit_description2());
+                intent.putExtra("FruitDesc3", arrayList.get(0).getFruit_description3());
+                intent.putExtra("FruitDesc4", arrayList.get(0).getFruit_description4());
+                intent.putExtra("FruitCart", arrayList.get(0).getFruit_addtocart());
+                intent.putExtra("FruitFav", arrayList.get(0).getFruit_favourite());
+                startActivity(intent);
 
-
-            //Data Set to Navigation Header:
-            nav_view = findViewById(R.id.dashboard_navigation_view);
-            View viewheader = nav_view.getHeaderView(0);
-            Nav_name = viewheader.findViewById(R.id.nav_header_name_tv);
-            Nav_phone = viewheader.findViewById(R.id.nav_header_phone_tv);
-            Nav_profile = viewheader.findViewById(R.id.nav_header_profile_iv);
-
-            Nav_camera = viewheader.findViewById(R.id.fab_btn);
-
-            Cursor headerdata = sqLiteData.headerData();
-            if (headerdata != null) {
-                if (headerdata.moveToFirst()) {
-                    do {
-                        String name = headerdata.getString(0);
-                        String phone = headerdata.getString(1);
-
-                        byte[] blob=headerdata.getBlob(8);
-
-                        if(blob!=null)
-                        {
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-                            Nav_profile.setImageBitmap(bitmap);
-                        }
-
-
-                        Nav_name.setText(name);
-                        Nav_phone.setText(phone);
-                        Nav_camera.setOnClickListener(new View.OnClickListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.M)
-                            @Override
-                            public void onClick(View view) {
-                                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-                                {
-                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-
-                                    Toast toast = Toast.makeText(Dashboard_Activity.this,"bbb", Toast.LENGTH_LONG);
-                                    toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.START, 90, 0);
-                                    toast.show();
-
-
-                                }
-                                else
-                                {
-                                    Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                    startActivityForResult(gallartintent,1);
-                                }
-                            }
-                        });
-                    } while (headerdata.moveToNext());
-
-                }
-            } else {
+                autoCompleteTextView.setText("");
 
             }
-
-            ArrayList<FruitData> getFruit = sqLiteData.getFruitMain();
-            String[] Fruits = new String[getFruit.size()];
-            for (int j = 0; j < getFruit.size(); j++)
-            {
-                Fruits[j]=getFruit.get(j).getFruit_name();
-            }
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, Fruits);
-            autoCompleteTextView.setAdapter(adapter);
-
-            autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    String getdata= (String) adapterView.getItemAtPosition(i);
-
-                    SQLiteData sqLiteData1=new SQLiteData(Dashboard_Activity.this);
-                    ArrayList<FruitData>arrayList=sqLiteData1.getFromSearch(getdata);
-                    Intent intent=new Intent(Dashboard_Activity.this,FruitViewActivity.class);
-                    intent.putExtra("FruitID",arrayList.get(0).getFruit_id());
-                    intent.putExtra("FruitName",arrayList.get(0).getFruit_name());
-                    intent.putExtra("FruitPrice",arrayList.get(0).getFruit_price());
-                    intent.putExtra("FruitDesc1",arrayList.get(0).getFruit_description1());
-                    intent.putExtra("FruitDesc2",arrayList.get(0).getFruit_description2());
-                    intent.putExtra("FruitDesc3",arrayList.get(0).getFruit_description3());
-                    intent.putExtra("FruitDesc4",arrayList.get(0).getFruit_description4());
-                    intent.putExtra("FruitCart",arrayList.get(0).getFruit_addtocart());
-                    intent.putExtra("FruitFav",arrayList.get(0).getFruit_favourite());
-                    startActivity(intent);
-
-                    autoCompleteTextView.setText("");
-
-                }
-            });
+        });
 
 
     }
@@ -406,13 +340,10 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                 .setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(isOnline(getApplicationContext()))
-                        {
+                        if (isOnline(getApplicationContext())) {
 
-                        }
-                        else
-                        {
-                           getConn();
+                        } else {
+                            getConn();
                         }
                     }
                 })
@@ -424,28 +355,8 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_menu, menu);
-//        MenuItem menuItem = menu.findItem(R.id.actionbar_searchview);
-//        SearchView searchView = (SearchView) menuItem.getActionView();
-//        searchView.setQueryHint("Type Here for search");
-
-//        SQLiteData sqLiteData=new SQLiteData(this);
-//        String [] fruitsk=new String[500];
-//        ArrayList<FruitData>a1=sqLiteData.getFruitMain();
-//        for(int i=0;i<a1.size();i++)
-//        {
-//            fruitsk[i]=a1.get(i).getFruit_name();
-//        }
-
-
-
-
-
         return super.onCreateOptionsMenu(menu);
-
-
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -453,28 +364,23 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
             return false;
         }
 
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
+
             case R.id.actionbar_cart:
-                Intent intent=new Intent(this, ViewCart.class);
+                Intent intent = new Intent(this, ViewCart.class);
                 startActivity(intent);
                 break;
             case R.id.actionbar_favourite:
-                Intent intent1=new Intent(this, FavouriteListDisplay.class);
+                Intent intent1 = new Intent(this, FavouriteListDisplay.class);
                 startActivity(intent1);
                 break;
-
-
-
-
 
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onBackPressed()
-     {
+    public void onBackPressed() {
         //If Navigation Drawer is open ...first close navigation drawer
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -484,10 +390,10 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                         finishAffinity();
+                            finishAffinity();
                         }
                     })
-                    .setNegativeButton("No",null)
+                    .setNegativeButton("No", null)
                     .show();
 
         }
@@ -507,35 +413,31 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
     @Override
     public void Favourite_fruite(int id, int val) {
-        SQLiteData sqLiteData=new SQLiteData(this);
+        SQLiteData sqLiteData = new SQLiteData(this);
         sqLiteData.favoutite_update(id, val);
 
-        Parcelable state=fresh_fruit_recyclerview.getLayoutManager().onSaveInstanceState();
-        freshFruitAdapter=new FreshFruitAdapter(sqLiteData.getFruitMain(), Dashboard_Activity.this,this);
+        Parcelable state = fresh_fruit_recyclerview.getLayoutManager().onSaveInstanceState();
+        freshFruitAdapter = new FreshFruitAdapter(sqLiteData.getFruitMain(), Dashboard_Activity.this, this);
         fresh_fruit_recyclerview.setAdapter(freshFruitAdapter);
         fresh_fruit_recyclerview.getLayoutManager().onRestoreInstanceState(state);
 
         Calendar mCalendar = Calendar.getInstance();
-        int monthNumber  = mCalendar.get(Calendar.MONTH);
-        if(monthNumber==1 || monthNumber==2 || monthNumber ==11 || monthNumber==12 )
-        {
-            Parcelable state1=you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
+        int monthNumber = mCalendar.get(Calendar.MONTH);
+        if (monthNumber == 1 || monthNumber == 2 || monthNumber == 11 || monthNumber == 12) {
+            Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
             you_may_like_recyclerview = findViewById(R.id.you_may_like_recyclerview);
             you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonSummer(), Dashboard_Activity.this);
             you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
             you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
-        }
-        else if(monthNumber==3 || monthNumber==4 || monthNumber==5|| monthNumber==6 )
-        {
-            Parcelable state1=you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
+        } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
+            Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
             you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonMonsoon(), Dashboard_Activity.this);
             you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
             you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
-        }else
-        {
-            Parcelable state1=you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
+        } else {
+            Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
             you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonWinter(), Dashboard_Activity.this);
             you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
@@ -543,114 +445,251 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
         }
     }
-
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        SQLiteData sqLiteData=new SQLiteData(this);
+        SQLiteData sqLiteData = new SQLiteData(this);
 
-        Parcelable state=fresh_fruit_recyclerview.getLayoutManager().onSaveInstanceState();
-        freshFruitAdapter=new FreshFruitAdapter(sqLiteData.getFruitMain(), Dashboard_Activity.this,this);
-        fresh_fruit_recyclerview.setAdapter(freshFruitAdapter);
-        fresh_fruit_recyclerview.getLayoutManager().onRestoreInstanceState(state);
+        if (shimmerFrameLayout.isShimmerStarted()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    nestedScrollView.setVisibility(View.VISIBLE);
+                    shimmerFrameLayout.setVisibility(View.GONE);
 
+                    try {
+                        state = fresh_fruit_recyclerview.getLayoutManager().onSaveInstanceState();
+                    } catch (Exception e) {
+                        if (state == null) {
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                            nestedScrollView.setVisibility(View.VISIBLE);
 
+                            dashboard_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                            categoryAdapter = new CategoryAdapter(category, Dashboard_Activity.this);
+                            dashboard_recyclerview.setAdapter(categoryAdapter);
 
+                            fresh_fruit_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this));
+                            freshFruitAdapter = new FreshFruitAdapter(sqLiteData.getFruitMain(), Dashboard_Activity.this, Dashboard_Activity.this);
+                            fresh_fruit_recyclerview.setAdapter(freshFruitAdapter);
+                            fresh_fruit_recyclerview.getLayoutManager().onRestoreInstanceState(state);
 
-        Calendar mCalendar = Calendar.getInstance();
-        int monthNumber  = mCalendar.get(Calendar.MONTH);
-        if(monthNumber==1 || monthNumber==2 || monthNumber ==11 || monthNumber==12 )
-        {
-            you_may_also_like_tv.setText("Fun in The Sun");
-            Parcelable state1=you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
-            you_may_like_recyclerview = findViewById(R.id.you_may_like_recyclerview);
-            you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonSummer(), Dashboard_Activity.this);
-            you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
-            you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
-        }
-        else if(monthNumber==3 || monthNumber==4 || monthNumber==5|| monthNumber==6 )
-        {
-            you_may_also_like_tv.setText("Monsoon Check");
-            Parcelable state1=you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
-            you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonMonsoon(), Dashboard_Activity.this);
-            you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
-            you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
-        }else
-        {
-            you_may_also_like_tv.setText("Thandi Hai Boht");
-            Parcelable state1=you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
-            you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-            summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonWinter(), Dashboard_Activity.this);
-            you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
-            you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
+                            Calendar mCalendar = Calendar.getInstance();
+                            int monthNumber = mCalendar.get(Calendar.MONTH);
+                            if (monthNumber == 1 || monthNumber == 2 || monthNumber == 11 || monthNumber == 12) {
+                                you_may_also_like_tv.setText("Fun in The Sun");
+                                you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonSummer(), Dashboard_Activity.this);
+                                you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
 
-        }
+                            } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
+                                you_may_also_like_tv.setText("Monsoon Check");
+                                you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonMonsoon(), Dashboard_Activity.this);
+                                you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
 
-                 Cursor headerdata = sqLiteData.headerData();
-                    if (headerdata != null) {
-                        if (headerdata.moveToFirst()) {
-                            do {
-                                String name = headerdata.getString(0);
-                                String phone = headerdata.getString(1);
+                            } else {
+                                you_may_also_like_tv.setText("Thandi Hai Boht");
+                              //  Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
+                                you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonWinter(), Dashboard_Activity.this);
+                                you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
+                               // you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
 
-                                byte[] blob=headerdata.getBlob(8);
-                                if(blob!=null)
-                                {
-                                    Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-                                    Nav_profile.setImageBitmap(bitmap);
-                                }
+                            }
+                        } else {
+                            dashboard_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                            categoryAdapter = new CategoryAdapter(category, Dashboard_Activity.this);
+                            dashboard_recyclerview.setAdapter(categoryAdapter);
 
+                            freshFruitAdapter = new FreshFruitAdapter(sqLiteData.getFruitMain(), Dashboard_Activity.this, Dashboard_Activity.this);
+                            fresh_fruit_recyclerview.setAdapter(freshFruitAdapter);
+                            fresh_fruit_recyclerview.getLayoutManager().onRestoreInstanceState(state);
 
-                                Nav_name.setText(name);
-                                Nav_phone.setText(phone);
-                                Nav_camera.setOnClickListener(new View.OnClickListener() {
-                                    @RequiresApi(api = Build.VERSION_CODES.M)
-                                    @Override
-                                    public void onClick(View view) {
-                                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
-                                        {
-                                            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-                                            {
-                                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-                                            }
-                                            else
-                                            {
-                                                Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                                startActivityForResult(gallartintent,1);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                            startActivityForResult(gallartintent,1);
-                                        }
-                                    }
-                                });
-                            } while (headerdata.moveToNext());
+                            Calendar mCalendar = Calendar.getInstance();
+                            int monthNumber = mCalendar.get(Calendar.MONTH);
+                            if (monthNumber == 1 || monthNumber == 2 || monthNumber == 11 || monthNumber == 12) {
+                                you_may_also_like_tv.setText("Fun in The Sun");
+                                Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
+                                you_may_like_recyclerview = findViewById(R.id.you_may_like_recyclerview);
+                                you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonSummer(), Dashboard_Activity.this);
+                                you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
+                                you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
+                            } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
+                                you_may_also_like_tv.setText("Monsoon Check");
+                                Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
+                                you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonMonsoon(), Dashboard_Activity.this);
+                                you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
+                                you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
+                            } else {
+                                you_may_also_like_tv.setText("Thandi Hai Boht");
+                                Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
+                                you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonWinter(), Dashboard_Activity.this);
+                                you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
+                                you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
+
+                            }
                         }
-                    } else {
-
                     }
-    }
+                }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
+            }, 2000);
+        } else {
+             nestedScrollView.setVisibility(View.VISIBLE);
+             shimmerFrameLayout.setVisibility(View.GONE);
+            try {
+
+                state = fresh_fruit_recyclerview.getLayoutManager().onSaveInstanceState();
+            } catch (Exception e)
+            {
+            }
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
+                nestedScrollView.setVisibility(View.VISIBLE);
 
 
-    }
+                dashboard_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                categoryAdapter = new CategoryAdapter(category, Dashboard_Activity.this);
+                dashboard_recyclerview.setAdapter(categoryAdapter);
+
+                freshFruitAdapter = new FreshFruitAdapter(sqLiteData.getFruitMain(), Dashboard_Activity.this, Dashboard_Activity.this);
+                fresh_fruit_recyclerview.setAdapter(freshFruitAdapter);
+                fresh_fruit_recyclerview.getLayoutManager().onRestoreInstanceState(state);
+
+                Calendar mCalendar = Calendar.getInstance();
+                int monthNumber = mCalendar.get(Calendar.MONTH);
+                if (monthNumber == 1 || monthNumber == 2 || monthNumber == 11 || monthNumber == 12) {
+                    you_may_also_like_tv.setText("Fun in The Sun");
+                    Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
+                    you_may_like_recyclerview = findViewById(R.id.you_may_like_recyclerview);
+                    you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                    summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonSummer(), Dashboard_Activity.this);
+                    you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
+                    you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
+                } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
+                    you_may_also_like_tv.setText("Monsoon Check");
+                    Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
+                    you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                    summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonMonsoon(), Dashboard_Activity.this);
+                    you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
+                    you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
+                } else {
+                    you_may_also_like_tv.setText("Thandi Hai Boht");
+                    Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
+                    you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
+                    summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonWinter(), Dashboard_Activity.this);
+                    you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
+                    you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
+
+            }
+        }
+
+//                Cursor headerdata = sqLiteData.headerData();
+//                if (headerdata != null) {
+//                    if (headerdata.moveToFirst()) {
+//                        do {
+//                            String name = headerdata.getString(0);
+//                            String phone = headerdata.getString(1);
+//
+//                            byte[] blob = headerdata.getBlob(8);
+//                            if (blob != null) {
+//                                Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+//                                Nav_profile.setImageBitmap(bitmap);
+//                            }
+//
+//
+//                            Nav_name.setText(name);
+//                            Nav_phone.setText(phone);
+//                            Nav_camera.setOnClickListener(new View.OnClickListener() {
+//                                @RequiresApi(api = Build.VERSION_CODES.M)
+//                                @Override
+//                                public void onClick(View view) {
+//                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+//                                        } else {
+//                                            Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                                            startActivityForResult(gallartintent, 1);
+//                                        }
+//                                    } else {
+//                                        Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                                        startActivityForResult(gallartintent, 1);
+//                                    }
+//                                }
+//                            });
+//                        } while (headerdata.moveToNext());
+//                    }
+//                } else {
+//
+//                }
+
+
+        nav_view = findViewById(R.id.dashboard_navigation_view);
+        View viewheader = nav_view.getHeaderView(0);
+        Nav_name = viewheader.findViewById(R.id.nav_header_name_tv);
+        Nav_phone = viewheader.findViewById(R.id.nav_header_phone_tv);
+        Nav_profile = viewheader.findViewById(R.id.nav_header_profile_iv);
+
+        Nav_camera = viewheader.findViewById(R.id.fab_btn);
+
+        Cursor headerdata = sqLiteData.headerData();
+        if (headerdata != null) {
+            if (headerdata.moveToFirst()) {
+                do {
+                    String name = headerdata.getString(0);
+                    String phone = headerdata.getString(1);
+
+                    byte[] blob = headerdata.getBlob(8);
+
+                    if (blob != null) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+                        Nav_profile.setImageBitmap(bitmap);
+                    }
+
+
+                    Nav_name.setText(name);
+                    Nav_phone.setText(phone);
+                    Nav_camera.setOnClickListener(new View.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.M)
+                        @Override
+                        public void onClick(View view) {
+                            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+
+                                Toast toast = Toast.makeText(Dashboard_Activity.this, "bbb", Toast.LENGTH_LONG);
+                                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.START, 90, 0);
+                                toast.show();
+
+
+                            } else {
+                                Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(gallartintent, 1);
+                            }
+                        }
+                    });
+                } while (headerdata.moveToNext());
+
+            }
+        } else {
+
+        }
+            }
+
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
        switch (item.getItemId())
        {
-           case R.id.nav_favourite:
-               Intent intent1=new Intent(this,FavouriteListDisplay.class);
-               startActivity(intent1);
+               case R.id.nav_favourite:
+                   Intent intent1=new Intent(this,FavouriteListDisplay.class);
+                   startActivity(intent1);
                break;
            case R.id.nav_cart:
                Intent intent2=new Intent(this,ViewCart.class);
@@ -735,10 +774,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
     }
 
-    private void setNavigationViewListener() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.dashboard_navigation_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
+
 
     private boolean isOnline(Context context) {
         try {
@@ -840,7 +876,6 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
         else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
         return 0;
     }
-
 
 
 }

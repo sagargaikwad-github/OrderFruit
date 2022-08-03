@@ -5,226 +5,221 @@
     android:id="@+id/dashboard_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:openDrawer="right"
+    android:layout_gravity="left"
     tools:context=".Dashboard_Activity">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/dashboard_constraint_layout"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
+            android:id="@+id/nestedscrollview"
+            android:visibility="gone"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                tools:ignore="MissingConstraints">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dashboard_constraint_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-
-                <!--  <HorizontalScrollView-->
-                <!--      android:layout_width="match_parent"-->
-                <!--      android:layout_height="match_parent">-->
-                <!--  </HorizontalScrollView>-->
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/dashboard_recyclerview"
+                <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true">
+                    android:orientation="horizontal"
+                    tools:ignore="MissingConstraints">
 
-                </androidx.recyclerview.widget.RecyclerView>
 
-            </LinearLayout>
+                    <!--  <HorizontalScrollView-->
+                    <!--      android:layout_width="match_parent"-->
+                    <!--      android:layout_height="match_parent">-->
+                    <!--  </HorizontalScrollView>-->
 
-            <!--            <com.google.android.material.slider.Slider-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="200dp"-->
-            <!--              >-->
-            <!--            </com.google.android.material.slider.Slider>-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/dashboard_recyclerview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true">
 
-            <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/searchview_bg"
-                android:drawableStart="@drawable/ic_search"
-                android:drawablePadding="5dp"
-                android:hint="Search Fruit Here"
-                android:maxLines="1"
-                android:padding="10dp"
-                android:singleLine="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                    </androidx.recyclerview.widget.RecyclerView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView">
+                </LinearLayout>
 
-                <com.denzcoskun.imageslider.ImageSlider
-                    android:id="@+id/image_slider"
-                    android:layout_width="wrap_content"
-                    android:layout_height="230dp"
-                    android:layout_margin="16dp"
+                <!--            <com.google.android.material.slider.Slider-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="200dp"-->
+                <!--              >-->
+                <!--            </com.google.android.material.slider.Slider>-->
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="30dp"
                     android:background="@drawable/searchview_bg"
-                    android:elevation="8dp"
-                    app:iss_auto_cycle="true"
-                    app:iss_corner_radius="50"
-                    app:iss_period="2000"></com.denzcoskun.imageslider.ImageSlider>
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="5dp"
+                    android:hint="Search Fruit Here"
+                    android:maxLines="1"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-            </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView">
 
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="@android:color/black"
-                app:layout_constraintBottom_toTopOf="@+id/you_may_also_like"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                tools:ignore="MissingConstraints" />
+                    <com.denzcoskun.imageslider.ImageSlider
+                        android:id="@+id/image_slider"
+                        android:layout_width="wrap_content"
+                        android:layout_height="230dp"
+                        android:layout_margin="16dp"
+                        android:background="@drawable/searchview_bg"
+                        android:elevation="8dp"
+                        app:iss_auto_cycle="true"
+                        app:iss_corner_radius="50"
+                        app:iss_period="2000"></com.denzcoskun.imageslider.ImageSlider>
 
-            <TextView
-                android:id="@+id/you_may_also_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="2dp"
-                android:fontFamily="@font/fredoka_one"
-                android:text="Fun in The Sun.."
-                android:textColor="#776666"
-                android:textSize="19sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view"></TextView>
+                </androidx.cardview.widget.CardView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/you_may_like_recyclerview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:padding="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.041"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/you_may_also_like" />
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:background="@android:color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/you_may_also_like"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2"
+                    tools:ignore="MissingConstraints" />
 
-            <View
-                android:id="@+id/view1"
-                android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="@android:color/black"
-                app:layout_constraintBottom_toTopOf="@+id/textView2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/you_may_like_recyclerview"
-                tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/you_may_also_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/fredoka_one"
+                    android:text="Fun in The Sun.."
+                    android:textColor="#776666"
+                    android:textSize="19sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view"></TextView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/allFruits_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:nestedScrollingEnabled="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.043"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"></androidx.recyclerview.widget.RecyclerView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/you_may_like_recyclerview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:padding="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.041"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/you_may_also_like" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/fredoka_one"
-                android:text="Fresh Fruits"
-                android:textSize="19sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.042"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/you_may_like_recyclerview" />
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:background="@android:color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/textView2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/you_may_like_recyclerview"
+                    tools:ignore="MissingConstraints" />
 
-            <ImageView
-                android:id="@+id/dashboard_viewall_IV"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@+id/you_may_also_like"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.933"
-                app:layout_constraintStart_toEndOf="@+id/you_may_also_like"
-                app:layout_constraintTop_toTopOf="@+id/you_may_also_like"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/summer_next" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/allFruits_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.043"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2"></androidx.recyclerview.widget.RecyclerView>
 
-            <TextView
-                android:id="@+id/dashboard_viewall_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:text="View All"
-                android:textColor="#1B1B1B"
-                android:textSize="15sp"
-                android:textStyle="italic"
-                app:layout_constraintBottom_toBottomOf="@+id/dashboard_viewall_IV"
-                app:layout_constraintEnd_toStartOf="@+id/dashboard_viewall_IV"
-                app:layout_constraintTop_toTopOf="@+id/dashboard_viewall_IV"
-                app:layout_constraintVertical_bias="0.666" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/fredoka_one"
+                    android:text="Fresh Fruits"
+                    android:textSize="19sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.042"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/you_may_like_recyclerview" />
 
-            <TextView
-                android:id="@+id/view_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="15dp"
-                android:text="View More...  "
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/allFruits_rv" />
+                <ImageView
+                    android:id="@+id/dashboard_viewall_IV"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/you_may_also_like"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.933"
+                    app:layout_constraintStart_toEndOf="@+id/you_may_also_like"
+                    app:layout_constraintTop_toTopOf="@+id/you_may_also_like"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/summer_next" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                <TextView
+                    android:id="@+id/dashboard_viewall_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:text="View All"
+                    android:textColor="#1B1B1B"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    app:layout_constraintBottom_toBottomOf="@+id/dashboard_viewall_IV"
+                    app:layout_constraintEnd_toStartOf="@+id/dashboard_viewall_IV"
+                    app:layout_constraintTop_toTopOf="@+id/dashboard_viewall_IV"
+                    app:layout_constraintVertical_bias="0.666" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/dashboard_navigation_view"
-        style="@style/NavigationDrawer"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/navigation_drawer"
-        tools:ignore="MissingConstraints">
+                <TextView
+                    android:id="@+id/view_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="View More...  "
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/allFruits_rv" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="vertical"
-            android:padding="16dp">
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-<!--            <TextView-->
-<!--                android:id="@+id/logout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:gravity="center"-->
-<!--                android:text="Log out"-->
-<!--                android:padding="10dp"-->
-<!--                android:layout_marginTop="200dp"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="16sp" />-->
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/dashboard_navigation_view"
+            style="@style/NavigationDrawer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/navigation_drawer"
+            tools:ignore="MissingConstraints">
 
-        </LinearLayout>
-    </com.google.android.material.navigation.NavigationView>
+        </com.google.android.material.navigation.NavigationView>
+
+
+  <com.facebook.shimmer.ShimmerFrameLayout
+      android:layout_width="match_parent"
+      android:id="@+id/shimmer_dashboard"
+      android:layout_height="match_parent">
+      <include layout="@layout/shimmer_dashboard"/>
+
+  </com.facebook.shimmer.ShimmerFrameLayout>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

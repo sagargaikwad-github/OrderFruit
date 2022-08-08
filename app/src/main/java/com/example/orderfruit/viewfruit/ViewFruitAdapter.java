@@ -27,12 +27,14 @@ public class ViewFruitAdapter extends RecyclerView.Adapter<ViewFruitAdapter.hold
     Context context;
     InterfaceData interfaceData;
     int fav_id,fav_fruit;
+    String GetUserId;
 
 
-    public ViewFruitAdapter(ArrayList<FruitData> arrayList, Context context, InterfaceData interfaceData) {
+    public ViewFruitAdapter(ArrayList<FruitData> arrayList, Context context, InterfaceData interfaceData, String GetUserId) {
         this.arrayList = arrayList;
         this.context = context;
         this.interfaceData = interfaceData;
+        this.GetUserId=GetUserId;
     }
 
     @NonNull
@@ -58,15 +60,23 @@ public class ViewFruitAdapter extends RecyclerView.Adapter<ViewFruitAdapter.hold
         FruitData temp=arrayList.get(position);
 
         fav_fruit=temp.getFruit_favourite();
-       switch (fav_fruit)
-       {
-           case 0:
-               holder.fresh_favourite_fruit.setImageResource(R.drawable.favourite_black);
-               break;
-           case 1:
-               holder.fresh_favourite_fruit.setImageResource(R.drawable.favourite_red);
-               break;
-       }
+
+        SQLiteData sqLiteData=new SQLiteData(context);
+
+        boolean check=sqLiteData.checkInFavourite(GetUserId,arrayList.get(position).getFruit_id());
+        if(check==true)
+        {
+            holder.fresh_favourite_fruit.setImageResource(R.drawable.favourite_red);
+        }
+        else
+        {
+            try {
+                holder.fresh_favourite_fruit.setImageResource(R.drawable.favourite_black);
+            }catch (Exception e)
+            {
+
+            }
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,23 +102,29 @@ public class ViewFruitAdapter extends RecyclerView.Adapter<ViewFruitAdapter.hold
             @Override
             public void onClick(View view) {
                 SQLiteData sqLiteData=new SQLiteData(context);
-                fav_fruit=temp.getFruit_favourite();
-                fav_id=temp.getFruit_id();
-                if(fav_fruit==0)
+                boolean check=sqLiteData.checkInFavourite(GetUserId,arrayList.get(position).getFruit_id());
+                if(check==true)
                 {
-                    fav_fruit=1;
-                    Toast.makeText(context, "Added To Favourite", Toast.LENGTH_SHORT).show();
-                    interfaceData.Favourite_fruite(fav_id,fav_fruit);
-
+                    sqLiteData.removeinFavourite(GetUserId,arrayList.get(position).getFruit_id());
+                   try
+                   {
+                       interfaceData.Favourite_fruite(Long.parseLong(GetUserId),arrayList.get(position).getFruit_id());
+                   }catch (Exception e)
+                   {
+                       Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+                   }
+                    Toast.makeText(context, "Removed from Favourites", Toast.LENGTH_SHORT).show();
+                    notifyDataSetChanged();
                 }
                 else
                 {
-                    fav_fruit=0;
-                    Toast.makeText(context, "Removed From Favourite", Toast.LENGTH_SHORT).show();
-                    interfaceData.Favourite_fruite(fav_id,fav_fruit);
-
+                    sqLiteData.insertinFavourite(GetUserId,arrayList.get(position).getFruit_id());
+                    Toast.makeText(context, "Added to Favourites", Toast.LENGTH_SHORT).show();
+                    notifyDataSetChanged();
                 }
+
             }
+
         });
 
 

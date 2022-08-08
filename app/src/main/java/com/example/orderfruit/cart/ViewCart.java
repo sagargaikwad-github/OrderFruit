@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.orderfruit.Interface.AddToCart_Interface;
+import com.example.orderfruit.model.CartNew;
 import com.example.orderfruit.order.OrderHistory;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.FruitData;
@@ -53,7 +54,7 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
     Button checkout_btn,startshopping_btn;
     int Total;
     BottomSheetDialog sheetDialog;
-
+    String[] getphone;
     RadioButton address1_radiobtn,address2_radiobtn,address3_radiobtn;
     TextView customer_info_name_TV,customer_info_phone_TV;
     EditText customer_info_address_ET,customer_info_phone_ET;
@@ -230,7 +231,13 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
 
     private void SetData() {
         SQLiteData sqLiteData=new SQLiteData(this);
-        ArrayList<FruitData>getcart=sqLiteData.get_cart_list();
+        //ArrayList<FruitData>getcart=sqLiteData.get_cart_list();
+
+      getphone=sqLiteData.getPhone();
+
+      ArrayList<CartNew>getcart=sqLiteData.getCart(getphone[0]);
+
+
         if(getcart.isEmpty())
         {
             empty_cart_IV.setVisibility(View.VISIBLE);
@@ -244,7 +251,7 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
             empty_cart_IV.setVisibility(View.GONE);
             viewcart_LL.setVisibility(View.VISIBLE);
             ViewCart_rv.setLayoutManager(new LinearLayoutManager(this));
-            viewCartAdapter=new ViewCartAdapter(sqLiteData.get_cart_list(),this,this);
+            viewCartAdapter=new ViewCartAdapter(sqLiteData.getCart(getphone[0]),this,this);
             //viewCartAdapter.notifyDataSetChanged();
             ViewCart_rv.setAdapter(viewCartAdapter);
         }
@@ -315,7 +322,9 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
 //        ViewCart_rv.setAdapter(viewCartAdapter);
 
         SQLiteData sqLiteData=new SQLiteData(this);
-        ArrayList<FruitData>getcart=sqLiteData.get_cart_list();
+        getphone=sqLiteData.getPhone();
+        ArrayList<CartNew>getcart=sqLiteData.getCart(getphone[0]);
+
 
         if(getcart.isEmpty())
         {
@@ -330,7 +339,7 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
             empty_cart_IV.setVisibility(View.GONE);
             viewcart_LL.setVisibility(View.VISIBLE);
             ViewCart_rv.setLayoutManager(new LinearLayoutManager(this));
-            viewCartAdapter=new ViewCartAdapter(sqLiteData.get_cart_list(),this,this);
+            viewCartAdapter=new ViewCartAdapter(sqLiteData.getCart(getphone[0]),this,this);
             //viewCartAdapter.notifyDataSetChanged();
             ViewCart_rv.setAdapter(viewCartAdapter);
         }
@@ -339,9 +348,9 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
 
 
     @Override
-    public void add_to_cart(int id, int num) {
+    public void add_to_cart(int id, int num,String Phone) {
         SQLiteData sqLiteData=new SQLiteData(getApplicationContext());
-        sqLiteData.addtocart(id,num);
+        sqLiteData.addtocart_new(id,num,Phone);
     }
 
     @Override
@@ -358,7 +367,7 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
 
         String name=customer_info_name_TV.getText().toString();
         String address=customer_info_address_ET.getText().toString();
-        String phone=customer_info_phone_TV.getText().toString();
+        String phone=DATAphone;
         String phone2=customer_info_phone_ET.getText().toString();
         String total;
 
@@ -377,9 +386,12 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
         }
 
 
-        ArrayList<FruitData>GetFruits=new ArrayList<>();
-        GetFruits=sqLiteData.get_cart_list();
-        String orderstatus="Payment Sucessful";
+          String[] getPhone=new String[10000];
+          getPhone=sqLiteData.getPhone();
+
+        ArrayList<CartNew>GetFruits=new ArrayList<>();
+        GetFruits=sqLiteData.getCart(getphone[0]);
+        String orderstatus="Payment Successful";
 
 
         Date date = new Date();
@@ -398,19 +410,17 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
 
         for(int i=0;i<GetFruits.size();i++)
         {
-            fid=GetFruits.get(i).getFruit_id();
-            fweight=GetFruits.get(i).getFruit_addtocart();
+            fid=GetFruits.get(i).getFruitid();
+            fweight=GetFruits.get(i).getFruit_quantity();
             getid=getid+","+fid;
             getweight=getweight+","+fweight;
             getQuantity=getQuantity+fweight;
        }
 
-
-
         String[] fruitlist1 = new String[100];
 
         for(int i=0;i<GetFruits.size();i++) {
-            String fweight1=String.valueOf(GetFruits.get(i).getFruit_addtocart());
+            String fweight1=String.valueOf(GetFruits.get(i).getFruit_quantity());
             fruitlist1[i] = fweight1;
         }
 
@@ -420,6 +430,8 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
 
 
         sqLiteData.addtohistory(orderid,name,address,item3,phone,phone2,orderstatus,str,String.valueOf(getQuantity),getid,result_ScoreP1);
+
+        sqLiteData.deleteCart(DATAphone);
 
         Intent intent=new Intent(this, OrderHistory.class);
         startActivity(intent);
@@ -440,7 +452,7 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
 
         String name=customer_info_name_TV.getText().toString();
         String address=customer_info_address_ET.getText().toString();
-        String phone=customer_info_phone_TV.getText().toString();
+        String phone=DATAphone;
         String phone2=customer_info_phone_ET.getText().toString();
         String total;
 
@@ -454,10 +466,12 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
         }
 
 
-        ArrayList<FruitData>GetFruits=new ArrayList<>();
-        GetFruits=sqLiteData.get_cart_list();
-        String orderstatus="Payment Failed";
+        String[] getPhone=new String[10000];
+        getPhone=sqLiteData.getPhone();
 
+        ArrayList<CartNew>GetFruits=new ArrayList<>();
+        GetFruits=sqLiteData.getCart(getphone[0]);
+        String orderstatus="Payment Unsucessful";
 
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
@@ -479,8 +493,8 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
 
         for(int j=0;j<GetFruits.size();j++)
         {
-            fid=GetFruits.get(j).getFruit_id();
-            fweight=GetFruits.get(j).getFruit_addtocart();
+            fid=GetFruits.get(j).getFruitid();
+            fweight=GetFruits.get(j).getFruit_quantity();
             getid=getid+","+fid;
             getweight=getweight+","+fweight;
             getQuantity=getQuantity+fweight;
@@ -492,7 +506,7 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface,P
         String[] fruitlist1 = new String[100];
 
         for(int j=0;j<GetFruits.size();j++) {
-            String fweight1=String.valueOf(GetFruits.get(j).getFruit_addtocart());
+            String fweight1=String.valueOf(GetFruits.get(j).getFruit_quantity());
             fruitlist1[j] = fweight1;
         }
 

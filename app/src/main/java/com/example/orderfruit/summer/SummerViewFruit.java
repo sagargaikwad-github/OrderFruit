@@ -27,6 +27,7 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
     ShimmerFrameLayout shimmerFrameLayout;
     SQLiteData sqLiteData;
     Parcelable state;
+    String [] getPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,8 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
         shimmerFrameLayout.startShimmer();
 
         sqLiteData = new SQLiteData(SummerViewFruit.this);
+        getPhone=sqLiteData.getPhone();
+
 
 //        summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
 //        SummerViewFruitAdapter summerViewFruitAdapter=new SummerViewFruitAdapter(sqLiteData.getSummerFruits(),SummerViewFruit.this,this);
@@ -109,19 +112,19 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
 
                             getSupportActionBar().setTitle("Summer Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, SummerViewFruit.this);
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
 
                         } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
                             getSupportActionBar().setTitle("Monsoon Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, SummerViewFruit.this);
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
 
                         } else {
                             getSupportActionBar().setTitle("Winter Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, SummerViewFruit.this);
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
 
                         }
@@ -137,21 +140,21 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
                             state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                             getSupportActionBar().setTitle("Summer Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, SummerViewFruit.this);
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                             summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
                         } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
                             state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                             getSupportActionBar().setTitle("Monsoon Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, SummerViewFruit.this);
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                             summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
                         } else {
                             state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                             getSupportActionBar().setTitle("Winter Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, SummerViewFruit.this);
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                             summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
 
@@ -174,21 +177,21 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
                 state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                 getSupportActionBar().setTitle("Summer Fruits");
                 summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
-                summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, this);
+                summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, this,getPhone[0]);
                 summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                 summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
             } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
                  state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                 getSupportActionBar().setTitle("Monsoon Fruits");
                 summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
-                summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, this);
+                summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, this,getPhone[0]);
                 summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                 summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
             } else {
                  state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                 getSupportActionBar().setTitle("Winter Fruits");
                 summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
-                summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, this);
+                summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, this,getPhone[0]);
                 summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                 summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
 
@@ -211,42 +214,47 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
     }
 
     @Override
-    public void Favourite_fruite(int id, int val) {
-        SQLiteData sqLiteData = new SQLiteData(this);
-        sqLiteData.favoutite_update(id, val);
-//        Parcelable state=summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
-//        SummerViewFruitAdapter summerViewFruitAdapter=new SummerViewFruitAdapter(sqLiteData.getSummerFruits(),SummerViewFruit.this,this);
-//        summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
-//        summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
-
-        Calendar mCalendar = Calendar.getInstance();
-        int monthNumber = mCalendar.get(Calendar.MONTH);
-        if (monthNumber == 1 || monthNumber == 2 || monthNumber == 11 || monthNumber == 12) {
-
-            Parcelable state1 = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
-            getSupportActionBar().setTitle("Summer Fruits");
-            summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
-            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, this);
-            summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
-            summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state1);
-        } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
-            Parcelable state1 = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
-            getSupportActionBar().setTitle("Monsoon Fruits");
-            summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
-            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, this);
-            summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
-            summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state1);
-        } else {
-            Parcelable state1 = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
-            getSupportActionBar().setTitle("Winter Fruits");
-            summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
-            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, this);
-            summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
-            summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state1);
-
-        }
+    public void Favourite_fruite(long id, int val) {
 
     }
+
+//    @Override
+//    public void Favourite_fruite(int id, int val) {
+//        SQLiteData sqLiteData = new SQLiteData(this);
+//        sqLiteData.favoutite_update(id, val);
+//////        Parcelable state=summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
+//////        SummerViewFruitAdapter summerViewFruitAdapter=new SummerViewFruitAdapter(sqLiteData.getSummerFruits(),SummerViewFruit.this,this);
+//////        summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
+//////        summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
+////
+////        Calendar mCalendar = Calendar.getInstance();
+////        int monthNumber = mCalendar.get(Calendar.MONTH);
+////        if (monthNumber == 1 || monthNumber == 2 || monthNumber == 11 || monthNumber == 12) {
+////
+////            Parcelable state1 = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
+////            getSupportActionBar().setTitle("Summer Fruits");
+////            summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
+////            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, this,getPhone[0]);
+////            summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
+////            summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state1);
+////        } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
+////            Parcelable state1 = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
+////            getSupportActionBar().setTitle("Monsoon Fruits");
+////            summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
+////            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, this,getPhone[0]);
+////            summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
+////            summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state1);
+////        } else {
+////            Parcelable state1 = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
+////            getSupportActionBar().setTitle("Winter Fruits");
+////            summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
+////            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, this,getPhone[0]);
+////            summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
+////            summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state1);
+////
+////        }
+//
+//    }
 
     @Override
     protected void onRestart() {

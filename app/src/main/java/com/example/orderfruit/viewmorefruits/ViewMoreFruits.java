@@ -13,7 +13,6 @@ import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
@@ -57,16 +56,21 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
     }
 
     @Override
-    public void Favourite_fruite(int id, int val) {
-      SQLiteData sqLiteData=new SQLiteData(this);
-      sqLiteData.favoutite_update(id, val);
-
-        Parcelable state=viewmorefruits_rv.getLayoutManager().onSaveInstanceState();
-        viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this);
-        viewmorefruits_rv.setAdapter(viewFruitAdapter);
-        viewmorefruits_rv.getLayoutManager().onRestoreInstanceState(state);
+    public void Favourite_fruite(long id, int val) {
 
     }
+
+//    @Override
+//    public void Favourite_fruite(int id, int val) {
+//      SQLiteData sqLiteData=new SQLiteData(this);
+//      sqLiteData.favoutite_update(id, val);
+//
+//        Parcelable state=viewmorefruits_rv.getLayoutManager().onSaveInstanceState();
+////        viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this);
+////        viewmorefruits_rv.setAdapter(viewFruitAdapter);
+//        viewmorefruits_rv.getLayoutManager().onRestoreInstanceState(state);
+//
+//    }
 
     @Override
     public void onBackPressed() {
@@ -102,6 +106,7 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
     private void setdataResume() {
         SQLiteData sqLiteData=new SQLiteData(this);
         Parcelable state=null;
+        String[] getPhone=sqLiteData.getPhone();
 
         try {
              state=viewmorefruits_rv.getLayoutManager().onSaveInstanceState();
@@ -112,13 +117,13 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
         if(state==null)
         {
             viewmorefruits_rv.setLayoutManager(new LinearLayoutManager(this));
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this);
+            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this,getPhone[0]);
             viewmorefruits_rv.setAdapter(viewFruitAdapter);
         }
         else
         {
             viewmorefruits_rv.setLayoutManager(new LinearLayoutManager(this));
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this);
+            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this,getPhone[0]);
             viewmorefruits_rv.setAdapter(viewFruitAdapter);
             viewmorefruits_rv.getLayoutManager().onRestoreInstanceState(state);
         }

@@ -44,7 +44,7 @@ public class orderHistoryAdapter extends RecyclerView.Adapter<orderHistoryAdapte
 
 
         String status= arrayList.get(position).getOrderstats();
-//        if(status.contains("Payment Successful"))
+//        if(status.contains("Payment Sucessful"))
 //        {
             holder.orderstatus.setText("Order Status : "+status);
             holder.orderstatus.setTextColor(Color.parseColor("#0CEA15"));

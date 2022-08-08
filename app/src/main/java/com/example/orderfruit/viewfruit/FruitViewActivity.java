@@ -15,8 +15,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.orderfruit.R;
 import com.example.orderfruit.cart.ViewCart;
+import com.example.orderfruit.model.CartNew;
 import com.example.orderfruit.model.SQLiteData;
 import com.facebook.shimmer.ShimmerFrameLayout;
+
+import java.util.ArrayList;
 
 public class FruitViewActivity extends AppCompatActivity {
     TextView fruitname,fruitprice,fruitdesc1,fruitdesc2,fruitdesc3,fruitdesc4,fruitcart,fruitview_advantage,fruitview_add_to_cart_num;
@@ -27,7 +30,11 @@ public class FruitViewActivity extends AppCompatActivity {
     Button add_to_cart_btn, buy_now_btn;
     ShimmerFrameLayout shimmerFrameLayout;
 
-    ConstraintLayout cons1,cons2;
+    String Mainphone;
+    String [] getPhone;
+
+    SQLiteData sqLiteData;
+    ConstraintLayout constraintLayout_1,constraintLayout_2;
 
 
 
@@ -52,10 +59,11 @@ public class FruitViewActivity extends AppCompatActivity {
         shimmerFrameLayout=findViewById(R.id.shimmerframelayout);
         shimmerFrameLayout.startShimmer();
 
-        cons1=findViewById(R.id.cons1);
-        cons2=findViewById(R.id.cons2);
+        constraintLayout_1=findViewById(R.id.cons1);
+        constraintLayout_2=findViewById(R.id.cons2);
 
-
+        sqLiteData=new SQLiteData(FruitViewActivity.this);
+        getPhone=sqLiteData.getPhone();
 
         fruitview_add_to_cart_num=findViewById(R.id.fruitview_add_to_cart_num);
         add_to_cart_btn=findViewById(R.id.fruitview_addtocart_btn);
@@ -70,12 +78,12 @@ public class FruitViewActivity extends AppCompatActivity {
          id=bundle.getInt("FruitID");
          name=bundle.getString("FruitName");
          price= (int) bundle.get("FruitPrice");
-        favourite=bundle.getInt("FruitFav");
+         //favourite=bundle.getInt("FruitFav");
          desc1=bundle.getString("FruitDesc1");
          desc2=bundle.getString("FruitDesc2");
          desc3=bundle.getString("FruitDesc3");
          desc4=bundle.getString("FruitDesc4");
-         addtocart=bundle.getInt("FruitCart");
+         //addtocart=bundle.getInt("FruitCart");
 
         getSupportActionBar().setTitle(name);
 
@@ -83,16 +91,34 @@ public class FruitViewActivity extends AppCompatActivity {
             @Override
             public void run() {
                 shimmerFrameLayout.stopShimmer();
-                cons1.setVisibility(View.GONE);
-                cons2.setVisibility(View.VISIBLE);
+                constraintLayout_1.setVisibility(View.GONE);
+                constraintLayout_2.setVisibility(View.VISIBLE);
 
                 getdata();
             }
         },2000);
 
+        SQLiteData sqLiteData=new SQLiteData(this);
+        String[] getPhone=sqLiteData.getPhone();
+        Mainphone=getPhone[0];
+
+        String getCartValue=sqLiteData.getCartForFruitView(id,Mainphone);
+        if(getCartValue==null)
+        {
+            fruitcart.setText("0");
+        }
+       else
+        {
+            fruitcart.setText(getCartValue);
+        }
+
+
     }
 
     private void getdata() {
+
+//        String[] getPhone=sqLiteData.getPhone();
+        Mainphone=getPhone[0];
 
         if(name.contains("Coconuts"))
         {
@@ -108,13 +134,14 @@ public class FruitViewActivity extends AppCompatActivity {
         fruitdesc2.setText(desc2);
         fruitdesc3.setText(desc3);
         fruitdesc4.setText(desc4);
-        fruitcart.setText(String.valueOf(addtocart));
+       //fruitcart.setText(String.valueOf(addtocart));
         fruitview_advantage.setText("Advantages of a "+name+" :");
 
-        if(favourite==1)
+
+        boolean check=sqLiteData.checkInFavourite(getPhone[0],id);
+        if(check==true)
         {
             fruitfavourite_IV.setImageResource(R.drawable.favourite_red);
-
         }
         else
         {
@@ -324,20 +351,34 @@ public class FruitViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SQLiteData sqLiteData=new SQLiteData(getApplicationContext());
-                if(favourite==0)
+//                if(favourite==0)
+//                {
+//                    favourite=1;
+//                    fruitfavourite_IV.setImageResource(R.drawable.favourite_red);
+//                    sqLiteData.favoutite_update(id,favourite);
+//
+//                    Toast.makeText(FruitViewActivity.this, "Added to Favourites", Toast.LENGTH_SHORT).show();
+//                }
+//                else
+//                {
+//                    favourite=0;
+//                    fruitfavourite_IV.setImageResource(R.drawable.favourite_black);
+//                    sqLiteData.favoutite_update(id,favourite);
+//                    sqLiteData.insertinFavourite(getPhone[0],id);
+//                    Toast.makeText(FruitViewActivity.this, "Removed from Favourites", Toast.LENGTH_SHORT).show();
+//
+//                }
+
+                boolean checkInFavouritek=sqLiteData.checkInFavourite(getPhone[0],id);
+                if(checkInFavouritek==true)
                 {
-                    favourite=1;
-                    fruitfavourite_IV.setImageResource(R.drawable.favourite_red);
-                    sqLiteData.favoutite_update(id,favourite);
-                    Toast.makeText(FruitViewActivity.this, "Added to Favourites", Toast.LENGTH_SHORT).show();
+                    sqLiteData.removeinFavourite(getPhone[0],id);
+                    fruitfavourite_IV.setImageResource(R.drawable.favourite_black);
                 }
                 else
                 {
-                    favourite=0;
-                    fruitfavourite_IV.setImageResource(R.drawable.favourite_black);
-                    sqLiteData.favoutite_update(id,favourite);
-                    Toast.makeText(FruitViewActivity.this, "Removed from Favourites", Toast.LENGTH_SHORT).show();
-
+                    sqLiteData.insertinFavourite(getPhone[0],id);
+                    fruitfavourite_IV.setImageResource(R.drawable.favourite_red);
                 }
             }
         });
@@ -348,7 +389,23 @@ public class FruitViewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int product=Integer.parseInt(fruitview_add_to_cart_num.getText().toString());
                 SQLiteData sqLiteData=new SQLiteData(FruitViewActivity.this);
+                String[] getPhoneID=sqLiteData.getPhone();
+
+                boolean findfruit=sqLiteData.findFruitId(id,getPhoneID[0]);
+
+                if(findfruit==true)
+                {
+                    sqLiteData.addtocart_new(id,product,getPhoneID[0]);
+                }
+                else
+                {
+                    sqLiteData.addtocartNEW(getPhoneID[0],id,product,price,name);
+                }
+
+
+                //Old
                 sqLiteData.addtocart(id,product);
+                //
                 int getCart= Integer.parseInt(fruitcart.getText().toString());
                 if(!(getCart == 0))
                 {

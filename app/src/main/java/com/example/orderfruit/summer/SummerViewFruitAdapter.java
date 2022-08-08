@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.model.FruitData;
+import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.FruitViewActivity;
 
 import java.util.ArrayList;
@@ -26,12 +27,14 @@ public class SummerViewFruitAdapter extends RecyclerView.Adapter<SummerViewFruit
         ArrayList<FruitData> arrayList=new ArrayList<FruitData>();
         Context context;
         InterfaceData interfaceData;
+         String GetUserId;
 
 
-        public SummerViewFruitAdapter(ArrayList<FruitData> arrayList, Context context,InterfaceData interfaceData) {
+        public SummerViewFruitAdapter(ArrayList<FruitData> arrayList, Context context,InterfaceData interfaceData,String GetUserId) {
             this.arrayList = arrayList;
             this.context = context;
             this.interfaceData = interfaceData;
+            this.GetUserId=GetUserId;
         }
 
         @NonNull
@@ -48,15 +51,24 @@ public class SummerViewFruitAdapter extends RecyclerView.Adapter<SummerViewFruit
         holder.viewFruit_price.setText("₹"+String.valueOf(arrayList.get(position).getFruit_price())+"/-");
 
         FruitData temp=arrayList.get(position);
-        int fav=arrayList.get(position).getFruit_favourite();
-        if(fav==0)
-        {
-            holder.viewfruit_favourite.setImageResource(R.drawable.favourite_black);
-        }
-        else
+        SQLiteData sqLiteData=new SQLiteData(context);
+
+
+        boolean check=sqLiteData.checkInFavourite(GetUserId,arrayList.get(position).getFruit_id());
+        if(check==true)
         {
             holder.viewfruit_favourite.setImageResource(R.drawable.favourite_red);
         }
+        else
+        {
+            try {
+                holder.viewfruit_favourite.setImageResource(R.drawable.favourite_black);
+            }catch (Exception e)
+            {
+
+            }
+        }
+
 
         holder.viewfruit_favourite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,19 +76,19 @@ public class SummerViewFruitAdapter extends RecyclerView.Adapter<SummerViewFruit
                 int id=temp.getFruit_id();
                 int val=temp.getFruit_favourite();
 
-                if(val==0)
+                SQLiteData sqLiteData=new SQLiteData(context);
+                boolean check=sqLiteData.checkInFavourite(GetUserId,arrayList.get(position).getFruit_id());
+                if(check==true)
                 {
-                    val=1;
-                    Toast.makeText(context, "Added To Favourite", Toast.LENGTH_SHORT).show();
-                    holder.viewfruit_favourite.setImageResource(R.drawable.favourite_red);
-                    interfaceData.Favourite_fruite(id,val);
-
+                    sqLiteData.removeinFavourite(GetUserId,arrayList.get(position).getFruit_id());
+                    Toast.makeText(context, "Removed from Favourites", Toast.LENGTH_SHORT).show();
+                    notifyDataSetChanged();
                 }
-                else {
-                    val=0;
-                    Toast.makeText(context, "Removed from Favourite", Toast.LENGTH_SHORT).show();
-                    holder.viewfruit_favourite.setImageResource(R.drawable.favourite_black);
-                    interfaceData.Favourite_fruite(id,val);
+                else
+                {
+                    sqLiteData.insertinFavourite(GetUserId,arrayList.get(position).getFruit_id());
+                    Toast.makeText(context, "Added to Favourites", Toast.LENGTH_SHORT).show();
+                    notifyDataSetChanged();
                 }
             }
         });

@@ -25,6 +25,7 @@ public class MostlyViewd extends AppCompatActivity implements InterfaceData {
     ShimmerFrameLayout shimmerFrameLayout;
     SQLiteData sqLiteData;
     Parcelable state;
+    String [] getPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class MostlyViewd extends AppCompatActivity implements InterfaceData {
         shimmerFrameLayout=findViewById(R.id.shimmer_mostlyviewd);
 
         shimmerFrameLayout.startShimmer();
+        getPhone=sqLiteData.getPhone();
 
 //        mostlyviewedfruits_rv.setLayoutManager(new LinearLayoutManager(this));
 //        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), this,this);
@@ -61,16 +63,21 @@ public class MostlyViewd extends AppCompatActivity implements InterfaceData {
     }
 
     @Override
-    public void Favourite_fruite(int id, int val) {
-        SQLiteData sqLiteData=new SQLiteData(this);
-        sqLiteData.favoutite_update(id,val);
-
-        Parcelable state=mostlyviewedfruits_rv.getLayoutManager().onSaveInstanceState();
-        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,this);
-        mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
-        mostlyviewedfruits_rv.getLayoutManager().onRestoreInstanceState(state);
+    public void Favourite_fruite(long id, int val) {
 
     }
+
+//    @Override
+//    public void Favourite_fruite(int id, int val) {
+//        SQLiteData sqLiteData=new SQLiteData(this);
+//        sqLiteData.favoutite_update(id,val);
+//
+//        Parcelable state=mostlyviewedfruits_rv.getLayoutManager().onSaveInstanceState();
+//        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,this, getPhone[0]);
+//        mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
+//        mostlyviewedfruits_rv.getLayoutManager().onRestoreInstanceState(state);
+//
+//    }
 
     @Override
     protected void onResume() {
@@ -94,13 +101,13 @@ public class MostlyViewd extends AppCompatActivity implements InterfaceData {
                    if(state==null)
                    {
                        mostlyviewedfruits_rv.setLayoutManager(new LinearLayoutManager(MostlyViewd.this));
-                       ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,MostlyViewd.this);
+                       ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,MostlyViewd.this, getPhone[0]);
                        mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
                    }
                    else
                    {
                        mostlyviewedfruits_rv.setLayoutManager(new LinearLayoutManager(MostlyViewd.this));
-                       ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,MostlyViewd.this);
+                       ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,MostlyViewd.this, getPhone[0]);
                        mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
                        mostlyviewedfruits_rv.getLayoutManager().onRestoreInstanceState(state);
                    }
@@ -113,7 +120,7 @@ public class MostlyViewd extends AppCompatActivity implements InterfaceData {
             shimmerFrameLayout.setVisibility(View.GONE);
             mostlyviewedfruits_rv.setVisibility(View.VISIBLE);
                 state=mostlyviewedfruits_rv.getLayoutManager().onSaveInstanceState();
-                ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,this);
+                ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), MostlyViewd.this,this, getPhone[0]);
                 mostlyviewedfruits_rv.setAdapter(viewFruitAdapter);
                 mostlyviewedfruits_rv.getLayoutManager().onRestoreInstanceState(state);
 

@@ -27,6 +27,7 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
     String seedless;
     ShimmerFrameLayout shimmerFrameLayout;
     Parcelable state;
+    String[] getPhone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,7 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
 
 
         SQLiteData sqLiteData=new SQLiteData(View_All_Category.this);
+        getPhone=sqLiteData.getPhone();
 
         view_fruit_actvity_recyclerview=findViewById(R.id.view_fruit_actvity_recyclerview);
 
@@ -76,101 +78,106 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
     }
 
     @Override
-    public void Favourite_fruite(int id, int val) {
-        SQLiteData sqLiteData=new SQLiteData(this);
-        sqLiteData.favoutite_update(id, val);
-
-//        Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
-//        viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), View_All_Category.this,this);
-//        view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
-//        viewFruitAdapter.notifyDataSetChanged();
-//        view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
-
-
-
-        if(apple!=null)
-        {
-
-                getSupportActionBar().setTitle("Apple");
-
-                state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
-                view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
-                viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getFruit(apple), View_All_Category.this, this);
-                view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
-                view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
-
-
-        }
-        if(mango!=null)
-        {
-            getSupportActionBar().setTitle("Mango");
-
-            state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
-            view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
-            viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getFruit(mango), View_All_Category.this, this);
-            view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
-            view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
-
-
-
-        }
-        if(berry!=null)
-        {
-
-            Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
-            getSupportActionBar().setTitle("Berries");
-            view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruit(berry),View_All_Category.this,this);
-            view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
-            view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
-
-        }
-        if(DryFruit!=null)
-        {
-            Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
-            getSupportActionBar().setTitle("DryFruit");
-            view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruit(DryFruit),View_All_Category.this,this);
-            view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
-            view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
-
-        }
-        if(banana!=null)
-        {
-            Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
-            getSupportActionBar().setTitle("Banana");
-            view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruit(banana),View_All_Category.this,this);
-            view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
-            view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
-
-        }
-        if(seedless!=null)
-        {
-            Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
-            getSupportActionBar().setTitle("Seedless Fruits");
-            view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruit(seedless),View_All_Category.this,this);
-            view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
-            view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
-
-        }
+    public void Favourite_fruite(long id, int val) {
 
     }
+
+//    @Override
+//    public void Favourite_fruite(int id, int val) {
+//        SQLiteData sqLiteData=new SQLiteData(this);
+//        sqLiteData.favoutite_update(id, val);
+//
+////        Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
+////        viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), View_All_Category.this,this);
+////        view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
+////        viewFruitAdapter.notifyDataSetChanged();
+////        view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
+//
+//
+//
+//        if(apple!=null)
+//        {
+//
+//                getSupportActionBar().setTitle("Apple");
+//
+//                state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
+//                view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+//                viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getFruit(apple), View_All_Category.this, this, getPhone[0]);
+//                view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
+//                view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
+//
+//
+//        }
+//        if(mango!=null)
+//        {
+//            getSupportActionBar().setTitle("Mango");
+//
+//            state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
+//            view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+//            viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getFruit(mango), View_All_Category.this, this, getPhone[0]);
+//            view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
+//            view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
+//
+//
+//
+//        }
+//        if(berry!=null)
+//        {
+//
+//            Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
+//            getSupportActionBar().setTitle("Berries");
+//            view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+//            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruit(berry),View_All_Category.this,this, getPhone[0]);
+//            view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
+//            view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
+//
+//        }
+//        if(DryFruit!=null)
+//        {
+//            Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
+//            getSupportActionBar().setTitle("DryFruit");
+//            view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+//            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruit(DryFruit),View_All_Category.this,this, getPhone[0]);
+//            view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
+//            view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
+//
+//        }
+//        if(banana!=null)
+//        {
+//            Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
+//            getSupportActionBar().setTitle("Banana");
+//            view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+//            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruit(banana),View_All_Category.this,this, getPhone[0]);
+//            view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
+//            view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
+//
+//        }
+//        if(seedless!=null)
+//        {
+//            Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
+//            getSupportActionBar().setTitle("Seedless Fruits");
+//            view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+//            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruit(seedless),View_All_Category.this,this, getPhone[0]);
+//            view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
+//            view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
+//
+//        }
+//
+//    }
 
     private void setdata(String fruitname) {
         SQLiteData sqLiteData=new SQLiteData(View_All_Category.this);
         if(state==null)
         {
             view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(View_All_Category.this));
-            viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getFruit(fruitname), View_All_Category.this, View_All_Category.this);
+            viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getFruit(fruitname), View_All_Category.this, View_All_Category.this, getPhone[0]);
             view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
 
         }
         else
         {
             view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(View_All_Category.this));
-            viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getFruit(fruitname), View_All_Category.this, View_All_Category.this);
+            viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getFruit(fruitname), View_All_Category.this, View_All_Category.this, getPhone[0]);
             view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
             view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
         }

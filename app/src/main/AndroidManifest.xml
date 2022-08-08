@@ -3,25 +3,30 @@
     package="com.example.orderfruit">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.OrderFruit">
+        <activity
+            android:name=".ViewCartNew"
+            android:exported="false" />
+        <activity
+            android:name=".Add_to_Cart"
+            android:exported="false" />
         <activity
             android:name=".order.Orderview"
             android:exported="true" />
         <activity
             android:name=".order.OrderHistory"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".cart.ViewCart"
             android:exported="true" />
@@ -30,15 +35,13 @@
             android:exported="true" />
         <activity
             android:name=".favourites.FavouriteListDisplay"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".summer.SummerViewFruit"
             android:exported="false" />
         <activity
             android:name=".viewmorefruits.ViewMoreFruits"
             android:exported="true" />
-
         <activity
             android:name=".viewfruit.FruitViewActivity"
             android:exported="true"
@@ -46,8 +49,7 @@
             android:theme="@style/Dashboard.Theme" />
         <activity
             android:name=".Categories.allcatagories.AllCatagoriesMain"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".Categories.allcatagories.View_All_Category"
             android:exported="true"
@@ -83,8 +85,7 @@
             android:exported="false" />
         <activity
             android:name=".Categories.seasonal.SeasonalFruits"
-            android:exported="false"
-             />
+            android:exported="false" />
         <activity
             android:name=".Categories.popular.PopularFruits"
             android:exported="false" />

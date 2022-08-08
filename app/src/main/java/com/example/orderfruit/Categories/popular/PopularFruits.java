@@ -25,6 +25,7 @@ public class PopularFruits extends AppCompatActivity implements InterfaceData {
     ShimmerFrameLayout shimmerFrameLayout;
     SQLiteData sqLiteData;
     Parcelable state = null;
+    String [] getPhone;
 
 
     @Override
@@ -44,7 +45,7 @@ public class PopularFruits extends AppCompatActivity implements InterfaceData {
 
         sqLiteData = new SQLiteData(this);
         shimmerFrameLayout.startShimmer();
-
+        getPhone=sqLiteData.getPhone();
 
     }
 
@@ -60,17 +61,22 @@ public class PopularFruits extends AppCompatActivity implements InterfaceData {
     }
 
     @Override
-    public void Favourite_fruite(int id, int val) {
-        SQLiteData sqLiteData = new SQLiteData(this);
-        sqLiteData.favoutite_update(id, val);
-
-
-        Parcelable state = popularfruits_rv.getLayoutManager().onSaveInstanceState();
-        ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, this);
-        popularfruits_rv.setAdapter(viewFruitAdapter);
-        popularfruits_rv.getLayoutManager().onRestoreInstanceState(state);
+    public void Favourite_fruite(long id, int val) {
 
     }
+
+//    @Override
+//    public void Favourite_fruite(int id, int val) {
+//        SQLiteData sqLiteData = new SQLiteData(this);
+//        sqLiteData.favoutite_update(id, val);
+//
+//
+//        Parcelable state = popularfruits_rv.getLayoutManager().onSaveInstanceState();
+//        ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, this, getPhone[0]);
+//        popularfruits_rv.setAdapter(viewFruitAdapter);
+//        popularfruits_rv.getLayoutManager().onRestoreInstanceState(state);
+
+    //}
 
     @Override
     protected void onResume() {
@@ -94,11 +100,11 @@ public class PopularFruits extends AppCompatActivity implements InterfaceData {
 
                     if (state == null) {
                         popularfruits_rv.setLayoutManager(new LinearLayoutManager(PopularFruits.this));
-                        ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, PopularFruits.this);
+                        ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, PopularFruits.this, getPhone[0]);
                         popularfruits_rv.setAdapter(viewFruitAdapter);
                     } else {
                         popularfruits_rv.setLayoutManager(new LinearLayoutManager(PopularFruits.this));
-                        ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, PopularFruits.this);
+                        ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, PopularFruits.this, getPhone[0]);
                         popularfruits_rv.setAdapter(viewFruitAdapter);
                         popularfruits_rv.getLayoutManager().onRestoreInstanceState(state);
                     }
@@ -114,7 +120,7 @@ public class PopularFruits extends AppCompatActivity implements InterfaceData {
 
             }
             popularfruits_rv.setLayoutManager(new LinearLayoutManager(PopularFruits.this));
-            ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, PopularFruits.this);
+            ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getSeasonSummer(), PopularFruits.this, PopularFruits.this, getPhone[0]);
             popularfruits_rv.setAdapter(viewFruitAdapter);
             popularfruits_rv.getLayoutManager().onRestoreInstanceState(state);
         }

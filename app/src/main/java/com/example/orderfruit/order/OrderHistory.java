@@ -8,14 +8,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.orderfruit.Dashboard_Activity;
 import com.example.orderfruit.R;
+import com.example.orderfruit.model.FruitData;
 import com.example.orderfruit.model.SQLiteData;
+
+import java.util.ArrayList;
 
 public class OrderHistory extends AppCompatActivity {
     RecyclerView orderhistory_rv;
@@ -43,8 +48,13 @@ public class OrderHistory extends AppCompatActivity {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
 
-        orderHistoryAdapter orderHistoryAdapter=new orderHistoryAdapter(sqLiteData.getHistory(),this);
-      if(sqLiteData.getHistory().isEmpty())
+
+
+      String [] getPhone=sqLiteData.getPhone();
+
+
+        orderHistoryAdapter orderHistoryAdapter=new orderHistoryAdapter(sqLiteData.getHistory(getPhone[0]),this);
+      if(sqLiteData.getHistory(getPhone[0]).isEmpty())
       {
           orderhistory_rv.setVisibility(View.GONE);
           orderhistory_noOrderLL.setVisibility(View.VISIBLE);

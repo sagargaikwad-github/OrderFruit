@@ -30,6 +30,7 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
     public String Season;
     LinearLayout linearLayout;
     ShimmerFrameLayout shimmerFrameLayout;
+    String[] getPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
 //
 //            }
 //        },2000);
+        SQLiteData sqLiteData=new SQLiteData(SeasonalFruits.this);
+        getPhone=sqLiteData.getPhone();
 
         shimmerFrameLayout.setVisibility(View.GONE);
         linearLayout.setVisibility(View.VISIBLE);
@@ -67,16 +70,18 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(aa);
         Seasonal_rv.setLayoutManager(new LinearLayoutManager(SeasonalFruits.this));
-        SQLiteData sqLiteData=new SQLiteData(getApplicationContext());
-        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), SeasonalFruits.this,SeasonalFruits.this);
+
+        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), SeasonalFruits.this,this, getPhone[0]);
         Seasonal_rv.setAdapter(viewFruitAdapter);
+
+
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         Season= String.valueOf(country[i]);
         getSupportActionBar().setTitle(Season);
-        SQLiteData sqLiteData=new SQLiteData(getApplicationContext());
+        SQLiteData sqLiteData=new SQLiteData(this);
 
                 if(i==0)
                 {
@@ -90,7 +95,7 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
                             linearLayout.setVisibility(View.VISIBLE);
                             shimmerFrameLayout.setVisibility(View.GONE);
                             Seasonal_rv.setLayoutManager(new LinearLayoutManager(SeasonalFruits.this));
-                            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), SeasonalFruits.this,SeasonalFruits.this);
+                            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), SeasonalFruits.this,SeasonalFruits.this, getPhone[0]);
                             Seasonal_rv.setAdapter(viewFruitAdapter);
                         }
                     },2000);
@@ -112,7 +117,7 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
                             linearLayout.setVisibility(View.VISIBLE);
                             shimmerFrameLayout.setVisibility(View.GONE);
                             Seasonal_rv.setLayoutManager(new LinearLayoutManager(SeasonalFruits.this));
-                            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SeasonalFruits.this,SeasonalFruits.this);
+                            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SeasonalFruits.this,SeasonalFruits.this, getPhone[0]);
                             Seasonal_rv.setAdapter(viewFruitAdapter);
                         }
                     },2000);
@@ -130,7 +135,7 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
                             shimmerFrameLayout.setVisibility(View.GONE);
 
                             Seasonal_rv.setLayoutManager(new LinearLayoutManager(SeasonalFruits.this));
-                            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), SeasonalFruits.this,SeasonalFruits.this);
+                            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), SeasonalFruits.this,SeasonalFruits.this, getPhone[0]);
                             Seasonal_rv.setAdapter(viewFruitAdapter);
                         }
                     },2000);
@@ -145,40 +150,45 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
 
     }
 
-
     @Override
-    public void Favourite_fruite(int id, int val) {
-        SQLiteData sqLiteData=new SQLiteData(this);
-        sqLiteData.favoutite_update(id,val);
-
-        String getSeason=Season;
-        if(getSeason=="Summer")
-        {
-            Parcelable state=Seasonal_rv.getLayoutManager().onSaveInstanceState();
-            sqLiteData.favoutite_update(id,val);
-            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), SeasonalFruits.this,this);
-            Seasonal_rv.setAdapter(viewFruitAdapter);
-            Seasonal_rv.getLayoutManager().onRestoreInstanceState(state);
-
-        }
-        else if(getSeason=="Monsoon")
-        {
-            Parcelable state=Seasonal_rv.getLayoutManager().onSaveInstanceState();
-            sqLiteData.favoutite_update(id,val);
-            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SeasonalFruits.this,this);
-            Seasonal_rv.setAdapter(viewFruitAdapter);
-            Seasonal_rv.getLayoutManager().onRestoreInstanceState(state);
-        }
-        else
-        {
-            Parcelable state=Seasonal_rv.getLayoutManager().onSaveInstanceState();
-            sqLiteData.favoutite_update(id,val);
-            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), SeasonalFruits.this,this);
-            Seasonal_rv.setAdapter(viewFruitAdapter);
-            Seasonal_rv.getLayoutManager().onRestoreInstanceState(state);
-        }
+    public void Favourite_fruite(long id, int val) {
 
     }
+
+
+//    @Override
+//    public void Favourite_fruite(int id, int val) {
+//        SQLiteData sqLiteData=new SQLiteData(this);
+//        sqLiteData.favoutite_update(id,val);
+//
+//        String getSeason=Season;
+//        if(getSeason=="Summer")
+//        {
+//            Parcelable state=Seasonal_rv.getLayoutManager().onSaveInstanceState();
+//            sqLiteData.favoutite_update(id,val);
+//            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), SeasonalFruits.this,this, getPhone[0]);
+//            Seasonal_rv.setAdapter(viewFruitAdapter);
+//            Seasonal_rv.getLayoutManager().onRestoreInstanceState(state);
+//
+//        }
+//        else if(getSeason=="Monsoon")
+//        {
+//            Parcelable state=Seasonal_rv.getLayoutManager().onSaveInstanceState();
+//            sqLiteData.favoutite_update(id,val);
+//            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SeasonalFruits.this,this, getPhone[0]);
+//            Seasonal_rv.setAdapter(viewFruitAdapter);
+//            Seasonal_rv.getLayoutManager().onRestoreInstanceState(state);
+//        }
+//        else
+//        {
+//            Parcelable state=Seasonal_rv.getLayoutManager().onSaveInstanceState();
+//            sqLiteData.favoutite_update(id,val);
+//            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), SeasonalFruits.this,this, getPhone[0]);
+//            Seasonal_rv.setAdapter(viewFruitAdapter);
+//            Seasonal_rv.getLayoutManager().onRestoreInstanceState(state);
+//        }
+//
+//    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
@@ -195,7 +205,7 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
         {
             Parcelable state=Seasonal_rv.getLayoutManager().onSaveInstanceState();
             Seasonal_rv.setLayoutManager(new LinearLayoutManager(this));
-            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), SeasonalFruits.this,this);
+            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonSummer(), SeasonalFruits.this,this, getPhone[0]);
             Seasonal_rv.setAdapter(viewFruitAdapter);
             Seasonal_rv.getLayoutManager().onRestoreInstanceState(state);
 
@@ -205,7 +215,7 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
         {
             Parcelable state=Seasonal_rv.getLayoutManager().onSaveInstanceState();
             Seasonal_rv.setLayoutManager(new LinearLayoutManager(this));
-            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SeasonalFruits.this,this);
+            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SeasonalFruits.this,this, getPhone[0]);
             Seasonal_rv.setAdapter(viewFruitAdapter);
             Seasonal_rv.getLayoutManager().onRestoreInstanceState(state);
 
@@ -215,7 +225,7 @@ public class SeasonalFruits extends AppCompatActivity implements InterfaceData, 
         {
             Parcelable state=Seasonal_rv.getLayoutManager().onSaveInstanceState();
             Seasonal_rv.setLayoutManager(new LinearLayoutManager(this));
-            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), SeasonalFruits.this,this);
+            ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getSeasonWinter(), SeasonalFruits.this,this, getPhone[0]);
             Seasonal_rv.setAdapter(viewFruitAdapter);
             Seasonal_rv.getLayoutManager().onRestoreInstanceState(state);
 

@@ -8,7 +8,8 @@ public interface InterfaceData {
 
     void onNothingSelected(AdapterView<?> adapterView);
 
-    void Favourite_fruite(int id, int val);
+    void Favourite_fruite(long id, int val);
+
 
 
 }

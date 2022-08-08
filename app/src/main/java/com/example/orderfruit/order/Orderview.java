@@ -53,16 +53,16 @@ public class Orderview extends AppCompatActivity {
         orderview_address.setText(arrayList.get(0).getOrderaddress());
         if(arrayList.get(0).getOrderphone2().isEmpty())
         {
-            orderview_phone.setText(arrayList.get(0).getOrderphone());
+            orderview_phone.setText("Phone : "+arrayList.get(0).getOrderphone());
         }
         else
         {
-            orderview_phone.setText(arrayList.get(0).getOrderphone()+"/"+arrayList.get(0).getOrderphone2());
+            orderview_phone.setText("Phone : "+arrayList.get(0).getOrderphone()+"/"+arrayList.get(0).getOrderphone2());
         }
 
         String Payment_Status=arrayList.get(0).getOrderstats();
-        if(Payment_Status.contains("Payment Sucessful"))
-            orderview_status.setText("Payment Status : Sucessful");
+        if(Payment_Status.contains("Payment Successful"))
+            orderview_status.setText("Payment Status : Successful");
         else
             orderview_status.setText("Payment Status : Failed");
 

@@ -28,12 +28,15 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
     ArrayList<FruitData> freshFruitDatalist;
     Context context;
     int favoutite;
+    String Phone;
     InterfaceData interfaceData;
 
-    public FreshFruitAdapter(ArrayList<FruitData> freshFruitData, Context context,InterfaceData interfaceData) {
+    public FreshFruitAdapter(ArrayList<FruitData> freshFruitData, Context context, InterfaceData interfaceData, String Phone) {
         this.freshFruitDatalist = freshFruitData;
         this.context = context;
         this.interfaceData=interfaceData;
+        this.Phone=Phone;
+
     }
 
     @NonNull
@@ -60,7 +63,11 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
         FruitData temp=freshFruitDatalist.get(position);
 
         favoutite=temp.getFruit_favourite();
-        if(favoutite==1)
+
+        SQLiteData sqLiteData=new SQLiteData(context);
+
+        boolean check=sqLiteData.checkInFavourite(Phone,freshFruitDatalist.get(position).getFruit_id());
+        if(check==true)
         {
             holder.fresh_Fruit_fav.setImageResource(R.drawable.favourite_red);
         }
@@ -78,25 +85,20 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
             @Override
             public void onClick(View view) {
                 SQLiteData sqLiteData=new SQLiteData(context);
-                int fav_fruit=temp.getFruit_favourite();
-                int fav_id=temp.getFruit_id();
-                if(fav_fruit==0)
+                boolean check=sqLiteData.checkInFavourite(Phone,freshFruitDatalist.get(position).getFruit_id());
+                if(check==true)
                 {
-                    fav_fruit=1;
-                    Toast.makeText(context, "Added To Favourite", Toast.LENGTH_SHORT).show();
-                    interfaceData.Favourite_fruite(fav_id,fav_fruit);
-
-
+                   sqLiteData.removeinFavourite(Phone,freshFruitDatalist.get(position).getFruit_id());
+                   Toast.makeText(context, "Removed from Favourites", Toast.LENGTH_SHORT).show();
+                   notifyDataSetChanged();
                 }
                 else
                 {
-                    fav_fruit=0;
-                    Toast.makeText(context, "Removed From Favourite", Toast.LENGTH_SHORT).show();
-                    interfaceData.Favourite_fruite(fav_id,fav_fruit);
-
-
-
+                    sqLiteData.insertinFavourite(Phone,freshFruitDatalist.get(position).getFruit_id());
+                    Toast.makeText(context, "Added to Favourites", Toast.LENGTH_SHORT).show();
+                    notifyDataSetChanged();
                 }
+
             }
         });
 
@@ -157,7 +159,7 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
                     intent.putExtra("FruitDesc2",freshFruitDatalist.get(position).getFruit_description2());
                     intent.putExtra("FruitDesc3",freshFruitDatalist.get(position).getFruit_description3());
                     intent.putExtra("FruitDesc4",freshFruitDatalist.get(position).getFruit_description4());
-                    intent.putExtra("FruitCart",freshFruitDatalist.get(position).getFruit_addtocart());
+                    //intent.putExtra("FruitCart",freshFruitDatalist.get(position).getFruit_addtocart());
                     intent.putExtra("FruitFav",freshFruitDatalist.get(position).getFruit_favourite());
                     context.startActivity(intent);
                 }

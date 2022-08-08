@@ -5,18 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-
-import com.example.orderfruit.R;
 
 import java.sql.Blob;
 import java.util.ArrayList;
 
 public class SQLiteData extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "OrderFruit.db";
-    public static final int DATABASE_VERSION = 17;
+    public static final int DATABASE_VERSION = 22;
 
 
     public SQLiteData(Context context) {
@@ -119,6 +114,11 @@ public class SQLiteData extends SQLiteOpenHelper {
 
 
         sqLiteDatabase.execSQL("create table order_history_1(order_id INTEGER PRIMARY KEY autoincrement,name text,address text,price text,phone text,phone2 text,order_status text,date text,quantity text,fruit_id text,fruit_weight text)");
+
+        sqLiteDatabase.execSQL("Create TABLE add_to_cart_new(mainid text,fruitid int,quantity int,price int,fruitname text)");
+
+        sqLiteDatabase.execSQL("create table favourite_fruits(userid text,fruitid int,favourite_status int)");
+
 
 
     }
@@ -225,7 +225,19 @@ public class SQLiteData extends SQLiteOpenHelper {
             case 17:
                 sqLiteDatabase.execSQL("DROP TABLE order_history_1");
                 sqLiteDatabase.execSQL("create table order_history_1(order_id INTEGER PRIMARY KEY autoincrement,name text,address text,price text,phone text,phone2 text,order_status text,date text,quantity text,fruit_id text,fruit_weight text)");
-
+            case 18:
+                sqLiteDatabase.execSQL("Create TABLE add_to_cart_new(mainid text primary key,fruitid text,quantity text,price text)");
+            case 19:
+                sqLiteDatabase.execSQL("DROP TABLE add_to_cart_new");
+                sqLiteDatabase.execSQL("Create TABLE add_to_cart_new(mainid text,fruitid INTEGER PRIMARY KEY autoincrement,quantity int,price int)");
+            case 20:
+                sqLiteDatabase.execSQL("DROP TABLE add_to_cart_new");
+                sqLiteDatabase.execSQL("Create TABLE add_to_cart_new(mainid text,fruitid INTEGER PRIMARY KEY autoincrement,quantity int,price int,fruitname text)");
+            case 21:
+                sqLiteDatabase.execSQL("DROP TABLE add_to_cart_new");
+                sqLiteDatabase.execSQL("Create TABLE add_to_cart_new(mainid text,fruitid int,quantity int,price int,fruitname text)");
+            case 22:
+                sqLiteDatabase.execSQL("create table favourite_fruits(userid text,fruitid int,favourite_status int)");
 
         }
 
@@ -534,6 +546,7 @@ public class SQLiteData extends SQLiteOpenHelper {
 
     }
 
+
     public ArrayList<FruitData> favourite_list() {
         ArrayList<FruitData> getfravourite = new ArrayList<>();
 
@@ -605,6 +618,13 @@ public class SQLiteData extends SQLiteOpenHelper {
         sqLiteDatabase.update("fruits_main", cv, "id=?", new String[]{String.valueOf(id)});
     }
 
+//    public void addtocart(int id, int num) {
+//        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+//        ContentValues cv = new ContentValues();
+//        cv.put("add_to_cart", num);
+//        sqLiteDatabase.update("fruits_main", cv, "id=?", new String[]{String.valueOf(id)});
+//    }
+
     public ArrayList<FruitData> get_cart_list() {
         ArrayList<FruitData> getcart = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -662,35 +682,63 @@ public class SQLiteData extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<orderHistoryData> getHistory() {
-        ArrayList<orderHistoryData> getlist = new ArrayList<>();
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        Cursor c = sqLiteDatabase.rawQuery("select * from order_history_1", null);
+//    public ArrayList<orderHistoryData> getHistory() {
+//        ArrayList<orderHistoryData> getlist = new ArrayList<>();
+//        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+//        Cursor c = sqLiteDatabase.rawQuery("select * from order_history_1", null);
+//
+//        if (c.moveToFirst()) {
+//            do {
+//                int order_id = c.getInt(0);
+//                String name = c.getString(1);
+//                String address = c.getString(2);
+//                String price = c.getString(3);
+//                String phone = c.getString(4);
+//                String phone2 = c.getString(5);
+//                String order_status = c.getString(6);
+//                String date = c.getString(7);
+//                String quantity = c.getString(8);
+//                String fruit_id = c.getString(9);
+//                String fruit_weight = c.getString(10);
+//
+//                getlist.add(new orderHistoryData(order_id, name, address, price, phone, phone2, order_status, date, quantity, fruit_id, fruit_weight));
+//            } while (c.moveToNext());
+//        } else {
+//
+//        }
+//
+//        return getlist;
+//
+//
+//    }
+public ArrayList<orderHistoryData> getHistory(String PHONE) {
+    ArrayList<orderHistoryData> getlist = new ArrayList<>();
+    SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+    Cursor c = sqLiteDatabase.rawQuery("select * from order_history_1 where phone="+PHONE,null);
+    if (c.moveToFirst()) {
+        do {
+            int order_id = c.getInt(0);
+            String name = c.getString(1);
+            String address = c.getString(2);
+            String price = c.getString(3);
+            String phone = c.getString(4);
+            String phone2 = c.getString(5);
+            String order_status = c.getString(6);
+            String date = c.getString(7);
+            String quantity = c.getString(8);
+            String fruit_id = c.getString(9);
+            String fruit_weight = c.getString(10);
 
-        if (c.moveToFirst()) {
-            do {
-                int order_id = c.getInt(0);
-                String name = c.getString(1);
-                String address = c.getString(2);
-                String price = c.getString(3);
-                String phone = c.getString(4);
-                String phone2 = c.getString(5);
-                String order_status = c.getString(6);
-                String date = c.getString(7);
-                String quantity = c.getString(8);
-                String fruit_id = c.getString(9);
-                String fruit_weight = c.getString(10);
-
-                getlist.add(new orderHistoryData(order_id, name, address, price, phone, phone2, order_status, date, quantity, fruit_id, fruit_weight));
-            } while (c.moveToNext());
-        } else {
-
-        }
-
-        return getlist;
-
+            getlist.add(new orderHistoryData(order_id, name, address, price, phone, phone2, order_status, date, quantity, fruit_id, fruit_weight));
+        } while (c.moveToNext());
+    } else {
 
     }
+
+    return getlist;
+
+
+}
 
     public ArrayList<orderHistoryData> getOrder(int num) {
         ArrayList<orderHistoryData> getlist = new ArrayList<>();
@@ -722,32 +770,35 @@ public class SQLiteData extends SQLiteOpenHelper {
 
     }
 
-
-
-        if (c.moveToFirst()) {
-            do {
-                int order_id = c.getInt(0);
-                String name = c.getString(1);
-                String address = c.getString(2);
-                String price = c.getString(3);
-                String phone = c.getString(4);
-                String phone2 = c.getString(5);
-                String order_status = c.getString(6);
-                String date = c.getString(7);
-                String quantity = c.getString(8);
-                String fruit_id = c.getString(9);
-                String fruit_weight = c.getString(10);
-
-                getlist.add(new orderHistoryData(order_id, name, address, price, phone, phone2, order_status, date, quantity, fruit_id, fruit_weight));
-            } while (c.moveToNext());
-        } else {
-
-        }
-
-        return getlist;
-
-
-    }
+//    public ArrayList<orderHistoryData> getOrder(int num) {
+//        ArrayList<orderHistoryData> getlist = new ArrayList<>();
+//        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+//        Cursor c = sqLiteDatabase.rawQuery("select * from order_history_1 where  phone=" + num, null);
+//
+//        if (c.moveToFirst()) {
+//            do {
+//                int order_id = c.getInt(0);
+//                String name = c.getString(1);
+//                String address = c.getString(2);
+//                String price = c.getString(3);
+//                String phone = c.getString(4);
+//                String phone2 = c.getString(5);
+//                String order_status = c.getString(6);
+//                String date = c.getString(7);
+//                String quantity = c.getString(8);
+//                String fruit_id = c.getString(9);
+//                String fruit_weight = c.getString(10);
+//
+//                getlist.add(new orderHistoryData(order_id, name, address, price, phone, phone2, order_status, date, quantity, fruit_id, fruit_weight));
+//            } while (c.moveToNext());
+//        } else {
+//
+//        }
+//
+//        return getlist;
+//
+//
+//    }
 
     public ArrayList<FruitData> getOrderData(String[] ids) {
         ArrayList<FruitData> getdata = new ArrayList<>();
@@ -850,4 +901,243 @@ public class SQLiteData extends SQLiteOpenHelper {
             }
 
     }
+
+    public String[] getPhone() {
+        String [] getPhone = new String[10];
+
+        SQLiteDatabase sqLiteData = this.getReadableDatabase();
+        String qry = "select * from registration where isLogin=1";
+        Cursor cursor = sqLiteData.rawQuery(qry, null);
+        if (cursor.moveToFirst()) {
+            do {
+                String phone = cursor.getString(1);
+                getPhone[0]=phone;
+            } while (cursor.moveToNext());
+        } else {
+
+
+        }
+        return getPhone;
+
+    }
+
+
+    public void addtocartNEW(String phoneid, int fruitid, int quantity, int price,String name) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        //cv.put("order_id",orderid);
+        cv.put("mainid", phoneid);
+        cv.put("fruitid", fruitid);
+        cv.put("price", price);
+        cv.put("quantity", quantity);
+        cv.put("fruitname", name);
+
+        sqLiteDatabase.insert("add_to_cart_new", null, cv);
+
+    }
+    public boolean findFruitId(int id,String Phone)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("Select * from add_to_cart_new where fruitid=? and mainid=?", new String[]{String.valueOf(id),Phone});
+        if (c.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void addtocart_new(int id, int num,String Phone) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("quantity", num);
+        //sqLiteDatabase.update("add_to_cart_new", cv, "fruitid="+id, " mainid="+Phone);
+        sqLiteDatabase.update("add_to_cart_new",cv,"fruitid=? and mainid=?",new String[]{String.valueOf(id),Phone});
+
+    }
+
+    public ArrayList<CartNew> getCart(String phoneid)
+    {
+        ArrayList<CartNew> getcartNew = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String qry = "select * from add_to_cart_new where quantity>0 and mainid="+phoneid ;
+        Cursor cursor = sqLiteDatabase.rawQuery(qry, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+
+                int fruit_id = cursor.getInt(1);
+                int fruit_quantity = cursor.getInt(2);
+                int fruit_price = cursor.getInt(3);
+                String fruit_name = cursor.getString(4);
+
+                getcartNew.add(new CartNew(phoneid,fruit_name, fruit_id,fruit_quantity,fruit_price));
+            } while (cursor.moveToNext());
+        } else {
+
+        }
+
+        return getcartNew;
+    }
+
+    public String getCart(int id)
+    {
+        String getCart = null;
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String qry = "select * from add_to_cart_new where fruitid="+String.valueOf(id);
+        Cursor cursor = sqLiteDatabase.rawQuery(qry, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int fruit_quantity = cursor.getInt(2);
+
+                getCart=String.valueOf(fruit_quantity);
+            } while (cursor.moveToNext());
+        } else {
+
+        }
+        return getCart;
+    }
+    public void deleteCart(String getPhone)
+    {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String qry = "DELETE from add_to_cart_new where mainid="+getPhone;
+        sqLiteDatabase.execSQL(qry);
+    }
+
+    public String getCartForFruitView(int id,String Phone)
+    {
+        String getCart = null;
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String qry = "select * from add_to_cart_new where mainid="+String.valueOf(Phone)+" and fruitid="+id;
+        Cursor cursor = sqLiteDatabase.rawQuery(qry, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int fruit_quantity = cursor.getInt(2);
+
+                getCart=String.valueOf(fruit_quantity);
+            } while (cursor.moveToNext());
+        } else {
+
+        }
+        return getCart;
+    }
+    public void insertinFavourite(String Userid,int Fruitid)
+    {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put("userid", Userid);
+        cv.put("fruitid", Fruitid);
+        sqLiteDatabase.insert("favourite_fruits", null, cv);
+
+    }
+    public boolean checkInFavourite(String Userid,int Fruitid)
+    {
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor c = sqLiteDatabase.rawQuery("Select favourite_status from favourite_fruits where userid=? and fruitid=?", new String[]{Userid,String.valueOf(Fruitid)});
+
+        if(c.getCount()>0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void removeinFavourite(String Userid,int Fruitid)
+    {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String qry = "DELETE from favourite_fruits where userid="+Userid+ " and fruitid= "+Fruitid ;
+        sqLiteDatabase.execSQL(qry);
+
+    }
+
+//    public ArrayList<FavouriteData> Favourite_List(String Phone)
+//    {
+//        ArrayList<FavouriteData> arrayList=new ArrayList();
+//        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+//        String qry = "select * from favourite_fruits where userid="+Phone;
+//        Cursor cursor = sqLiteDatabase.rawQuery(qry, null);
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                String Userid=cursor.getString(0);
+//                String Fruitid=cursor.getString(1);
+//
+//                arrayList.add(new FavouriteData(Userid,Fruitid));
+//            } while (cursor.moveToNext());
+//        } else {
+//
+//        }
+//        return arrayList;
+//    }
+//    public ArrayList<FruitData> getInMainFruitList(String fruitid)
+//    {
+//        ArrayList<FruitData> arrayList=new ArrayList();
+//        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+//        String qry = "select * from fruits_main where id="+fruitid;
+//        Cursor cursor = sqLiteDatabase.rawQuery(qry, null);
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                int fruit_id = cursor.getInt(0);
+//                String fruit_name = cursor.getString(1);
+//                int fruit_price = cursor.getInt(2);
+//                int fruit_quantity = cursor.getInt(3);
+//                String fruit_description_1 = cursor.getString(4);
+//                String fruit_description_2 = cursor.getString(5);
+//                String fruit_description_3 = cursor.getString(6);
+//                String fruit_description_4 = cursor.getString(7);
+//                byte[] fruit_image = cursor.getBlob(8);
+//                int fruit_addtocart = cursor.getInt(9);
+//                int fruit_favourite = cursor.getInt(10);
+//                String fruit_category = cursor.getString(11);
+//                String fruit_season = cursor.getString(12);
+//
+//                arrayList.add(new FruitData(fruit_id, fruit_name,
+//                        fruit_price, fruit_quantity, fruit_description_1, fruit_description_2, fruit_description_3,
+//                        fruit_description_4, fruit_image, fruit_addtocart, fruit_favourite, fruit_category, fruit_season));
+//            } while (cursor.moveToNext());
+//        }
+//        return arrayList;
+//    }
+
+    public ArrayList<FruitData> getInMainFruitList(String Phone)
+    {
+        ArrayList<FruitData> arrayList=new ArrayList();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String qry = "select id,name,price,quantity,description1,description2,description3,description4,image,add_To_cart,favourite,category,season from fruits_main\n" +
+                "LEFT JOIN favourite_fruits on fruits_main.id=favourite_fruits.fruitid WHERE favourite_fruits.userid="+Phone;
+        Cursor cursor = sqLiteDatabase.rawQuery(qry, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int fruit_id = cursor.getInt(0);
+                String fruit_name = cursor.getString(1);
+                int fruit_price = cursor.getInt(2);
+                int fruit_quantity = cursor.getInt(3);
+                String fruit_description_1 = cursor.getString(4);
+                String fruit_description_2 = cursor.getString(5);
+                String fruit_description_3 = cursor.getString(6);
+                String fruit_description_4 = cursor.getString(7);
+                byte[] fruit_image = cursor.getBlob(8);
+                int fruit_addtocart = cursor.getInt(9);
+                int fruit_favourite = cursor.getInt(10);
+                String fruit_category = cursor.getString(11);
+                String fruit_season = cursor.getString(12);
+
+                arrayList.add(new FruitData(fruit_id, fruit_name,
+                        fruit_price, fruit_quantity, fruit_description_1, fruit_description_2, fruit_description_3,
+                        fruit_description_4, fruit_image, fruit_addtocart, fruit_favourite, fruit_category, fruit_season));
+            } while (cursor.moveToNext());
+        }
+        return arrayList;
+    }
+
+
+
+
+
+
 }

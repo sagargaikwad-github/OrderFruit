@@ -55,6 +55,8 @@ import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.orderfruit.Categories.todaysDeal.TodaysDeal;
 import com.example.orderfruit.Interface.InterfaceData;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
 import com.example.orderfruit.cart.ViewCart;
 import com.example.orderfruit.category.CategoryAdapter;
 import com.example.orderfruit.category.CategoryData;
@@ -79,6 +81,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Dashboard_Activity extends AppCompatActivity implements InterfaceData, NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;
@@ -110,6 +113,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
     Parcelable state = null;
     Parcelable state1 = null;
     NestedScrollView nestedScrollView;
+    CommonDB commonDB;
 
     @SuppressLint("WrongThread")
     @Override
@@ -133,6 +137,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
         nestedScrollView = findViewById(R.id.nestedscrollview);
         shimmerFrameLayout = findViewById(R.id.shimmer_dashboard);
 
+        commonDB = CommonDB.getDB(this);
 
         if (isOnline(getApplicationContext())) {
             shimmerFrameLayout.startShimmer();
@@ -235,7 +240,6 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
             public void onClick(View view) {
                 Intent intent1 = new Intent(Dashboard_Activity.this, ViewMoreFruits.class);
                 startActivity(intent1);
-
             }
         });
 
@@ -300,8 +304,11 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 //
 //        }
 
-        ArrayList<FruitData> getFruit = sqLiteData.getFruitMain();
+        // ArrayList<FruitData> getFruit = sqLiteData.getFruitMain();
+        List<FruitDataModel> getFruit = commonDB.fruitDataDAO().getAllFruits();
+
         String[] Fruits = new String[getFruit.size()];
+
         for (int j = 0; j < getFruit.size(); j++) {
             Fruits[j] = getFruit.get(j).getFruit_name();
         }
@@ -316,7 +323,9 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                 String getdata = (String) adapterView.getItemAtPosition(i);
 
                 SQLiteData sqLiteData1 = new SQLiteData(Dashboard_Activity.this);
-                ArrayList<FruitData> arrayList = sqLiteData1.getFromSearch(getdata);
+                // ArrayList<FruitData> arrayList = sqLiteData1.getFromSearch(getdata);
+                List<FruitDataModel> arrayList = commonDB.fruitDataDAO().getFromSearch(getdata);
+
                 Intent intent = new Intent(Dashboard_Activity.this, FruitViewActivity.class);
                 intent.putExtra("FruitID", arrayList.get(0).getFruit_id());
                 intent.putExtra("FruitName", arrayList.get(0).getFruit_name());
@@ -423,8 +432,9 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
     protected void onResume() {
         super.onResume();
 
-            SQLiteData sqLiteData = new SQLiteData(this);
-            String[] getPhone = sqLiteData.getPhone();
+        SQLiteData sqLiteData = new SQLiteData(this);
+        //String[] getPhone = sqLiteData.getPhone();
+        String getPhone = commonDB.registrationDAO().getPhone();
 
         if (isOnline(getApplicationContext())) {
             if (shimmerFrameLayout.isShimmerStarted()) {
@@ -444,7 +454,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                             dashboard_recyclerview.setAdapter(categoryAdapter);
 
                             fresh_fruit_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this));
-                            freshFruitAdapter = new FreshFruitAdapter(sqLiteData.getFruitMain(), Dashboard_Activity.this, Dashboard_Activity.this, getPhone[0]);
+                            freshFruitAdapter = new FreshFruitAdapter(commonDB.fruitDataDAO().getAllFruits(), Dashboard_Activity.this, Dashboard_Activity.this, getPhone);
                             fresh_fruit_recyclerview.setAdapter(freshFruitAdapter);
                             fresh_fruit_recyclerview.getLayoutManager().onRestoreInstanceState(state);
 
@@ -453,34 +463,32 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                             if (monthNumber == 1 || monthNumber == 2 || monthNumber == 11 || monthNumber == 12) {
                                 you_may_also_like_tv.setText("Fun in The Sun");
                                 you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
-                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonSummer(), Dashboard_Activity.this);
+                                summerRecyclerAdapter = new summerRecyclerAdapter(commonDB.fruitDataDAO().getSeasonSummer(), Dashboard_Activity.this);
                                 you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
 
                             } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
                                 you_may_also_like_tv.setText("Monsoon Check");
                                 you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
-                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonMonsoon(), Dashboard_Activity.this);
+                                summerRecyclerAdapter = new summerRecyclerAdapter(commonDB.fruitDataDAO().getSeasonMonsoon(), Dashboard_Activity.this);
                                 you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
 
                             } else {
                                 you_may_also_like_tv.setText("Thandi Hai Boht");
                                 //  Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
                                 you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
-                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonWinter(), Dashboard_Activity.this);
+                                summerRecyclerAdapter = new summerRecyclerAdapter(commonDB.fruitDataDAO().getSeasonWinter(), Dashboard_Activity.this);
                                 you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
                                 // you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
 
                             }
 
-                        }
-                        else
-                        {
+                        } else {
                             dashboard_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
                             categoryAdapter = new CategoryAdapter(category, Dashboard_Activity.this);
                             dashboard_recyclerview.setAdapter(categoryAdapter);
 
                             fresh_fruit_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this));
-                            freshFruitAdapter = new FreshFruitAdapter(sqLiteData.getFruitMain(), Dashboard_Activity.this, Dashboard_Activity.this, getPhone[0]);
+                            freshFruitAdapter = new FreshFruitAdapter(commonDB.fruitDataDAO().getAllFruits(), Dashboard_Activity.this, Dashboard_Activity.this, getPhone);
                             fresh_fruit_recyclerview.setAdapter(freshFruitAdapter);
                             fresh_fruit_recyclerview.getLayoutManager().onRestoreInstanceState(state);
 
@@ -489,20 +497,20 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                             if (monthNumber == 1 || monthNumber == 2 || monthNumber == 11 || monthNumber == 12) {
                                 you_may_also_like_tv.setText("Fun in The Sun");
                                 you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
-                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonSummer(), Dashboard_Activity.this);
+                                summerRecyclerAdapter = new summerRecyclerAdapter(commonDB.fruitDataDAO().getSeasonSummer(), Dashboard_Activity.this);
                                 you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
 
                             } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
                                 you_may_also_like_tv.setText("Monsoon Check");
                                 you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
-                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonMonsoon(), Dashboard_Activity.this);
+                                summerRecyclerAdapter = new summerRecyclerAdapter(commonDB.fruitDataDAO().getSeasonMonsoon(), Dashboard_Activity.this);
                                 you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
 
                             } else {
                                 you_may_also_like_tv.setText("Thandi Hai Boht");
                                 //  Parcelable state1 = you_may_like_recyclerview.getLayoutManager().onSaveInstanceState();
                                 you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
-                                summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonWinter(), Dashboard_Activity.this);
+                                summerRecyclerAdapter = new summerRecyclerAdapter(commonDB.fruitDataDAO().getSeasonWinter(), Dashboard_Activity.this);
                                 you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
                                 // you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
 
@@ -511,7 +519,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                     }
                 }, 2000);
 
-            }else {
+            } else {
                 shimmerFrameLayout.stopShimmer();
                 drawerLayout.setVisibility(View.VISIBLE);
                 shimmerFrameLayout.setVisibility(View.GONE);
@@ -528,7 +536,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                 dashboard_recyclerview.setAdapter(categoryAdapter);
 
                 fresh_fruit_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this));
-                freshFruitAdapter = new FreshFruitAdapter(sqLiteData.getFruitMain(), Dashboard_Activity.this, Dashboard_Activity.this, getPhone[0]);
+                freshFruitAdapter = new FreshFruitAdapter(commonDB.fruitDataDAO().getAllFruits(), Dashboard_Activity.this, Dashboard_Activity.this, getPhone);
                 fresh_fruit_recyclerview.setAdapter(freshFruitAdapter);
                 try {
                     fresh_fruit_recyclerview.getLayoutManager().onRestoreInstanceState(state);
@@ -542,19 +550,19 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                     you_may_also_like_tv.setText("Fun in The Sun");
                     you_may_like_recyclerview = findViewById(R.id.you_may_like_recyclerview);
                     you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
-                    summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonSummer(), Dashboard_Activity.this);
+                    summerRecyclerAdapter = new summerRecyclerAdapter(commonDB.fruitDataDAO().getSeasonSummer(), Dashboard_Activity.this);
                     you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
                     you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
                 } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
                     you_may_also_like_tv.setText("Monsoon Check");
                     you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
-                    summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonMonsoon(), Dashboard_Activity.this);
+                    summerRecyclerAdapter = new summerRecyclerAdapter(commonDB.fruitDataDAO().getSeasonMonsoon(), Dashboard_Activity.this);
                     you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
                     you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
                 } else {
                     you_may_also_like_tv.setText("Thandi Hai Boht");
                     you_may_like_recyclerview.setLayoutManager(new LinearLayoutManager(Dashboard_Activity.this, LinearLayoutManager.HORIZONTAL, false));
-                    summerRecyclerAdapter = new summerRecyclerAdapter(sqLiteData.getSeasonWinter(), Dashboard_Activity.this);
+                    summerRecyclerAdapter = new summerRecyclerAdapter(commonDB.fruitDataDAO().getSeasonWinter(), Dashboard_Activity.this);
                     you_may_like_recyclerview.setAdapter(summerRecyclerAdapter);
                     you_may_like_recyclerview.getLayoutManager().onRestoreInstanceState(state1);
 
@@ -563,7 +571,6 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
             }
 
         }
-
 
 
 //                Cursor headerdata = sqLiteData.headerData();
@@ -606,243 +613,244 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 //                }
 
 
-            nav_view = findViewById(R.id.dashboard_navigation_view);
-            View viewheader = nav_view.getHeaderView(0);
-            Nav_name = viewheader.findViewById(R.id.nav_header_name_tv);
-            Nav_phone = viewheader.findViewById(R.id.nav_header_phone_tv);
-            Nav_profile = viewheader.findViewById(R.id.nav_header_profile_iv);
+        nav_view = findViewById(R.id.dashboard_navigation_view);
+        View viewheader = nav_view.getHeaderView(0);
+        Nav_name = viewheader.findViewById(R.id.nav_header_name_tv);
+        Nav_phone = viewheader.findViewById(R.id.nav_header_phone_tv);
+        Nav_profile = viewheader.findViewById(R.id.nav_header_profile_iv);
 
-            Nav_camera = viewheader.findViewById(R.id.fab_btn);
+        Nav_camera = viewheader.findViewById(R.id.fab_btn);
 
-            Cursor headerdata = sqLiteData.headerData();
-            if (headerdata != null) {
-                if (headerdata.moveToFirst()) {
-                    do {
-                        String name = headerdata.getString(0);
-                        String phone = headerdata.getString(1);
+        Cursor headerdata = sqLiteData.headerData();
+        if (headerdata != null) {
+            if (headerdata.moveToFirst()) {
+                do {
+                    String name = headerdata.getString(0);
+                    String phone = headerdata.getString(1);
 
-                        byte[] blob = headerdata.getBlob(8);
+                    byte[] blob = headerdata.getBlob(8);
 
-                        if (blob != null) {
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-                            Nav_profile.setImageBitmap(bitmap);
-                        }
+                    if (blob != null) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+                        Nav_profile.setImageBitmap(bitmap);
+                    }
 
 
-                        Nav_name.setText(name);
-                        Nav_phone.setText(phone);
-                        Nav_camera.setOnClickListener(new View.OnClickListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.M)
-                            @Override
-                            public void onClick(View view) {
-                                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-                                } else {
-                                    Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                    startActivityForResult(gallartintent, 1);
-                                }
+                    Nav_name.setText(name);
+                    Nav_phone.setText(phone);
+                    Nav_camera.setOnClickListener(new View.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.M)
+                        @Override
+                        public void onClick(View view) {
+                            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                            } else {
+                                Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(gallartintent, 1);
                             }
-                        });
-                    } while (headerdata.moveToNext());
+                        }
+                    });
+                } while (headerdata.moveToNext());
+
+            }
+        } else {
+            getConn();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_favourite:
+                Intent intent1 = new Intent(this, FavouriteListDisplay.class);
+                startActivity(intent1);
+                break;
+            case R.id.nav_cart:
+                Intent intent2 = new Intent(this, ViewCart.class);
+                startActivity(intent2);
+                break;
+            case R.id.nav_orders:
+                Intent intent = new Intent(this, OrderHistory.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_share:
+                try {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Order Fruit");
+                    String shareMessage = "\nLet me recommend you this application\n\n";
+
+                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.phonepe.app&hl=en";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, "Share Via"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.nav_profile:
+                Intent intent4 = new Intent(this, UserProfile.class);
+                SQLiteData sqLiteData = new SQLiteData(this);
+                Cursor headerdata = sqLiteData.headerData();
+                if (headerdata != null) {
+                    if (headerdata.moveToFirst()) {
+                        do {
+                            String name = headerdata.getString(0);
+                            String phone = headerdata.getString(1);
+                            String address1 = headerdata.getString(4);
+                            String address2 = headerdata.getString(5);
+                            intent4.putExtra("User_Name", name);
+                            intent4.putExtra("User_Phone", phone);
+                            intent4.putExtra("User_Address", address1);
+                            intent4.putExtra("User_Address2", address2);
+                        } while (headerdata.moveToNext());
+                    }
+                } else {
 
                 }
-            }
-            else
-            {
-                getConn();
-            }
-        }
+                startActivity(intent4);
+                break;
+            case R.id.nav_logout:
+                SharedPreferences sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
 
-        @Override
-        public boolean onNavigationItemSelected (@NonNull MenuItem item){
-            switch (item.getItemId()) {
-                case R.id.nav_favourite:
-                    Intent intent1 = new Intent(this, FavouriteListDisplay.class);
-                    startActivity(intent1);
-                    break;
-                case R.id.nav_cart:
-                    Intent intent2 = new Intent(this, ViewCart.class);
-                    startActivity(intent2);
-                    break;
-                case R.id.nav_orders:
-                    Intent intent = new Intent(this, OrderHistory.class);
-                    startActivity(intent);
-                    break;
-                case R.id.nav_share:
-                    try {
-                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                        shareIntent.setType("text/plain");
-                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Order Fruit");
-                        String shareMessage = "\nLet me recommend you this application\n\n";
+                Toast.makeText(Dashboard_Activity.this, "Logout Succesful", Toast.LENGTH_SHORT).show();
+                Intent intent5 = new Intent(Dashboard_Activity.this, User_Login_Activity.class);
+                startActivity(intent5);
 
-                        shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=com.phonepe.app&hl=en";
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                        startActivity(Intent.createChooser(shareIntent, "Share Via"));
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                SQLiteData sqLiteData1 = new SQLiteData(Dashboard_Activity.this);
+                Cursor headerdata1 = sqLiteData1.headerData();
+                if (headerdata1 != null) {
+                    if (headerdata1.moveToFirst()) {
+                        do {
+                            String phone = headerdata1.getString(1);
+                            sqLiteData1.UpdateLogin(phone, 0);
+                        } while (headerdata1.moveToNext());
                     }
-                    break;
-                case R.id.nav_profile:
-                    Intent intent4 = new Intent(this, UserProfile.class);
-                    SQLiteData sqLiteData = new SQLiteData(this);
-                    Cursor headerdata = sqLiteData.headerData();
-                    if (headerdata != null) {
-                        if (headerdata.moveToFirst()) {
-                            do {
-                                String name = headerdata.getString(0);
-                                String phone = headerdata.getString(1);
-                                String address1 = headerdata.getString(4);
-                                String address2 = headerdata.getString(5);
-                                intent4.putExtra("User_Name", name);
-                                intent4.putExtra("User_Phone", phone);
-                                intent4.putExtra("User_Address", address1);
-                                intent4.putExtra("User_Address2", address2);
-                            } while (headerdata.moveToNext());
-                        }
-                    } else {
+                } else {
 
-                    }
-                    startActivity(intent4);
-                    break;
-                case R.id.nav_logout:
-                    SharedPreferences sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.clear();
-                    editor.apply();
+                }
+                break;
 
-                    Toast.makeText(Dashboard_Activity.this, "Logout Succesful", Toast.LENGTH_SHORT).show();
-                    Intent intent5 = new Intent(Dashboard_Activity.this, User_Login_Activity.class);
-                    startActivity(intent5);
-
-                    SQLiteData sqLiteData1 = new SQLiteData(Dashboard_Activity.this);
-                    Cursor headerdata1 = sqLiteData1.headerData();
-                    if (headerdata1 != null) {
-                        if (headerdata1.moveToFirst()) {
-                            do {
-                                String phone = headerdata1.getString(1);
-                                sqLiteData1.UpdateLogin(phone, 0);
-                            } while (headerdata1.moveToNext());
-                        }
-                    } else {
-
-                    }
-                    break;
-
-                case R.id.nav_home1:
-                    onResume();
-                    break;
-            }
-
-
-            drawerLayout.closeDrawer(GravityCompat.START);
-            return true;
-
+            case R.id.nav_home1:
+                onResume();
+                break;
         }
 
 
-        private boolean isOnline (Context context){
-            try {
-                ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
 
-                //should check null because in airplane mode it will be null
-                return (netInfo != null && netInfo.isConnected());
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                return false;
-            }
+    }
 
+
+    private boolean isOnline(Context context) {
+        try {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+            //should check null because in airplane mode it will be null
+            return (netInfo != null && netInfo.isConnected());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return false;
         }
-        @Override
-        public void onRequestPermissionsResult ( int requestCode, String[] permissions,
-        @NonNull int[] grantResults){
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            switch (requestCode) {
-                case 1:
-                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(galleryIntent, 1);
-                    } else {
-                        Toast.makeText(Dashboard_Activity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-            }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(galleryIntent, 1);
+                } else {
+                    Toast.makeText(Dashboard_Activity.this, "Storage Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
-        @Override
-        protected void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data){
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
 //            Uri selectedImage = data.getData();
 //            UserProfile_IV.setImageURI(selectedImage);
 
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                if (selectedImage != null) {
-                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                    if (cursor != null) {
-                        cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String picturePath = cursor.getString(columnIndex);
-                        Bitmap bv = (BitmapFactory.decodeFile(picturePath));
-                        cursor.close();
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            if (selectedImage != null) {
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                if (cursor != null) {
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    Bitmap bv = (BitmapFactory.decodeFile(picturePath));
+                    cursor.close();
 
 
-                        //UserProfile_IV.setImageBitmap(bv);
+                    //UserProfile_IV.setImageBitmap(bv);
 
 
-                        //Handling Image Rotation
-                        Bitmap myBitmap = BitmapFactory.decodeFile(picturePath);
-                        ExifInterface exif = null;
-                        try {
-                            exif = new ExifInterface(picturePath);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-                        int rotationInDegrees = exifToDegrees(rotation);
-                        int deg = rotationInDegrees;
-                        Matrix matrix = new Matrix();
-                        if (rotation != 0f) {
-                            matrix.preRotate(rotationInDegrees);
-                            myBitmap = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true);
-
-                        }
-
-                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        myBitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
-                        byte[] img1 = byteArrayOutputStream.toByteArray();
-
-                        SQLiteData sqlIteData = new SQLiteData(Dashboard_Activity.this);
-                        sqlIteData.addProfilePic(img1, Nav_phone.getText().toString());
-                        Toast.makeText(Dashboard_Activity.this, "Profile Picture Updated", Toast.LENGTH_SHORT).show();
-
-
-                        Cursor res = sqlIteData.search(Nav_phone.getText().toString());
-                        if (res.moveToFirst()) {
-                            do {
-                                byte[] bytes = res.getBlob(8);
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                Nav_profile.setImageBitmap(bitmap);
-                            } while (res.moveToNext());
-                        } else {
-                            Toast.makeText(Dashboard_Activity.this, "Data Not Found", Toast.LENGTH_SHORT).show();
-                        }
+                    //Handling Image Rotation
+                    Bitmap myBitmap = BitmapFactory.decodeFile(picturePath);
+                    ExifInterface exif = null;
+                    try {
+                        exif = new ExifInterface(picturePath);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                    int rotationInDegrees = exifToDegrees(rotation);
+                    int deg = rotationInDegrees;
+                    Matrix matrix = new Matrix();
+                    if (rotation != 0f) {
+                        matrix.preRotate(rotationInDegrees);
+                        myBitmap = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true);
 
                     }
+
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    myBitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
+                    byte[] img1 = byteArrayOutputStream.toByteArray();
+
+                    SQLiteData sqlIteData = new SQLiteData(Dashboard_Activity.this);
+                    sqlIteData.addProfilePic(img1, Nav_phone.getText().toString());
+                    Toast.makeText(Dashboard_Activity.this, "Profile Picture Updated", Toast.LENGTH_SHORT).show();
+
+
+                    Cursor res = sqlIteData.search(Nav_phone.getText().toString());
+                    if (res.moveToFirst()) {
+                        do {
+                            byte[] bytes = res.getBlob(8);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            Nav_profile.setImageBitmap(bitmap);
+                        } while (res.moveToNext());
+                    } else {
+                        Toast.makeText(Dashboard_Activity.this, "Data Not Found", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         }
-        private static int exifToDegrees ( int exifOrientation){
-            if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
-                return 90;
-            } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
-                return 180;
-            } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
-                return 270;
-            }
-            return 0;
-        }
-
-
     }
+
+    private static int exifToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            return 90;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            return 180;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            return 270;
+        }
+        return 0;
+    }
+
+
+}
 

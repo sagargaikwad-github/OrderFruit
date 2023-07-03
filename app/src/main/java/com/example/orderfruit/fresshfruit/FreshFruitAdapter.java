@@ -17,66 +17,69 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.FavouriteFruits.FavouriteModel;
+import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.FruitViewActivity;
 import com.example.orderfruit.model.FruitData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.holder> {
 
-    ArrayList<FruitData> freshFruitDatalist;
+    List<FruitDataModel> freshFruitDatalist;
     Context context;
     int favoutite;
     String Phone;
     InterfaceData interfaceData;
+    CommonDB commonDB;
 
-    public FreshFruitAdapter(ArrayList<FruitData> freshFruitData, Context context, InterfaceData interfaceData, String Phone) {
+    public FreshFruitAdapter(List<FruitDataModel> freshFruitData, Context context, InterfaceData interfaceData, String Phone) {
         this.freshFruitDatalist = freshFruitData;
         this.context = context;
-        this.interfaceData=interfaceData;
-        this.Phone=Phone;
+        this.interfaceData = interfaceData;
+        this.Phone = Phone;
 
     }
 
     @NonNull
     @Override
     public holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-        View view=inflater.inflate(R.layout.allfruits_item,parent,false);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.allfruits_item, parent, false);
         return new holder(view);
     }
 
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull holder holder, @SuppressLint("RecyclerView") int position) {
+        commonDB = CommonDB.getDB(context);
+
         holder.fresh_fruit_name.setText(freshFruitDatalist.get(position).getFruit_name());
-        if(freshFruitDatalist.get(position).getFruit_name().contains("Coconuts"))
-        {
-            holder.fresh_Fruit_price.setText(String.valueOf("₹"+freshFruitDatalist.get(position).getFruit_price())+" /piece");
-        }
-       else
-        {
-            holder.fresh_Fruit_price.setText(String.valueOf("₹"+freshFruitDatalist.get(position).getFruit_price())+" /kg");
+        if (freshFruitDatalist.get(position).getFruit_name().contains("Coconuts")) {
+            holder.fresh_Fruit_price.setText(String.valueOf("₹" + freshFruitDatalist.get(position).getFruit_price()) + " /piece");
+        } else {
+            holder.fresh_Fruit_price.setText(String.valueOf("₹" + freshFruitDatalist.get(position).getFruit_price()) + " /kg");
         }
 
-        FruitData temp=freshFruitDatalist.get(position);
+        FruitDataModel temp = freshFruitDatalist.get(position);
+        favoutite = temp.getFruit_favourite();
 
-        favoutite=temp.getFruit_favourite();
+        // FruitData temp=freshFruitDatalist.get(position);
+        // favoutite=temp.getFruit_favourite();
 
-        SQLiteData sqLiteData=new SQLiteData(context);
+        //   SQLiteData sqLiteData=new SQLiteData(context);
 
-        boolean check=sqLiteData.checkInFavourite(Phone,freshFruitDatalist.get(position).getFruit_id());
-        if(check==true)
-        {
+
+        boolean check = commonDB.favouriteDAO().checkInFavourite(Phone,freshFruitDatalist.get(position).getFruit_id());
+        if (check == true) {
             holder.fresh_Fruit_fav.setImageResource(R.drawable.favourite_red);
-        }
-        else
-        {
+        } else {
             try {
                 holder.fresh_Fruit_fav.setImageResource(R.drawable.favourite_black);
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
         }
@@ -84,17 +87,14 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
         holder.fresh_Fruit_fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLiteData sqLiteData=new SQLiteData(context);
-                boolean check=sqLiteData.checkInFavourite(Phone,freshFruitDatalist.get(position).getFruit_id());
-                if(check==true)
-                {
-                   sqLiteData.removeinFavourite(Phone,freshFruitDatalist.get(position).getFruit_id());
-                   Toast.makeText(context, "Removed from Favourites", Toast.LENGTH_SHORT).show();
-                   notifyDataSetChanged();
-                }
-                else
-                {
-                    sqLiteData.insertinFavourite(Phone,freshFruitDatalist.get(position).getFruit_id());
+                //SQLiteData sqLiteData = new SQLiteData(context);
+                boolean check = commonDB.favouriteDAO().checkInFavourite(Phone, freshFruitDatalist.get(position).getFruit_id());
+                if (check == true) {
+                    commonDB.favouriteDAO().removeinFavourite(Phone, freshFruitDatalist.get(position).getFruit_id());
+                    Toast.makeText(context, "Removed from Favourites", Toast.LENGTH_SHORT).show();
+                    notifyDataSetChanged();
+                } else {
+                    commonDB.favouriteDAO().insertinFavourite(Phone, freshFruitDatalist.get(position).getFruit_id());
                     Toast.makeText(context, "Added to Favourites", Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
                 }
@@ -102,10 +102,9 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
             }
         });
 
-        switch (position)
-        {
+        switch (position) {
             case 0:
-                 Glide.with(context).load("https://media.istockphoto.com/photos/red-apple-picture-id184276818?k=20&m=184276818&s=612x612&w=0&h=QxOcueqAUVTdiJ7DVoCu-BkNCIuwliPEgtAQhgvBA_g=").into(holder.fresh_fruit_image);
+                Glide.with(context).load("https://media.istockphoto.com/photos/red-apple-picture-id184276818?k=20&m=184276818&s=612x612&w=0&h=QxOcueqAUVTdiJ7DVoCu-BkNCIuwliPEgtAQhgvBA_g=").into(holder.fresh_fruit_image);
                 break;
             case 1:
                 Glide.with(context).load("https://www.gardeningknowhow.com/wp-content/uploads/2021/05/whole-and-slices-watermelon.jpg").into(holder.fresh_fruit_image);
@@ -149,18 +148,17 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(freshFruitDatalist.get(position)!=null)
-                {
-                    Intent intent=new Intent(context, FruitViewActivity.class);
-                    intent.putExtra("FruitID",freshFruitDatalist.get(position).getFruit_id());
-                    intent.putExtra("FruitName",freshFruitDatalist.get(position).getFruit_name());
-                    intent.putExtra("FruitPrice",freshFruitDatalist.get(position).getFruit_price());
-                    intent.putExtra("FruitDesc1",freshFruitDatalist.get(position).getFruit_description1());
-                    intent.putExtra("FruitDesc2",freshFruitDatalist.get(position).getFruit_description2());
-                    intent.putExtra("FruitDesc3",freshFruitDatalist.get(position).getFruit_description3());
-                    intent.putExtra("FruitDesc4",freshFruitDatalist.get(position).getFruit_description4());
+                if (freshFruitDatalist.get(position) != null) {
+                    Intent intent = new Intent(context, FruitViewActivity.class);
+                    intent.putExtra("FruitID", freshFruitDatalist.get(position).getFruit_id());
+                    intent.putExtra("FruitName", freshFruitDatalist.get(position).getFruit_name());
+                    intent.putExtra("FruitPrice", freshFruitDatalist.get(position).getFruit_price());
+                    intent.putExtra("FruitDesc1", freshFruitDatalist.get(position).getFruit_description1());
+                    intent.putExtra("FruitDesc2", freshFruitDatalist.get(position).getFruit_description2());
+                    intent.putExtra("FruitDesc3", freshFruitDatalist.get(position).getFruit_description3());
+                    intent.putExtra("FruitDesc4", freshFruitDatalist.get(position).getFruit_description4());
                     //intent.putExtra("FruitCart",freshFruitDatalist.get(position).getFruit_addtocart());
-                    intent.putExtra("FruitFav",freshFruitDatalist.get(position).getFruit_favourite());
+                    intent.putExtra("FruitFav", freshFruitDatalist.get(position).getFruit_favourite());
                     context.startActivity(intent);
                 }
             }
@@ -170,8 +168,7 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
 
     @Override
     public void onViewAttachedToWindow(@NonNull holder holder) {
-        switch (freshFruitDatalist.get(holder.getAdapterPosition()).getFruit_id())
-        {
+        switch (freshFruitDatalist.get(holder.getAdapterPosition()).getFruit_id()) {
             case 0:
                 Glide.with(context).load("https://www.gardeningknowhow.com/wp-content/uploads/2021/05/whole-and-slices-watermelon.jpg").into(holder.fresh_fruit_image);
                 break;
@@ -335,32 +332,29 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
 
     @Override
     public int getItemCount() {
-        int a=6;
-       if(freshFruitDatalist.size()>a)
-       {
-           return a;
-       }
-       else
-       {
-          return freshFruitDatalist.size();
-       }
+        int a = 6;
+        if (freshFruitDatalist.size() > a) {
+            return a;
+        } else {
+            return freshFruitDatalist.size();
+        }
     }
 
 
     class holder extends RecyclerView.ViewHolder {
         LinearLayout allfruits_linearlayout;
-        ImageView fresh_fruit_image,fresh_Fruit_fav;
+        ImageView fresh_fruit_image, fresh_Fruit_fav;
         //CardView allfruits_cardview;
-        TextView fresh_fruit_name,fresh_Fruit_price;
+        TextView fresh_fruit_name, fresh_Fruit_price;
 
         public holder(@NonNull View itemView) {
             super(itemView);
-            allfruits_linearlayout=itemView.findViewById(R.id.allfruits_linearlayout);
+            allfruits_linearlayout = itemView.findViewById(R.id.allfruits_linearlayout);
 //            allfruits_cardview=itemView.findViewById(R.id.allfruits_cardview);
-            fresh_fruit_image=itemView.findViewById(R.id.allfruits_image);
+            fresh_fruit_image = itemView.findViewById(R.id.allfruits_image);
             fresh_fruit_name = itemView.findViewById(R.id.allfruits_name);
             fresh_Fruit_price = itemView.findViewById(R.id.allfruits_price);
-            fresh_Fruit_fav=itemView.findViewById(R.id.allfruits_favourite);
+            fresh_Fruit_fav = itemView.findViewById(R.id.allfruits_favourite);
         }
     }
 }

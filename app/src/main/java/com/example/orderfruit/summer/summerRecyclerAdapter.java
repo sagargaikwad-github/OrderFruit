@@ -16,20 +16,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
 import com.example.orderfruit.model.FruitData;
 import com.example.orderfruit.viewfruit.FruitViewActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class summerRecyclerAdapter extends RecyclerView.Adapter<summerRecyclerAdapter.holder> implements Filterable {
-    ArrayList<FruitData> fruitData=new ArrayList<>();
+    List<FruitDataModel> fruitData=new ArrayList<>();
     Context context;
-    ArrayList<FruitData>backup=new ArrayList<>();
+    ArrayList<FruitDataModel>backup=new ArrayList<>();
 
 
 
-    public summerRecyclerAdapter(ArrayList<FruitData> fruitData, Context context) {
+    public summerRecyclerAdapter(List<FruitDataModel> fruitData, Context context) {
         this.fruitData = fruitData;
         this.context = context;
         backup=new ArrayList<>(fruitData);
@@ -253,14 +255,14 @@ public class summerRecyclerAdapter extends RecyclerView.Adapter<summerRecyclerAd
     Filter filter=new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-           ArrayList<FruitData>filterdata=new ArrayList<>();
+           ArrayList<FruitDataModel>filterdata=new ArrayList<>();
            if(charSequence.toString().isEmpty())
            {
                filterdata.addAll(backup);
            }
            else
            {
-               for(FruitData obj:backup)
+               for(FruitDataModel obj:backup)
                {
                    if(obj.getFruit_name().toString().toLowerCase().contains(charSequence.toString().toLowerCase()))
                    {
@@ -276,7 +278,7 @@ public class summerRecyclerAdapter extends RecyclerView.Adapter<summerRecyclerAd
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             fruitData.clear();
-            fruitData.addAll((ArrayList<FruitData>)filterResults.values);
+            fruitData.addAll((ArrayList<FruitDataModel>)filterResults.values);
             notifyDataSetChanged();
 
         }

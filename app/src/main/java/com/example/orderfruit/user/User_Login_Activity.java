@@ -15,13 +15,14 @@ import android.widget.Toast;
 
 import com.example.orderfruit.Dashboard_Activity;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.model.SQLiteData;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class User_Login_Activity extends AppCompatActivity {
     TextInputLayout user_login_layout,user_password_layout;
     EditText user_login_et,user_password_et;
-    String login,password;
+    String username,password;
     Button login_btn;
     TextView new_user_tv,forget_password_tv;
 
@@ -40,7 +41,8 @@ public class User_Login_Activity extends AppCompatActivity {
         forget_password_tv =findViewById(R.id.forget_password);
 
 
-        SQLiteData sqLiteData=new SQLiteData(User_Login_Activity.this);
+        //sqLiteData=new SQLiteData(User_Login_Activity.this);
+        CommonDB commonDB = CommonDB.getDB(this);
 
         SharedPreferences sharedPreferences=getSharedPreferences("Login",MODE_PRIVATE);
 
@@ -48,19 +50,22 @@ public class User_Login_Activity extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login=user_login_et.getText().toString().trim();
+                username=user_login_et.getText().toString().trim();
                 password=user_password_et.getText().toString().trim();
 
-                if(login.isEmpty())
+                if(username.isEmpty())
                 {
                     user_login_layout.setError("Please Provide username");
                 }
-                else if(!login.isEmpty())
+                else if(!username.isEmpty())
                 {
-                    boolean checkuser=sqLiteData.checkUser(login);
+                   // boolean checkuser=sqLiteData.checkUser(login);
+                    boolean checkuser=commonDB.registrationDAO().validUser(username);
+
                     if(checkuser==true)
                     {
-                        boolean checkLogin=sqLiteData.login(login,password);
+                        boolean checkLogin=commonDB.registrationDAO().login(username,password);
+
                         if(checkLogin==true)
                         {
                             String isLogin="Login";
@@ -70,9 +75,10 @@ public class User_Login_Activity extends AppCompatActivity {
 
                             Toast.makeText(User_Login_Activity.this, "Login Sucessful", Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(User_Login_Activity.this, Dashboard_Activity.class);
-                            intent.putExtra("IsLogin",login);
+                            intent.putExtra("IsLogin",username);
                             startActivity(intent);
-                            sqLiteData.UpdateLogin(login,1);
+                            //sqLiteData.UpdateLogin(username,1);
+                            commonDB.registrationDAO().updateLogin(username,1);
                         }
                         else
                         {

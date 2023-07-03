@@ -52,6 +52,7 @@ public class User_Forget_Password extends AppCompatActivity {
                 boolean checkAccount = sqLiteData.checkAccount(getPhone,getName);
 
                 boolean checkuser=sqLiteData.checkUser(getPhone);
+
                 if (getPhone.isEmpty())
                 {
                     phone_layout.setError("Please Enter Your Phone");

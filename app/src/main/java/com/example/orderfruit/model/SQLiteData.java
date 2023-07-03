@@ -256,7 +256,6 @@ public class SQLiteData extends SQLiteOpenHelper {
         cv.put("Image","");
 
 
-
         long res = db.insert("registration", null, cv);
         if (res == -1)
             return "Failed";
@@ -734,10 +733,7 @@ public ArrayList<orderHistoryData> getHistory(String PHONE) {
     } else {
 
     }
-
     return getlist;
-
-
 }
 
     public ArrayList<orderHistoryData> getOrder(int num) {

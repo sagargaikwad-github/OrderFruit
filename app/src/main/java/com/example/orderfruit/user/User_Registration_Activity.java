@@ -58,8 +58,6 @@ public class User_Registration_Activity extends AppCompatActivity {
 
 
 
-
-
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,7 +142,7 @@ public class User_Registration_Activity extends AppCompatActivity {
             }
 
         });
-        already_a_user_tv.setOnClickListener(new View.OnClickListener() {
+         already_a_user_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(User_Registration_Activity.this,User_Login_Activity.class);

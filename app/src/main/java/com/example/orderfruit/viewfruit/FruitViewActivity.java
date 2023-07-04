@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -14,6 +15,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CartFruits.CartModel;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.FavouriteFruits.FavouriteModel;
 import com.example.orderfruit.cart.ViewCart;
 import com.example.orderfruit.model.CartNew;
 import com.example.orderfruit.model.SQLiteData;
@@ -22,20 +26,22 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import java.util.ArrayList;
 
 public class FruitViewActivity extends AppCompatActivity {
-    TextView fruitname,fruitprice,fruitdesc1,fruitdesc2,fruitdesc3,fruitdesc4,fruitcart,fruitview_advantage,fruitview_add_to_cart_num;
-    ImageView fruitimage_IV,fruitfavourite_IV;
-    int id,price,favourite,addtocart;
-    String desc1,desc2,desc3,desc4,name;
-    ImageView plus_IV,minus_IV;
+    TextView fruitname, fruitprice, fruitdesc1, fruitdesc2, fruitdesc3, fruitdesc4, fruitcart, fruitview_advantage, fruitview_add_to_cart_num;
+    ImageView fruitimage_IV, fruitfavourite_IV;
+    int id, price, favourite, addtocart;
+    String desc1, desc2, desc3, desc4, name;
+    ImageView plus_IV, minus_IV;
     Button add_to_cart_btn, buy_now_btn;
     ShimmerFrameLayout shimmerFrameLayout;
 
     String Mainphone;
-    String [] getPhone;
+    String getPhone;
 
     SQLiteData sqLiteData;
-    ConstraintLayout constraintLayout_1,constraintLayout_2;
 
+    CommonDB commonDB;
+
+    ConstraintLayout constraintLayout_1, constraintLayout_2;
 
 
     @Override
@@ -44,46 +50,48 @@ public class FruitViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fruit_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fruitname=findViewById(R.id.fruitview_name);
-        fruitimage_IV=findViewById(R.id.fruitview_image);
-        fruitprice=findViewById(R.id.fruitview_price);
-        fruitdesc1=findViewById(R.id.fruitview_description1);
-        fruitdesc2=findViewById(R.id.fruitview_description2);
-        fruitdesc3=findViewById(R.id.fruitview_description3);
-        fruitdesc4=findViewById(R.id.fruitview_description4);
-        fruitcart=findViewById(R.id.fruitview_add_to_cart_num);
-        fruitview_advantage=findViewById(R.id.fruitview_advatage);
-        fruitfavourite_IV=findViewById(R.id.fruiteview_favourite_view);
+        fruitname = findViewById(R.id.fruitview_name);
+        fruitimage_IV = findViewById(R.id.fruitview_image);
+        fruitprice = findViewById(R.id.fruitview_price);
+        fruitdesc1 = findViewById(R.id.fruitview_description1);
+        fruitdesc2 = findViewById(R.id.fruitview_description2);
+        fruitdesc3 = findViewById(R.id.fruitview_description3);
+        fruitdesc4 = findViewById(R.id.fruitview_description4);
+        fruitcart = findViewById(R.id.fruitview_add_to_cart_num);
+        fruitview_advantage = findViewById(R.id.fruitview_advatage);
+        fruitfavourite_IV = findViewById(R.id.fruiteview_favourite_view);
 
 
-        shimmerFrameLayout=findViewById(R.id.shimmerframelayout);
+        shimmerFrameLayout = findViewById(R.id.shimmerframelayout);
         shimmerFrameLayout.startShimmer();
 
-        constraintLayout_1=findViewById(R.id.cons1);
-        constraintLayout_2=findViewById(R.id.cons2);
+        constraintLayout_1 = findViewById(R.id.cons1);
+        constraintLayout_2 = findViewById(R.id.cons2);
 
-        sqLiteData=new SQLiteData(FruitViewActivity.this);
-        getPhone=sqLiteData.getPhone();
+        sqLiteData = new SQLiteData(FruitViewActivity.this);
+        commonDB = CommonDB.getDB(this);
+        //getPhone=sqLiteData.getPhone();
+        getPhone = commonDB.registrationDAO().getPhone();
 
-        fruitview_add_to_cart_num=findViewById(R.id.fruitview_add_to_cart_num);
-        add_to_cart_btn=findViewById(R.id.fruitview_addtocart_btn);
-        buy_now_btn=findViewById(R.id.fruitview_buynow_btn);
+        fruitview_add_to_cart_num = findViewById(R.id.fruitview_add_to_cart_num);
+        add_to_cart_btn = findViewById(R.id.fruitview_addtocart_btn);
+        buy_now_btn = findViewById(R.id.fruitview_buynow_btn);
 
 
-        plus_IV=findViewById(R.id.fruitview_add_btn);
-        minus_IV=findViewById(R.id.fruitview_remove_btn);
+        plus_IV = findViewById(R.id.fruitview_add_btn);
+        minus_IV = findViewById(R.id.fruitview_remove_btn);
 
-        Bundle bundle=getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
 
-         id=bundle.getInt("FruitID");
-         name=bundle.getString("FruitName");
-         price= (int) bundle.get("FruitPrice");
-         //favourite=bundle.getInt("FruitFav");
-         desc1=bundle.getString("FruitDesc1");
-         desc2=bundle.getString("FruitDesc2");
-         desc3=bundle.getString("FruitDesc3");
-         desc4=bundle.getString("FruitDesc4");
-         //addtocart=bundle.getInt("FruitCart");
+        id = bundle.getInt("FruitID");
+        name = bundle.getString("FruitName");
+        price = (int) bundle.get("FruitPrice");
+        //favourite=bundle.getInt("FruitFav");
+        desc1 = bundle.getString("FruitDesc1");
+        desc2 = bundle.getString("FruitDesc2");
+        desc3 = bundle.getString("FruitDesc3");
+        desc4 = bundle.getString("FruitDesc4");
+        //addtocart=bundle.getInt("FruitCart");
 
         getSupportActionBar().setTitle(name);
 
@@ -96,19 +104,20 @@ public class FruitViewActivity extends AppCompatActivity {
 
                 getdata();
             }
-        },2000);
+        }, 2000);
 
-        SQLiteData sqLiteData=new SQLiteData(this);
-        String[] getPhone=sqLiteData.getPhone();
-        Mainphone=getPhone[0];
 
-        String getCartValue=sqLiteData.getCartForFruitView(id,Mainphone);
-        if(getCartValue==null)
-        {
+        //String[] getPhone=sqLiteData.getPhone();
+        //Mainphone=getPhone[0];
+
+        //  String getCartValue=sqLiteData.getCartForFruitView(id,getPhone);
+        int getQuantity = commonDB.cartDAO().getFruitCount(id, getPhone);
+
+        String getCartValue = String.valueOf(getQuantity);
+
+        if (getCartValue == null) {
             fruitcart.setText("0");
-        }
-       else
-        {
+        } else {
             fruitcart.setText(getCartValue);
         }
 
@@ -118,15 +127,12 @@ public class FruitViewActivity extends AppCompatActivity {
     private void getdata() {
 
 //        String[] getPhone=sqLiteData.getPhone();
-        Mainphone=getPhone[0];
 
-        if(name.contains("Coconuts"))
-        {
-            fruitprice.setText("₹ "+String.valueOf(price)+" /"+"piece");
-        }
-        else
-        {
-            fruitprice.setText("₹ "+String.valueOf(price)+" /"+"kg");
+
+        if (name.contains("Coconuts")) {
+            fruitprice.setText("₹ " + String.valueOf(price) + " /" + "piece");
+        } else {
+            fruitprice.setText("₹ " + String.valueOf(price) + " /" + "kg");
         }
 
         fruitname.setText(name);
@@ -134,23 +140,19 @@ public class FruitViewActivity extends AppCompatActivity {
         fruitdesc2.setText(desc2);
         fruitdesc3.setText(desc3);
         fruitdesc4.setText(desc4);
-       //fruitcart.setText(String.valueOf(addtocart));
-        fruitview_advantage.setText("Advantages of a "+name+" :");
+        //fruitcart.setText(String.valueOf(addtocart));
+        fruitview_advantage.setText("Advantages of a " + name + " :");
 
 
-        boolean check=sqLiteData.checkInFavourite(getPhone[0],id);
-        if(check==true)
-        {
+        boolean check = commonDB.favouriteDAO().checkInFavourite(getPhone, id);
+        if (check == true) {
             fruitfavourite_IV.setImageResource(R.drawable.favourite_red);
-        }
-        else
-        {
+        } else {
             fruitfavourite_IV.setImageResource(R.drawable.favourite_black);
         }
 
-        try{
-            switch (id)
-            {
+        try {
+            switch (id) {
                 case 0:
                     Glide.with(this).load("https://www.gardeningknowhow.com/wp-content/uploads/2021/05/whole-and-slices-watermelon.jpg").into(fruitimage_IV);
                     break;
@@ -308,23 +310,19 @@ public class FruitViewActivity extends AppCompatActivity {
                     Glide.with(this).load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjT0Boo1VEsa2h2QS2ScRgpvP-PyxmHBpnQQ&usqp=CAU").into(fruitimage_IV);
                     break;
             }
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
 
         plus_IV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int add=Integer.parseInt(fruitcart.getText().toString());
-                if(add>=10)
-                {
+                int add = Integer.parseInt(fruitcart.getText().toString());
+                if (add >= 10) {
                     Toast.makeText(FruitViewActivity.this, "10 kg Limit", Toast.LENGTH_SHORT).show();
                     fruitcart.setText(String.valueOf(add));
-                }
-                else
-                {
-                    add=add+1;
+                } else {
+                    add = add + 1;
                     fruitcart.setText(String.valueOf(add));
                 }
 
@@ -333,15 +331,12 @@ public class FruitViewActivity extends AppCompatActivity {
         minus_IV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int remove=Integer.parseInt(fruitcart.getText().toString());
-                if(remove==0)
-                {
+                int remove = Integer.parseInt(fruitcart.getText().toString());
+                if (remove == 0) {
                     Toast.makeText(FruitViewActivity.this, "This Fruit are not in cart", Toast.LENGTH_SHORT).show();
                     fruitcart.setText(String.valueOf(remove));
-                }
-                else
-                {
-                    remove=remove-1;
+                } else {
+                    remove = remove - 1;
                     fruitcart.setText(String.valueOf(remove));
                 }
             }
@@ -350,7 +345,7 @@ public class FruitViewActivity extends AppCompatActivity {
         fruitfavourite_IV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLiteData sqLiteData=new SQLiteData(getApplicationContext());
+               // SQLiteData sqLiteData = new SQLiteData(getApplicationContext());
 //                if(favourite==0)
 //                {
 //                    favourite=1;
@@ -369,15 +364,12 @@ public class FruitViewActivity extends AppCompatActivity {
 //
 //                }
 
-                boolean checkInFavouritek=sqLiteData.checkInFavourite(getPhone[0],id);
-                if(checkInFavouritek==true)
-                {
-                    sqLiteData.removeinFavourite(getPhone[0],id);
+                boolean checkInFavouritek = commonDB.favouriteDAO().checkInFavourite(getPhone, id);
+                if (checkInFavouritek == true) {
+                    commonDB.favouriteDAO().removeInFavourite(new FavouriteModel(getPhone, id));
                     fruitfavourite_IV.setImageResource(R.drawable.favourite_black);
-                }
-                else
-                {
-                    sqLiteData.insertinFavourite(getPhone[0],id);
+                } else {
+                    commonDB.favouriteDAO().insertInFavourite(new FavouriteModel(getPhone, id));
                     fruitfavourite_IV.setImageResource(R.drawable.favourite_red);
                 }
             }
@@ -387,36 +379,42 @@ public class FruitViewActivity extends AppCompatActivity {
         add_to_cart_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int product=Integer.parseInt(fruitview_add_to_cart_num.getText().toString());
-                SQLiteData sqLiteData=new SQLiteData(FruitViewActivity.this);
-                String[] getPhoneID=sqLiteData.getPhone();
+                int product = Integer.parseInt(fruitview_add_to_cart_num.getText().toString());
 
-                boolean findfruit=sqLiteData.findFruitId(id,getPhoneID[0]);
 
-                if(findfruit==true)
-                {
-                    sqLiteData.addtocart_new(id,product,getPhoneID[0]);
-                }
-                else
-                {
-                    sqLiteData.addtocartNEW(getPhoneID[0],id,product,price,name);
+                String getPhoneID = commonDB.registrationDAO().getPhone();
+
+                //  boolean findfruit=sqLiteData.findFruitId(id,getPhoneID);
+
+                boolean findfruit = commonDB.cartDAO().isFruitAlreadyAdded(id, getPhoneID);
+
+
+                if (findfruit == true) {
+                    // sqLiteData.addtocart_new(id,product,getPhoneID);
+                    commonDB.cartDAO().updateCart(id, product, getPhoneID);
+                } else {
+                    // sqLiteData.addtocartNEW(getPhoneID,id,product,price,name);
+                    if(product>0)
+                    {
+                       commonDB.cartDAO().insertInCart(new CartModel(getPhoneID, id, product, price, name));
+                    }
+
                 }
 
 
                 //Old
-                sqLiteData.addtocart(id,product);
+                //  sqLiteData.addtocart(id,product);
                 //
-                int getCart= Integer.parseInt(fruitcart.getText().toString());
-                if(!(getCart == 0))
-                {
-                    Toast.makeText(FruitViewActivity.this,"Fruit Added Sucessfully",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                int getCart = Integer.parseInt(fruitcart.getText().toString());
+                if (!(getCart == 0)) {
+                    Toast.makeText(FruitViewActivity.this, "Fruit Added Sucessfully", Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(FruitViewActivity.this, "Please add Atlest 1 KG", Toast.LENGTH_SHORT).show();
+
+                    if (findfruit) {
+                        commonDB.cartDAO().deleteFromCart(id);
+                    }
                 }
-
-
 
             }
         });
@@ -424,7 +422,7 @@ public class FruitViewActivity extends AppCompatActivity {
         buy_now_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(FruitViewActivity.this, ViewCart.class);
+                Intent intent = new Intent(FruitViewActivity.this, ViewCart.class);
                 startActivity(intent);
             }
         });
@@ -436,12 +434,9 @@ public class FruitViewActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if(favourite==1)
-        {
+        if (favourite == 1) {
             fruitfavourite_IV.setImageResource(R.drawable.favourite_red);
-        }
-        else
-        {
+        } else {
             fruitfavourite_IV.setImageResource(R.drawable.favourite_black);
         }
 

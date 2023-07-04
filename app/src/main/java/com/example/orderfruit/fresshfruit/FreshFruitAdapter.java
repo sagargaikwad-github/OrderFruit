@@ -70,10 +70,10 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
         // FruitData temp=freshFruitDatalist.get(position);
         // favoutite=temp.getFruit_favourite();
 
-        //   SQLiteData sqLiteData=new SQLiteData(context);
+        //  SQLiteData sqLiteData=new SQLiteData(context);
 
+        boolean check = commonDB.favouriteDAO().checkInFavourite(Phone, freshFruitDatalist.get(position).getFruit_id());
 
-        boolean check = commonDB.favouriteDAO().checkInFavourite(Phone,freshFruitDatalist.get(position).getFruit_id());
         if (check == true) {
             holder.fresh_Fruit_fav.setImageResource(R.drawable.favourite_red);
         } else {
@@ -90,11 +90,12 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
                 //SQLiteData sqLiteData = new SQLiteData(context);
                 boolean check = commonDB.favouriteDAO().checkInFavourite(Phone, freshFruitDatalist.get(position).getFruit_id());
                 if (check == true) {
-                    commonDB.favouriteDAO().removeinFavourite(Phone, freshFruitDatalist.get(position).getFruit_id());
+                    commonDB.favouriteDAO().removeInFavourite(new FavouriteModel(Phone, freshFruitDatalist.get(position).getFruit_id()));
                     Toast.makeText(context, "Removed from Favourites", Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
                 } else {
-                    commonDB.favouriteDAO().insertinFavourite(Phone, freshFruitDatalist.get(position).getFruit_id());
+                    commonDB.favouriteDAO().insertInFavourite(new FavouriteModel(Phone, freshFruitDatalist.get(position).getFruit_id()));
+                    //commonDB.favouriteDAO().insertinFavourite(Phone, freshFruitDatalist.get(position).getFruit_id());
                     Toast.makeText(context, "Added to Favourites", Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
                 }

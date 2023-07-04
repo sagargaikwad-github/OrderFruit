@@ -21,6 +21,8 @@ public class FruitDataModel {
     private String fruit_category;
     private String fruit_season;
 
+
+
     public FruitDataModel(int fruit_id, String fruit_name, int fruit_price, int fruit_quantity, String fruit_description1, String fruit_description2, String fruit_description3, String fruit_description4, byte[] fruit_image, int fruit_addtocart, int fruit_favourite, String fruit_category, String fruit_season) {
         this.fruit_id = fruit_id;
         this.fruit_name = fruit_name;

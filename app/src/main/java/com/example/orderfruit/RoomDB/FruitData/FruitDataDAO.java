@@ -21,14 +21,14 @@ public interface FruitDataDAO {
     List<FruitDataModel> getFromSearch(String getdata);
 
 
-    @Query("Select * from fruits_table where fruit_season==summer")
+    @Query("Select * from fruits_table where fruit_season='summer'")
     List<FruitDataModel> getSeasonSummer();
 
-    @Query("Select * from fruits_table where fruit_season==monsoon")
-    ArrayList<FruitDataModel> getSeasonMonsoon();
+    @Query("Select * from fruits_table where fruit_season='monsoon'")
+    List<FruitDataModel> getSeasonMonsoon();
 
-    @Query("Select * from fruits_table where fruit_season==winter")
-    ArrayList<FruitDataModel> getSeasonWinter();
+    @Query("Select * from fruits_table where fruit_season='winter'")
+    List<FruitDataModel> getSeasonWinter();
 
 
 }

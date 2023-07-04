@@ -13,6 +13,11 @@ public class FavouriteModel {
     @PrimaryKey()
     int FruitId;
 
+
+    public FavouriteModel() {
+    }
+
+    @Ignore
     public FavouriteModel(String userId, int fruitId) {
         UserId = userId;
         FruitId = fruitId;
@@ -22,12 +27,6 @@ public class FavouriteModel {
     public FavouriteModel(String userId) {
         UserId = userId;
     }
-
-    @Ignore
-    public FavouriteModel() {
-    }
-
-
 
 
     public String getUserId() {

@@ -18,7 +18,6 @@ import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
-import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 public class MostlyViewd extends AppCompatActivity implements InterfaceData {
     RecyclerView mostlyviewedfruits_rv;
     ShimmerFrameLayout shimmerFrameLayout;
-    SQLiteData sqLiteData;
     Parcelable state;
     String getPhone;
     CommonDB commonDB;
@@ -45,7 +43,6 @@ public class MostlyViewd extends AppCompatActivity implements InterfaceData {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-        sqLiteData = new SQLiteData(this);
         mostlyviewedfruits_rv = findViewById(R.id.mostlyviwedfruits_rv);
         shimmerFrameLayout = findViewById(R.id.shimmer_mostlyviewd);
 

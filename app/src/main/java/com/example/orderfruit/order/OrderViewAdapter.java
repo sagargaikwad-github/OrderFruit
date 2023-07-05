@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
-import com.example.orderfruit.model.FruitData;
 
 import java.util.List;
 

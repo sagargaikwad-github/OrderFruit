@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.orderfruit.Interface.AddToCart_Interface;
 import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.CartFruits.CartModel;
-import com.example.orderfruit.model.CartNew;
+
 
 
 import java.util.ArrayList;

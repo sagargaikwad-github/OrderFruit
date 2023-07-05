@@ -18,7 +18,7 @@ import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
-import com.example.orderfruit.model.SQLiteData;
+
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -90,7 +90,7 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
     @Override
     protected void onResume() {
         super.onResume();
-        SQLiteData sqLiteData = new SQLiteData(TodaysDeal.this);
+
         getPhone = commonDB.registrationDAO().getPhone();
         if (shimmerFrameLayout.isShimmerStarted()) {
             new Handler().postDelayed(new Runnable() {
@@ -114,7 +114,7 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
 
 
         Parcelable state = null;
-        SQLiteData sqLiteData = new SQLiteData(TodaysDeal.this);
+
 
 
         try {

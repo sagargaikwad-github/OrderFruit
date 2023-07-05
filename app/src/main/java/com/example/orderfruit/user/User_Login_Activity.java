@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.example.orderfruit.Dashboard_Activity;
 import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.CommonDB;
-import com.example.orderfruit.model.SQLiteData;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class User_Login_Activity extends AppCompatActivity {

@@ -34,7 +34,7 @@ import com.example.orderfruit.Dashboard_Activity;
 import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.RoomDB.Registration.RegistrationModel;
-import com.example.orderfruit.model.SQLiteData;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -94,7 +94,7 @@ public class UserProfile extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        SQLiteData sqLiteData = new SQLiteData(UserProfile.this);
+
 
         commonDB=CommonDB.getDB(this);
 
@@ -154,7 +154,7 @@ public class UserProfile extends AppCompatActivity {
             PhoneLayout.setError("Phone Number Invalid");
         } else {
             Toast.makeText(this, "Profile Saved Sucessfully", Toast.LENGTH_SHORT).show();
-            SQLiteData sqLiteData = new SQLiteData(this);
+
             //sqLiteData.User_info(getName, getPhone, getAddress, getAddress2, null, null, null);
 
             BitmapDrawable drawable = (BitmapDrawable) UserProfile_IV.getDrawable();

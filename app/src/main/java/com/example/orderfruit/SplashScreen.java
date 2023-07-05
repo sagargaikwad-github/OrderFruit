@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.user.User_Login_Activity;
 import com.example.orderfruit.user.User_Registration_Activity;
 

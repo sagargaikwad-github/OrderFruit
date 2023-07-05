@@ -18,7 +18,6 @@ import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
-import com.example.orderfruit.model.SQLiteData;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
     RecyclerView summer_vieww_fruit_rv;
     SummerViewFruitAdapter summerViewFruitAdapter;
     ShimmerFrameLayout shimmerFrameLayout;
-    SQLiteData sqLiteData;
     Parcelable state;
     String  getPhone;
 
@@ -51,7 +49,7 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
         shimmerFrameLayout = findViewById(R.id.shimmer_dashboard_viewall);
         shimmerFrameLayout.startShimmer();
 
-        sqLiteData = new SQLiteData(SummerViewFruit.this);
+
 
         commonDB=CommonDB.getDB(this);
 

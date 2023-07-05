@@ -30,7 +30,7 @@ import com.example.orderfruit.RoomDB.OrderHistory.OrderHistoryModel;
 import com.example.orderfruit.RoomDB.Registration.RegistrationModel;
 import com.example.orderfruit.order.OrderHistory;
 import com.example.orderfruit.R;
-import com.example.orderfruit.model.SQLiteData;
+
 import com.example.orderfruit.viewfruit.FruitViewActivity;
 import com.example.orderfruit.viewmorefruits.ViewMoreFruits;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -408,7 +408,6 @@ public class ViewCart extends AppCompatActivity implements AddToCart_Interface, 
                 replaceAll("(^.|.$)", "  ").replace(", ", "  , ");
 
 
-        SQLiteData sqLiteData = new SQLiteData(this);
 
         commonDB.orderHistoryDAO().insertInOrderHistory(new OrderHistoryModel(
                 name, address, item3, phone, phone2, orderstatus, str, String.valueOf(getQuantity), getid, result_ScoreP1

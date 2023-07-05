@@ -19,8 +19,6 @@ import com.example.orderfruit.RoomDB.CartFruits.CartModel;
 import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.RoomDB.FavouriteFruits.FavouriteModel;
 import com.example.orderfruit.cart.ViewCart;
-import com.example.orderfruit.model.CartNew;
-import com.example.orderfruit.model.SQLiteData;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -37,7 +35,6 @@ public class FruitViewActivity extends AppCompatActivity {
     String Mainphone;
     String getPhone;
 
-    SQLiteData sqLiteData;
 
     CommonDB commonDB;
 
@@ -68,7 +65,7 @@ public class FruitViewActivity extends AppCompatActivity {
         constraintLayout_1 = findViewById(R.id.cons1);
         constraintLayout_2 = findViewById(R.id.cons2);
 
-        sqLiteData = new SQLiteData(FruitViewActivity.this);
+
         commonDB = CommonDB.getDB(this);
         //getPhone=sqLiteData.getPhone();
         getPhone = commonDB.registrationDAO().getPhone();

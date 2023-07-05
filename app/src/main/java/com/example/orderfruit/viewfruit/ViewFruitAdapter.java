@@ -20,8 +20,7 @@ import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.RoomDB.FavouriteFruits.FavouriteModel;
 import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
-import com.example.orderfruit.model.FruitData;
-import com.example.orderfruit.model.SQLiteData;
+
 
 import java.util.ArrayList;
 

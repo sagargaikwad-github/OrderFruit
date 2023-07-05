@@ -14,7 +14,7 @@ import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
-import com.example.orderfruit.model.SQLiteData;
+
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -167,7 +167,6 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
 //    }
 
     private void setdata(String fruitname) {
-        SQLiteData sqLiteData = new SQLiteData(View_All_Category.this);
         if (state == null) {
             view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(View_All_Category.this));
             ArrayList<FruitDataModel> arrayList = (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getCategory(fruitname);

@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.RoomDB.Registration.RegistrationModel;
-import com.example.orderfruit.model.SQLiteData;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.nio.file.FileVisitOption;

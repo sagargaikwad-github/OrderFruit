@@ -19,8 +19,7 @@ import com.example.orderfruit.Dashboard_Activity;
 import com.example.orderfruit.R;
 import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.RoomDB.OrderHistory.OrderHistoryModel;
-import com.example.orderfruit.model.FruitData;
-import com.example.orderfruit.model.SQLiteData;
+
 
 import java.util.ArrayList;
 

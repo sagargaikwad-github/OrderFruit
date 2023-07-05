@@ -64,8 +64,8 @@ import com.example.orderfruit.category.CategoryAdapter;
 import com.example.orderfruit.category.CategoryData;
 import com.example.orderfruit.favourites.FavouriteListDisplay;
 import com.example.orderfruit.fresshfruit.FreshFruitAdapter;
-import com.example.orderfruit.model.FruitData;
-import com.example.orderfruit.model.SQLiteData;
+
+
 import com.example.orderfruit.order.OrderHistory;
 import com.example.orderfruit.summer.SummerImageData;
 import com.example.orderfruit.summer.SummerViewFruit;
@@ -107,7 +107,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
     ImageView Nav_profile;
     FloatingActionButton Nav_camera;
     AutoCompleteTextView autoCompleteTextView;
-    ArrayList<FruitData> fruitData;
+
     ArrayAdapter<String> arrayAdapter;
     ShimmerFrameLayout shimmerFrameLayout;
     DrawerLayout drawerLayout1;
@@ -234,7 +234,6 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
         categoryAdapter = new CategoryAdapter(category, Dashboard_Activity.this);
         dashboard_recyclerview.setAdapter(categoryAdapter);
 
-        SQLiteData sqLiteData = new SQLiteData(Dashboard_Activity.this);
 
 
         ViewMore.setOnClickListener(new View.OnClickListener() {
@@ -324,7 +323,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String getdata = (String) adapterView.getItemAtPosition(i);
 
-                SQLiteData sqLiteData1 = new SQLiteData(Dashboard_Activity.this);
+
                 // ArrayList<FruitData> arrayList = sqLiteData1.getFromSearch(getdata);
                 List<FruitDataModel> arrayList = commonDB.fruitDataDAO().getFromSearch(getdata);
 
@@ -434,7 +433,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
     protected void onResume() {
         super.onResume();
 
-        SQLiteData sqLiteData = new SQLiteData(this);
+
         //String[] getPhone = sqLiteData.getPhone();
         String getPhone = commonDB.registrationDAO().getPhone();
 
@@ -832,7 +831,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                     myBitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
                     byte[] img1 = byteArrayOutputStream.toByteArray();
 
-                    SQLiteData sqlIteData = new SQLiteData(Dashboard_Activity.this);
+
                     //sqlIteData.addProfilePic(img1, Nav_phone.getText().toString());
                     commonDB.registrationDAO().updateProfilePic(img1, Nav_phone.getText().toString());
                     Toast.makeText(Dashboard_Activity.this, "Profile Picture Updated", Toast.LENGTH_SHORT).show();

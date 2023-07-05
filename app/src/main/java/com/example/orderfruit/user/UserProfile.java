@@ -32,12 +32,15 @@ import android.widget.Toast;
 
 import com.example.orderfruit.Dashboard_Activity;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.Registration.RegistrationModel;
 import com.example.orderfruit.model.SQLiteData;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class UserProfile extends AppCompatActivity {
     ImageView AddNew_IV, UserProfile_IV;
@@ -48,6 +51,8 @@ public class UserProfile extends AppCompatActivity {
     byte[] img1;
 
     String getName, getAddress, getAddress2;
+
+    CommonDB commonDB;
 
 
     @Override
@@ -90,19 +95,24 @@ public class UserProfile extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         SQLiteData sqLiteData = new SQLiteData(UserProfile.this);
-        Cursor res = sqLiteData.search(phone);
-        if (res.moveToFirst()) {
-            do {
-                byte[] bytes = res.getBlob(8);
-                if (bytes != null) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    UserProfile_IV.setImageBitmap(bitmap);
-                }
 
-            } while (res.moveToNext());
-        } else {
-            Toast.makeText(UserProfile.this, "Data Not Found", Toast.LENGTH_SHORT).show();
-        }
+        commonDB=CommonDB.getDB(this);
+
+        ArrayList<RegistrationModel> arrayList = (ArrayList<RegistrationModel>) commonDB.registrationDAO().userData();
+
+//        Cursor res = sqLiteData.search(phone);
+//        if (res.moveToFirst()) {
+//            do {
+        byte[] bytes = arrayList.get(0).getImage();
+//                if (bytes != null) {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        UserProfile_IV.setImageBitmap(bitmap);
+//                }
+//
+//            } while (res.moveToNext());
+//        } else {
+//            Toast.makeText(UserProfile.this, "Data Not Found", Toast.LENGTH_SHORT).show();
+//        }
 
 
         AddNew_IV.setOnClickListener(new View.OnClickListener() {
@@ -130,17 +140,7 @@ public class UserProfile extends AppCompatActivity {
                     NameLayout.setError("Please Provide Name");
                 } else {
                     String getPhone = PhoneEditText.getText().toString();
-                    getPhone(getPhone);
-
-                    BitmapDrawable drawable = (BitmapDrawable) UserProfile_IV.getDrawable();
-                    Bitmap bitmap1 = drawable.getBitmap();
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-                    bitmap1.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
-                    byte[] img11 = byteArrayOutputStream.toByteArray();
-
-                    SQLiteData sqlIteData = new SQLiteData(UserProfile.this);
-                    sqlIteData.addProfilePic(img11, phone);
+                    UpdateProfile(getPhone);
 
 
                 }
@@ -149,15 +149,24 @@ public class UserProfile extends AppCompatActivity {
 
     }
 
-    private void getPhone(String getPhone) {
+    private void UpdateProfile(String getPhone) {
         if (getPhone.length() < 9 || getPhone.length() > 11) {
             PhoneLayout.setError("Phone Number Invalid");
         } else {
             Toast.makeText(this, "Profile Saved Sucessfully", Toast.LENGTH_SHORT).show();
             SQLiteData sqLiteData = new SQLiteData(this);
-            sqLiteData.User_info(getName, getPhone, getAddress, getAddress2, null, null, null);
+            //sqLiteData.User_info(getName, getPhone, getAddress, getAddress2, null, null, null);
 
+            BitmapDrawable drawable = (BitmapDrawable) UserProfile_IV.getDrawable();
+            Bitmap bitmap1 = drawable.getBitmap();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
+            bitmap1.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
+            byte[] img11 = byteArrayOutputStream.toByteArray();
+
+            // SQLiteData sqlIteData = new SQLiteData(UserProfile.this);
+
+            commonDB.registrationDAO().updateProfileData(getName, getPhone, getAddress, getAddress2, img11);
         }
     }
 
@@ -234,7 +243,7 @@ public class UserProfile extends AppCompatActivity {
                         if (rotation != 0f) {
                             matrix.preRotate(rotationInDegrees);
                             myBitmap = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true);
-                           UserProfile_IV.setImageBitmap(myBitmap);
+                            UserProfile_IV.setImageBitmap(myBitmap);
                         }
                     }
                 }
@@ -254,10 +263,15 @@ public class UserProfile extends AppCompatActivity {
         }
         return true;
     }
+
     private static int exifToDegrees(int exifOrientation) {
-        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
-        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
-        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            return 90;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            return 180;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            return 270;
+        }
         return 0;
     }
 }

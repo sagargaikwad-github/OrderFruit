@@ -16,9 +16,12 @@ import android.widget.AdapterView;
 
 import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
 import com.example.orderfruit.model.SQLiteData;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SummerViewFruit extends AppCompatActivity implements InterfaceData {
@@ -27,7 +30,9 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
     ShimmerFrameLayout shimmerFrameLayout;
     SQLiteData sqLiteData;
     Parcelable state;
-    String [] getPhone;
+    String  getPhone;
+
+    CommonDB commonDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,10 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
         shimmerFrameLayout.startShimmer();
 
         sqLiteData = new SQLiteData(SummerViewFruit.this);
-        getPhone=sqLiteData.getPhone();
+
+        commonDB=CommonDB.getDB(this);
+
+        getPhone=commonDB.registrationDAO().getPhone();
 
 
 //        summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
@@ -112,19 +120,29 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
 
                             getSupportActionBar().setTitle("Summer Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
+
+                            ArrayList<FruitDataModel>arrayList= (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getSeasonSummer();
+
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(arrayList, SummerViewFruit.this, SummerViewFruit.this,getPhone);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
 
                         } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
                             getSupportActionBar().setTitle("Monsoon Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
+
+                            ArrayList<FruitDataModel>arrayList= (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getSeasonMonsoon();
+
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(arrayList, SummerViewFruit.this, SummerViewFruit.this,getPhone);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
 
                         } else {
                             getSupportActionBar().setTitle("Winter Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
+
+                            ArrayList<FruitDataModel>arrayList= (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getSeasonWinter();
+
+
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(arrayList, SummerViewFruit.this, SummerViewFruit.this,getPhone);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
 
                         }
@@ -140,21 +158,32 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
                             state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                             getSupportActionBar().setTitle("Summer Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
+
+                            ArrayList<FruitDataModel>arrayList= (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getSeasonSummer();
+
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(arrayList, SummerViewFruit.this, SummerViewFruit.this,getPhone);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                             summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
                         } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
                             state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                             getSupportActionBar().setTitle("Monsoon Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
+
+                            ArrayList<FruitDataModel>arrayList= (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getSeasonMonsoon();
+
+
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(arrayList, SummerViewFruit.this, SummerViewFruit.this,getPhone);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                             summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
                         } else {
                             state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                             getSupportActionBar().setTitle("Winter Fruits");
                             summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(SummerViewFruit.this));
-                            summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, SummerViewFruit.this,getPhone[0]);
+
+                            ArrayList<FruitDataModel>arrayList= (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getSeasonWinter();
+
+
+                            summerViewFruitAdapter = new SummerViewFruitAdapter(arrayList, SummerViewFruit.this, SummerViewFruit.this,getPhone);
                             summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                             summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
 
@@ -177,21 +206,32 @@ public class SummerViewFruit extends AppCompatActivity implements InterfaceData 
                 state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                 getSupportActionBar().setTitle("Summer Fruits");
                 summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
-                summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonSummer(), SummerViewFruit.this, this,getPhone[0]);
+
+                ArrayList<FruitDataModel>arrayList= (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getSeasonSummer();
+
+
+                summerViewFruitAdapter = new SummerViewFruitAdapter(arrayList, SummerViewFruit.this, this,getPhone);
                 summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                 summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
             } else if (monthNumber == 3 || monthNumber == 4 || monthNumber == 5 || monthNumber == 6) {
                  state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                 getSupportActionBar().setTitle("Monsoon Fruits");
                 summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
-                summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonMonsoon(), SummerViewFruit.this, this,getPhone[0]);
+
+                ArrayList<FruitDataModel>arrayList= (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getSeasonMonsoon();
+
+
+                summerViewFruitAdapter = new SummerViewFruitAdapter(arrayList, SummerViewFruit.this, this,getPhone);
                 summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                 summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
             } else {
                  state = summer_vieww_fruit_rv.getLayoutManager().onSaveInstanceState();
                 getSupportActionBar().setTitle("Winter Fruits");
                 summer_vieww_fruit_rv.setLayoutManager(new LinearLayoutManager(this));
-                summerViewFruitAdapter = new SummerViewFruitAdapter(sqLiteData.getSeasonWinter(), SummerViewFruit.this, this,getPhone[0]);
+
+                ArrayList<FruitDataModel>arrayList= (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getSeasonWinter();
+
+                summerViewFruitAdapter = new SummerViewFruitAdapter(arrayList, SummerViewFruit.this, this,getPhone);
                 summer_vieww_fruit_rv.setAdapter(summerViewFruitAdapter);
                 summer_vieww_fruit_rv.getLayoutManager().onRestoreInstanceState(state);
 

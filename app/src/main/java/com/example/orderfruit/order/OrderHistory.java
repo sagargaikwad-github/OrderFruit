@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.example.orderfruit.Dashboard_Activity;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.OrderHistory.OrderHistoryModel;
 import com.example.orderfruit.model.FruitData;
 import com.example.orderfruit.model.SQLiteData;
 
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 public class OrderHistory extends AppCompatActivity {
     RecyclerView orderhistory_rv;
     LinearLayout orderhistory_noOrderLL;
+    CommonDB commonDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,41 +42,41 @@ public class OrderHistory extends AppCompatActivity {
         actionBar.setTitle("Order History");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        orderhistory_rv=findViewById(R.id.orderhistory_rv);
-        orderhistory_noOrderLL=findViewById(R.id.orderhistory_noOrderLL);
+        orderhistory_rv = findViewById(R.id.orderhistory_rv);
+        orderhistory_noOrderLL = findViewById(R.id.orderhistory_noOrderLL);
 
-        SQLiteData sqLiteData=new SQLiteData(this);
+        commonDB = CommonDB.getDB(this);
 
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
 
 
+        String getPhone = commonDB.registrationDAO().getPhone();
 
-      String [] getPhone=sqLiteData.getPhone();
 
+        ArrayList<OrderHistoryModel> arrayList = (ArrayList<OrderHistoryModel>) commonDB.orderHistoryDAO().getHistory(getPhone);
 
-        orderHistoryAdapter orderHistoryAdapter=new orderHistoryAdapter(sqLiteData.getHistory(getPhone[0]),this);
-      if(sqLiteData.getHistory(getPhone[0]).isEmpty())
-      {
-          orderhistory_rv.setVisibility(View.GONE);
-          orderhistory_noOrderLL.setVisibility(View.VISIBLE);
-      }
-      else
-      {
-          orderhistory_rv.setLayoutManager(linearLayoutManager);
-          orderhistory_rv.setAdapter(orderHistoryAdapter);
-      }
+        orderHistoryAdapter orderHistoryAdapter = new orderHistoryAdapter(arrayList, this);
+        if (arrayList.isEmpty()) {
+            orderhistory_rv.setVisibility(View.GONE);
+            orderhistory_noOrderLL.setVisibility(View.VISIBLE);
+        } else {
+            orderhistory_rv.setLayoutManager(linearLayoutManager);
+            orderhistory_rv.setAdapter(orderHistoryAdapter);
+        }
 
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent=new Intent(this, Dashboard_Activity.class);
+        Intent intent = new Intent(this, Dashboard_Activity.class);
         startActivity(intent);
 
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();

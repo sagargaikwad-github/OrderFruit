@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.FavouriteFruits.FavouriteModel;
+import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
 import com.example.orderfruit.model.FruitData;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.FruitViewActivity;
@@ -24,13 +27,15 @@ import java.util.ArrayList;
 
 public class SummerViewFruitAdapter extends RecyclerView.Adapter<SummerViewFruitAdapter.holder> {
 
-        ArrayList<FruitData> arrayList=new ArrayList<FruitData>();
+        ArrayList<FruitDataModel> arrayList;
         Context context;
         InterfaceData interfaceData;
          String GetUserId;
 
+         CommonDB commonDB;
 
-        public SummerViewFruitAdapter(ArrayList<FruitData> arrayList, Context context,InterfaceData interfaceData,String GetUserId) {
+
+        public SummerViewFruitAdapter(ArrayList<FruitDataModel> arrayList, Context context, InterfaceData interfaceData, String GetUserId) {
             this.arrayList = arrayList;
             this.context = context;
             this.interfaceData = interfaceData;
@@ -50,11 +55,13 @@ public class SummerViewFruitAdapter extends RecyclerView.Adapter<SummerViewFruit
         holder.viewFruit_name.setText(arrayList.get(position).getFruit_name());
         holder.viewFruit_price.setText("₹"+String.valueOf(arrayList.get(position).getFruit_price())+"/-");
 
-        FruitData temp=arrayList.get(position);
-        SQLiteData sqLiteData=new SQLiteData(context);
+        commonDB=CommonDB.getDB(context);
+
+        FruitDataModel temp=arrayList.get(position);
+        //SQLiteData sqLiteData=new SQLiteData(context);
 
 
-        boolean check=sqLiteData.checkInFavourite(GetUserId,arrayList.get(position).getFruit_id());
+        boolean check=commonDB.favouriteDAO().checkInFavourite(GetUserId,arrayList.get(position).getFruit_id());
         if(check==true)
         {
             holder.viewfruit_favourite.setImageResource(R.drawable.favourite_red);
@@ -76,17 +83,17 @@ public class SummerViewFruitAdapter extends RecyclerView.Adapter<SummerViewFruit
                 int id=temp.getFruit_id();
                 int val=temp.getFruit_favourite();
 
-                SQLiteData sqLiteData=new SQLiteData(context);
-                boolean check=sqLiteData.checkInFavourite(GetUserId,arrayList.get(position).getFruit_id());
+
+                boolean check=commonDB.favouriteDAO().checkInFavourite(GetUserId,arrayList.get(position).getFruit_id());
                 if(check==true)
                 {
-                    sqLiteData.removeinFavourite(GetUserId,arrayList.get(position).getFruit_id());
+                    commonDB.favouriteDAO().removeInFavourite(new FavouriteModel(GetUserId,arrayList.get(position).getFruit_id()));
                     Toast.makeText(context, "Removed from Favourites", Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
                 }
                 else
                 {
-                    sqLiteData.insertinFavourite(GetUserId,arrayList.get(position).getFruit_id());
+                    commonDB.favouriteDAO().insertInFavourite(new FavouriteModel(GetUserId,arrayList.get(position).getFruit_id()));
                     Toast.makeText(context, "Added to Favourites", Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
                 }
@@ -120,10 +127,10 @@ public class SummerViewFruitAdapter extends RecyclerView.Adapter<SummerViewFruit
         public void onViewAttachedToWindow(@NonNull SummerViewFruitAdapter.holder holder) {
             switch (arrayList.get(holder.getAdapterPosition()).getFruit_id())
             {
-                case 0:
+                case 1:
                     Glide.with(context).load("https://www.gardeningknowhow.com/wp-content/uploads/2021/05/whole-and-slices-watermelon.jpg").into(holder.viewFruit_image);
                     break;
-                case 1:
+                case 52:
                     Glide.with(context).load("https://img.freepik.com/free-photo/ripe-mango-with-green-leaf-isolated-white_252965-183.jpg?w=2000").into(holder.viewFruit_image);
                     break;
                 case 2:

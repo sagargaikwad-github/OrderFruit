@@ -1,9 +1,10 @@
 package com.example.orderfruit.RoomDB.CartFruits;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import java.util.List;
 
 @Dao
 public interface CartDAO {
@@ -20,6 +21,12 @@ public interface CartDAO {
     @Query("Select quantity from cart_table where fruitID=:id and userID=:getPhone")
     int getFruitCount(int id, String getPhone);
 
-    @Query("Delete from cart_table where fruitID=:id")
-    void deleteFromCart(int id);
+    @Query("Delete from cart_table where fruitID=:id and userID=:getPhone")
+    void deleteFromCart(int id, String getPhone);
+
+    @Query("Delete from cart_table where userID=:getPhone")
+    void deleteWholeCart(String getPhone);
+
+    @Query("select * from cart_table where userID=:getphone and quantity>0")
+    List<CartModel> getCart(String getphone);
 }

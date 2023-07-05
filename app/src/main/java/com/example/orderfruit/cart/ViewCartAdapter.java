@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.orderfruit.Interface.AddToCart_Interface;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CartFruits.CartModel;
 import com.example.orderfruit.model.CartNew;
 
 
@@ -20,13 +21,13 @@ import java.util.ArrayList;
 
 
 public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder> {
-    ArrayList<CartNew> arrayList;
+    ArrayList<CartModel> arrayList;
     Context context;
     AddToCart_Interface addToCart_interface;
     int sum;
 
 
-    public ViewCartAdapter(ArrayList<CartNew> arrayList, Context context, AddToCart_Interface addToCart_interface) {
+    public ViewCartAdapter(ArrayList<CartModel> arrayList, Context context, AddToCart_Interface addToCart_interface) {
         this.arrayList = arrayList;
         this.context = context;
         this.addToCart_interface=addToCart_interface;
@@ -44,25 +45,25 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
 
     @Override
     public void onBindViewHolder(@NonNull holder holder, @SuppressLint("RecyclerView") int position) {
-        holder.viewcart_fruitname.setText(arrayList.get(position).getFruit_name());
+        holder.viewcart_fruitname.setText(arrayList.get(position).getFruitName());
 
-        if(arrayList.get(position).getFruit_name().contains("Coconuts"))
+        if(arrayList.get(position).getFruitName().contains("Coconuts"))
         {
-            holder.viewcart_fruitweight.setText(String.valueOf(arrayList.get(position).getFruit_quantity())+" Piece");
+            holder.viewcart_fruitweight.setText(String.valueOf(arrayList.get(position).getQuantity())+" Piece");
         }
         else
         {
-            holder.viewcart_fruitweight.setText(String.valueOf(arrayList.get(position).getFruit_quantity())+" KG");
+            holder.viewcart_fruitweight.setText(String.valueOf(arrayList.get(position).getQuantity())+" KG");
         }
-        holder.viewcart_cart.setText(String.valueOf(arrayList.get(position).getFruit_quantity()));
-        holder.viewcart_price.setText(String.valueOf("₹"+arrayList.get(position).getFruit_price()*arrayList.get(position).getFruit_quantity()));
+        holder.viewcart_cart.setText(String.valueOf(arrayList.get(position).getQuantity()));
+        holder.viewcart_price.setText(String.valueOf("₹"+arrayList.get(position).getPrice()*arrayList.get(position).getQuantity()));
 
         sum=0;
         for(int i = 0; i < arrayList.size(); i++){
-            if(arrayList.get(i).getFruit_quantity()>0)
+            if(arrayList.get(i).getQuantity()>0)
             {
-                int getFruitPrice=arrayList.get(i).getFruit_price();
-                int getFruitWeight=arrayList.get(i).getFruit_quantity();
+                int getFruitPrice=arrayList.get(i).getPrice();
+                int getFruitWeight=arrayList.get(i).getQuantity();
                 int PriceandWeight=getFruitPrice*getFruitWeight;
                 sum=sum+PriceandWeight;
             }
@@ -77,9 +78,9 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
         holder.viewcart_row_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int id=arrayList.get(position).getFruitid();
-                int add=arrayList.get(position).getFruit_quantity();
-                String Phone=arrayList.get(position).getPhoneid();
+                int id=arrayList.get(position).getFruitID();
+                int add=arrayList.get(position).getQuantity();
+                String Phone=arrayList.get(position).getUserID();
                sum=0;
                if(add<10)
                {
@@ -91,14 +92,14 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
                    addToCart_interface.add_to_cart(id,add,Phone);
 
                    holder.viewcart_fruitweight.setText(String.valueOf(add));
-                   holder.viewcart_price.setText(String.valueOf(add*arrayList.get(position).getFruit_price()));
+                   holder.viewcart_price.setText(String.valueOf(add*arrayList.get(position).getPrice()));
 
                    sum=0;
                    for(int i = 0; i < arrayList.size(); i++){
-                       if(arrayList.get(i).getFruit_quantity()>0)
+                       if(arrayList.get(i).getQuantity()>0)
                        {
-                           int getFruitPrice=arrayList.get(i).getFruit_price();
-                           int getFruitWeight=arrayList.get(i).getFruit_quantity();
+                           int getFruitPrice=arrayList.get(i).getPrice();
+                           int getFruitWeight=arrayList.get(i).getQuantity();
                            int PriceandWeight=getFruitPrice*getFruitWeight;
                            sum=sum+PriceandWeight;
 
@@ -127,9 +128,9 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
         holder.viewcart_row_minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int id=arrayList.get(position).getFruitid();
-                int remove=arrayList.get(position).getFruit_quantity();
-                String Phone=arrayList.get(position).getPhoneid();
+                int id=arrayList.get(position).getFruitID();
+                int remove=arrayList.get(position).getQuantity();
+                String Phone=arrayList.get(position).getUserID();
                 sum=0;
                if(remove<1)
                {
@@ -143,10 +144,10 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
 
                    sum=0;
                    for(int i = 0; i < arrayList.size(); i++){
-                       if(arrayList.get(i).getFruit_quantity()>0)
+                       if(arrayList.get(i).getQuantity()>0)
                        {
-                           int getFruitPrice=arrayList.get(i).getFruit_price();
-                           int getFruitWeight=arrayList.get(i).getFruit_quantity();
+                           int getFruitPrice=arrayList.get(i).getPrice();
+                           int getFruitWeight=arrayList.get(i).getQuantity();
                            int PriceandWeight=getFruitPrice*getFruitWeight;
                            sum=sum+PriceandWeight;
                            ((ViewCart) context).onResume();
@@ -163,7 +164,7 @@ public class ViewCartAdapter extends RecyclerView.Adapter<ViewCartAdapter.holder
 
                 addToCart_interface.add_to_cart(id,remove,Phone);
                 holder.viewcart_fruitweight.setText(String.valueOf(remove));
-                holder.viewcart_price.setText(String.valueOf(remove*arrayList.get(position).getFruit_price()));
+                holder.viewcart_price.setText(String.valueOf(remove*arrayList.get(position).getPrice()));
 
 //                for(int i = 0; i < arrayList.size(); i++){
 //                    int j=arrayList.get(position).getFruit_price()*arrayList.get(position).getFruit_addtocart();

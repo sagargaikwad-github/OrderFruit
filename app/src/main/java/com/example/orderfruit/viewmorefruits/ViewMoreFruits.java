@@ -16,9 +16,13 @@ import android.widget.AdapterView;
 
 import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
 import com.facebook.shimmer.ShimmerFrameLayout;
+
+import java.util.ArrayList;
 
 public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
     RecyclerView viewmorefruits_rv;
@@ -37,8 +41,8 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
         actionBar.setTitle("Order Fruits");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        viewmorefruits_rv=findViewById(R.id.viewmore_rv);
-        shimmerFrameLayout=findViewById(R.id.shimmerframelayout);
+        viewmorefruits_rv = findViewById(R.id.viewmore_rv);
+        shimmerFrameLayout = findViewById(R.id.shimmerframelayout);
         shimmerFrameLayout.startShimmer();
 
 
@@ -83,8 +87,7 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
         super.onResume();
 
 
-        if(shimmerFrameLayout.isShimmerStarted())
-        {
+        if (shimmerFrameLayout.isShimmerStarted()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -93,37 +96,33 @@ public class ViewMoreFruits extends AppCompatActivity implements InterfaceData {
                     shimmerFrameLayout.setVisibility(View.GONE);
                     setdataResume();
                 }
-            },2000);
-        }
-        else
-        {
+            }, 2000);
+        } else {
             setdataResume();
         }
-
 
     }
 
     private void setdataResume() {
-        SQLiteData sqLiteData=new SQLiteData(this);
-        Parcelable state=null;
-        String[] getPhone=sqLiteData.getPhone();
+        // SQLiteData sqLiteData=new SQLiteData(this);
+        CommonDB commonDB = CommonDB.getDB(this);
+        Parcelable state = null;
+        String getPhone = commonDB.registrationDAO().getPhone();
 
         try {
-             state=viewmorefruits_rv.getLayoutManager().onSaveInstanceState();
-        }catch (Exception e)
-        {
+            state = viewmorefruits_rv.getLayoutManager().onSaveInstanceState();
+        } catch (Exception e) {
             //Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-        if(state==null)
-        {
+        if (state == null) {
+            ArrayList<FruitDataModel> arrayList = (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getAllFruits();
             viewmorefruits_rv.setLayoutManager(new LinearLayoutManager(this));
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this,getPhone[0]);
+            viewFruitAdapter = new ViewFruitAdapter(arrayList, ViewMoreFruits.this, this, getPhone);
             viewmorefruits_rv.setAdapter(viewFruitAdapter);
-        }
-        else
-        {
+        } else {
+            ArrayList<FruitDataModel> arrayList = (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getAllFruits();
             viewmorefruits_rv.setLayoutManager(new LinearLayoutManager(this));
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getFruitMain(), ViewMoreFruits.this,this,getPhone[0]);
+            viewFruitAdapter = new ViewFruitAdapter(arrayList, ViewMoreFruits.this, this, getPhone);
             viewmorefruits_rv.setAdapter(viewFruitAdapter);
             viewmorefruits_rv.getLayoutManager().onRestoreInstanceState(state);
         }

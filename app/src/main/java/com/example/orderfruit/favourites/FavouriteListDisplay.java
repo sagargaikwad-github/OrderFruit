@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 
 import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
 import com.example.orderfruit.model.FruitData;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
@@ -29,11 +31,13 @@ public class FavouriteListDisplay extends AppCompatActivity implements Interface
     LinearLayout favourite_list_display_LL;
     ShimmerFrameLayout shimmerFrameLayout;
 
+    CommonDB commonDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite_list_display);
-       // getSupportActionBar().setTitle("Favourite Fruits");
+        // getSupportActionBar().setTitle("Favourite Fruits");
 
 
         Toolbar nav_toolbar = findViewById(R.id.nav_toolbar);
@@ -43,13 +47,13 @@ public class FavouriteListDisplay extends AppCompatActivity implements Interface
         actionBar.setTitle("Favourites");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        favourite_list_display_rv=findViewById(R.id.favourite_list_display_rv);
-        favourite_list_display_LL=findViewById(R.id.favourite_list_display_linearlayout);
-        shimmerFrameLayout=findViewById(R.id.shimmerframelayout);
+        favourite_list_display_rv = findViewById(R.id.favourite_list_display_rv);
+        favourite_list_display_LL = findViewById(R.id.favourite_list_display_linearlayout);
+        shimmerFrameLayout = findViewById(R.id.shimmerframelayout);
         shimmerFrameLayout.startShimmer();
 
 
-
+        commonDB = CommonDB.getDB(this);
 
 
     }
@@ -66,24 +70,25 @@ public class FavouriteListDisplay extends AppCompatActivity implements Interface
 
     @Override
     public void Favourite_fruite(long id, int val) {
-        SQLiteData sqLiteData=new SQLiteData(this);
-        sqLiteData.removeinFavourite(String.valueOf(id),val);
+        //SQLiteData sqLiteData = new SQLiteData(this);
+       // sqLiteData.removeinFavourite(String.valueOf(id), val);
         ViewFruitAdapter viewFruitAdapter;
 
-        String[] getPhone=sqLiteData.getPhone();
+        String getPhone = commonDB.registrationDAO().getPhone();
 
-        sqLiteData.getInMainFruitList(String.valueOf(id));
+        //sqLiteData.getInMainFruitList(String.valueOf(id));
 
-        if(sqLiteData.getInMainFruitList(String.valueOf(id)).isEmpty())
-        {
+
+        if (commonDB.fruitDataDAO().getInMainFruitList(id).isEmpty()) {
             favourite_list_display_LL.setVisibility(View.VISIBLE);
             favourite_list_display_rv.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             favourite_list_display_rv.setVisibility(View.VISIBLE);
-            Parcelable state=favourite_list_display_rv.getLayoutManager().onSaveInstanceState();
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getInMainFruitList(String.valueOf(id)),FavouriteListDisplay.this,this, getPhone[0]);
+            Parcelable state = favourite_list_display_rv.getLayoutManager().onSaveInstanceState();
+
+            ArrayList<FruitDataModel> arrayList = (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getInMainFruitList(id);
+
+            viewFruitAdapter = new ViewFruitAdapter(arrayList, FavouriteListDisplay.this, this, getPhone);
             favourite_list_display_rv.setAdapter(viewFruitAdapter);
             favourite_list_display_rv.getLayoutManager().onRestoreInstanceState(state);
         }
@@ -110,47 +115,43 @@ public class FavouriteListDisplay extends AppCompatActivity implements Interface
 //            favourite_list_display_rv.getLayoutManager().onRestoreInstanceState(state);
 //        }
 
-        SQLiteData sqLiteData=new SQLiteData(this);
+        // SQLiteData sqLiteData = new SQLiteData(this);
         //ArrayList<FruitData> check=sqLiteData.favourite_list();
-        String[] getPhone=sqLiteData.getPhone();
+        String getPhone = commonDB.registrationDAO().getPhone();
 
-        if(shimmerFrameLayout.isShimmerStarted())
-        {
+        if (shimmerFrameLayout.isShimmerStarted()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     shimmerFrameLayout.stopShimmer();
                     shimmerFrameLayout.setVisibility(View.GONE);
-                    if(sqLiteData.getInMainFruitList(getPhone[0]).isEmpty())
-                    {
+                    if (commonDB.fruitDataDAO().getInMainFruitList(Long.parseLong(getPhone)).isEmpty()) {
                         favourite_list_display_LL.setVisibility(View.VISIBLE);
                         favourite_list_display_rv.setVisibility(View.GONE);
-                    }
-                    else
-                    {
+                    } else {
                         favourite_list_display_rv.setVisibility(View.VISIBLE);
                         favourite_list_display_rv.setLayoutManager(new LinearLayoutManager(FavouriteListDisplay.this));
-                        ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getInMainFruitList(getPhone[0]),FavouriteListDisplay.this,FavouriteListDisplay.this, getPhone[0]);
+
+                        ArrayList<FruitDataModel> arrayList = (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getInMainFruitList(Long.parseLong(getPhone));
+                        ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(arrayList, FavouriteListDisplay.this, FavouriteListDisplay.this, getPhone);
                         favourite_list_display_rv.setAdapter(viewFruitAdapter);
                     }
                 }
-            },2000);
-        }
-        else
-        {
+            }, 2000);
+        } else {
             shimmerFrameLayout.setVisibility(View.GONE);
-            if(sqLiteData.getInMainFruitList(getPhone[0]).isEmpty())
-            {
+            if (commonDB.fruitDataDAO().getInMainFruitList(Long.parseLong(getPhone)).isEmpty()) {
                 favourite_list_display_LL.setVisibility(View.VISIBLE);
                 favourite_list_display_rv.setVisibility(View.GONE);
-            }
-            else
-            {
+            } else {
                 favourite_list_display_rv.setVisibility(View.VISIBLE);
                 favourite_list_display_rv.setLayoutManager(new LinearLayoutManager(this));
 //                FavouriteAdapter favouriteAdapter=new FavouriteAdapter(sqLiteData.getInMainFruitList(getPhone[0]),FavouriteListDisplay.this,FavouriteListDisplay.this);
 //                favourite_list_display_rv.setAdapter(favouriteAdapter);
-                 ViewFruitAdapter viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getInMainFruitList(getPhone[0]),FavouriteListDisplay.this,FavouriteListDisplay.this, getPhone[0]);
+
+                ArrayList<FruitDataModel> arrayList = (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getInMainFruitList(Long.parseLong(getPhone));
+
+                ViewFruitAdapter viewFruitAdapter = new ViewFruitAdapter(arrayList, FavouriteListDisplay.this, FavouriteListDisplay.this, getPhone);
                 favourite_list_display_rv.setAdapter(viewFruitAdapter);
 
             }
@@ -158,6 +159,7 @@ public class FavouriteListDisplay extends AppCompatActivity implements Interface
 
 
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();

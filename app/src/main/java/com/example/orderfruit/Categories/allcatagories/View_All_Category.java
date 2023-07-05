@@ -12,9 +12,13 @@ import android.widget.AdapterView;
 
 import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
 import com.facebook.shimmer.ShimmerFrameLayout;
+
+import java.util.ArrayList;
 
 public class View_All_Category extends AppCompatActivity implements InterfaceData {
     RecyclerView view_fruit_actvity_recyclerview;
@@ -27,15 +31,17 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
     String seedless;
     ShimmerFrameLayout shimmerFrameLayout;
     Parcelable state;
-    String[] getPhone;
+    String getPhone;
+    CommonDB commonDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_category);
 
-        shimmerFrameLayout=findViewById(R.id.shimmerframelayout);
+        shimmerFrameLayout = findViewById(R.id.shimmerframelayout);
 
-        Bundle bundle=getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
 
 //        String apple=bundle.getString("Apple");
 //        String mango=bundle.getString("Mango");
@@ -44,25 +50,20 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
 //        String banana=bundle.getString("Banana");
 //        String seedless=bundle.getString("Seedless");
 
-         apple=bundle.getString("Apple");
-         mango=bundle.getString("Mango");
-         berry=bundle.getString("Berry");
-         DryFruit=bundle.getString("DryFruit");
-         banana=bundle.getString("Banana");
-         seedless=bundle.getString("Seedless");
+        apple = bundle.getString("Apple");
+        mango = bundle.getString("Mango");
+        berry = bundle.getString("Berry");
+        DryFruit = bundle.getString("DryFruit");
+        banana = bundle.getString("Banana");
+        seedless = bundle.getString("Seedless");
 
+        commonDB = CommonDB.getDB(this);
 
+        //  SQLiteData sqLiteData=new SQLiteData(View_All_Category.this);
 
-        SQLiteData sqLiteData=new SQLiteData(View_All_Category.this);
-        getPhone=sqLiteData.getPhone();
+        getPhone = commonDB.registrationDAO().getPhone();
 
-        view_fruit_actvity_recyclerview=findViewById(R.id.view_fruit_actvity_recyclerview);
-
-
-
-
-
-
+        view_fruit_actvity_recyclerview = findViewById(R.id.view_fruit_actvity_recyclerview);
 
 
     }
@@ -166,18 +167,18 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
 //    }
 
     private void setdata(String fruitname) {
-        SQLiteData sqLiteData=new SQLiteData(View_All_Category.this);
-        if(state==null)
-        {
+        SQLiteData sqLiteData = new SQLiteData(View_All_Category.this);
+        if (state == null) {
             view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(View_All_Category.this));
-            viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getFruit(fruitname), View_All_Category.this, View_All_Category.this, getPhone[0]);
+            ArrayList<FruitDataModel> arrayList = (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getCategory(fruitname);
+            viewFruitAdapter = new ViewFruitAdapter(arrayList, View_All_Category.this, View_All_Category.this, getPhone);
             view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
 
-        }
-        else
-        {
+        } else {
             view_fruit_actvity_recyclerview.setLayoutManager(new LinearLayoutManager(View_All_Category.this));
-            viewFruitAdapter = new ViewFruitAdapter(sqLiteData.getFruit(fruitname), View_All_Category.this, View_All_Category.this, getPhone[0]);
+
+            ArrayList<FruitDataModel> arrayList = (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getCategory(fruitname);
+            viewFruitAdapter = new ViewFruitAdapter(arrayList, View_All_Category.this, View_All_Category.this, getPhone);
             view_fruit_actvity_recyclerview.setAdapter(viewFruitAdapter);
             view_fruit_actvity_recyclerview.getLayoutManager().onRestoreInstanceState(state);
         }
@@ -208,16 +209,13 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
 
                     }
                 }, 2000);
-            }
-            else
-            {
+            } else {
                 setdata(apple);
             }
 
         }
 
-        if(mango!=null)
-        {
+        if (mango != null) {
             getSupportActionBar().setTitle("Mango");
             try {
                 state = view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
@@ -236,15 +234,12 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
 
                     }
                 }, 2000);
-            }
-            else
-            {
+            } else {
                 setdata(mango);
             }
 
         }
-        if(berry!=null)
-        {
+        if (berry != null) {
             getSupportActionBar().setTitle("Berries");
             try {
                 state = view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
@@ -263,15 +258,12 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
 
                     }
                 }, 2000);
-            }
-            else
-            {
+            } else {
                 setdata(berry);
             }
 
         }
-        if(DryFruit!=null)
-        {
+        if (DryFruit != null) {
             getSupportActionBar().setTitle("DryFruits");
             try {
                 state = view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
@@ -290,15 +282,12 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
 
                     }
                 }, 2000);
-            }
-            else
-            {
+            } else {
                 setdata(DryFruit);
             }
 
         }
-        if(banana!=null)
-        {
+        if (banana != null) {
             getSupportActionBar().setTitle("Bananas");
 //            Parcelable state=view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
 //            getSupportActionBar().setTitle("Banana");
@@ -324,15 +313,12 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
 
                     }
                 }, 2000);
-            }
-            else
-            {
+            } else {
                 setdata(banana);
             }
 
         }
-        if(seedless!=null)
-        {
+        if (seedless != null) {
             getSupportActionBar().setTitle("Seedless");
             try {
                 state = view_fruit_actvity_recyclerview.getLayoutManager().onSaveInstanceState();
@@ -351,9 +337,7 @@ public class View_All_Category extends AppCompatActivity implements InterfaceDat
 
                     }
                 }, 2000);
-            }
-            else
-            {
+            } else {
                 setdata(seedless);
             }
         }

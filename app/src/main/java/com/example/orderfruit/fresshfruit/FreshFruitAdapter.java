@@ -64,8 +64,8 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
             holder.fresh_Fruit_price.setText(String.valueOf("₹" + freshFruitDatalist.get(position).getFruit_price()) + " /kg");
         }
 
-        FruitDataModel temp = freshFruitDatalist.get(position);
-        favoutite = temp.getFruit_favourite();
+        //FruitDataModel temp = freshFruitDatalist.get(position);
+        //  favoutite = temp.getFruit_favourite();
 
         // FruitData temp=freshFruitDatalist.get(position);
         // favoutite=temp.getFruit_favourite();
@@ -88,6 +88,7 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
             @Override
             public void onClick(View view) {
                 //SQLiteData sqLiteData = new SQLiteData(context);
+
                 boolean check = commonDB.favouriteDAO().checkInFavourite(Phone, freshFruitDatalist.get(position).getFruit_id());
                 if (check == true) {
                     commonDB.favouriteDAO().removeInFavourite(new FavouriteModel(Phone, freshFruitDatalist.get(position).getFruit_id()));
@@ -95,7 +96,6 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
                     notifyDataSetChanged();
                 } else {
                     commonDB.favouriteDAO().insertInFavourite(new FavouriteModel(Phone, freshFruitDatalist.get(position).getFruit_id()));
-                    //commonDB.favouriteDAO().insertinFavourite(Phone, freshFruitDatalist.get(position).getFruit_id());
                     Toast.makeText(context, "Added to Favourites", Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
                 }
@@ -164,16 +164,15 @@ public class FreshFruitAdapter extends RecyclerView.Adapter<FreshFruitAdapter.ho
                 }
             }
         });
-
     }
 
     @Override
     public void onViewAttachedToWindow(@NonNull holder holder) {
         switch (freshFruitDatalist.get(holder.getAdapterPosition()).getFruit_id()) {
-            case 0:
+            case 1:
                 Glide.with(context).load("https://www.gardeningknowhow.com/wp-content/uploads/2021/05/whole-and-slices-watermelon.jpg").into(holder.fresh_fruit_image);
                 break;
-            case 1:
+            case 53:
                 Glide.with(context).load("https://img.freepik.com/free-photo/ripe-mango-with-green-leaf-isolated-white_252965-183.jpg?w=2000").into(holder.fresh_fruit_image);
                 break;
             case 2:

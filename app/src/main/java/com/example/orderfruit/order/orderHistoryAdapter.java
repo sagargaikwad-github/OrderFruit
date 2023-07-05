@@ -14,15 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.OrderHistory.OrderHistoryModel;
 import com.example.orderfruit.model.orderHistoryData;
 
 import java.util.ArrayList;
 
 public class orderHistoryAdapter extends RecyclerView.Adapter<orderHistoryAdapter.holder> {
-    ArrayList<orderHistoryData>arrayList=new ArrayList<>();
+    ArrayList<OrderHistoryModel>arrayList=new ArrayList<>();
     Context context;
 
-    public orderHistoryAdapter(ArrayList<orderHistoryData> arrayList, Context context) {
+    public orderHistoryAdapter(ArrayList<OrderHistoryModel> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -62,7 +63,6 @@ public class orderHistoryAdapter extends RecyclerView.Adapter<orderHistoryAdapte
             holder.orderdetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                         Intent intent=new Intent(context, Orderview.class);
                         intent.putExtra("orderid",arrayList.get(position).getOrderid());
                         intent.putExtra("getquantity",arrayList.get(position).getOrderquanity());

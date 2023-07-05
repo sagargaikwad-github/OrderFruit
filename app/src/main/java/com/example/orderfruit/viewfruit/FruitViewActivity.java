@@ -412,7 +412,7 @@ public class FruitViewActivity extends AppCompatActivity {
                     Toast.makeText(FruitViewActivity.this, "Please add Atlest 1 KG", Toast.LENGTH_SHORT).show();
 
                     if (findfruit) {
-                        commonDB.cartDAO().deleteFromCart(id);
+                        commonDB.cartDAO().deleteFromCart(id,getPhone);
                     }
                 }
 

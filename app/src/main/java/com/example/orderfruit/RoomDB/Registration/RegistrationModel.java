@@ -52,6 +52,7 @@ public class RegistrationModel {
         this.Image = image;
     }
 
+
     public String getName() {
         return name;
     }

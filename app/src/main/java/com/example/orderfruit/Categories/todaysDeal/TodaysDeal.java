@@ -16,15 +16,20 @@ import android.widget.AdapterView;
 
 import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.CommonDB;
+import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
 import com.example.orderfruit.model.SQLiteData;
 import com.example.orderfruit.viewfruit.ViewFruitAdapter;
 import com.facebook.shimmer.ShimmerFrameLayout;
+
+import java.util.ArrayList;
 
 public class TodaysDeal extends AppCompatActivity implements InterfaceData {
     RecyclerView Todays_deal_rv;
     ShimmerFrameLayout shimmerFrameLayout;
     ViewFruitAdapter viewFruitAdapter;
-    String [] getPhone;
+    String getPhone;
+    CommonDB commonDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +37,8 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
         setContentView(R.layout.activity_todays_deal);
 
 
-        Todays_deal_rv=findViewById(R.id.todaysdeal_viewfruit_recyclerview);
-        shimmerFrameLayout=findViewById(R.id.shimmerframelayout_topdeals);
+        Todays_deal_rv = findViewById(R.id.todaysdeal_viewfruit_recyclerview);
+        shimmerFrameLayout = findViewById(R.id.shimmerframelayout_topdeals);
         shimmerFrameLayout.startShimmer();
 
 //        SQLiteData sqLiteData=new SQLiteData(this);
@@ -48,6 +53,7 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        commonDB = CommonDB.getDB(this);
 
 
     }
@@ -84,10 +90,9 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
     @Override
     protected void onResume() {
         super.onResume();
-        SQLiteData sqLiteData=new SQLiteData(TodaysDeal.this);
-        getPhone=sqLiteData.getPhone();
-        if(shimmerFrameLayout.isShimmerStarted())
-        {
+        SQLiteData sqLiteData = new SQLiteData(TodaysDeal.this);
+        getPhone = commonDB.registrationDAO().getPhone();
+        if (shimmerFrameLayout.isShimmerStarted()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -97,10 +102,8 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
 
                     setdata();
                 }
-            },2000);
-        }
-        else
-        {
+            }, 2000);
+        } else {
             setdata();
         }
 
@@ -110,28 +113,28 @@ public class TodaysDeal extends AppCompatActivity implements InterfaceData {
     private void setdata() {
 
 
-        Parcelable state=null;
-        SQLiteData sqLiteData=new SQLiteData(TodaysDeal.this);
-        getPhone=sqLiteData.getPhone();
+        Parcelable state = null;
+        SQLiteData sqLiteData = new SQLiteData(TodaysDeal.this);
 
-        try{
-            state=Todays_deal_rv.getLayoutManager().onSaveInstanceState();
-        }
-        catch (Exception e)
-        {
+
+        try {
+            state = Todays_deal_rv.getLayoutManager().onSaveInstanceState();
+        } catch (Exception e) {
 
         }
 
-        if(state==null)
-        {
+        if (state == null) {
             Todays_deal_rv.setLayoutManager(new LinearLayoutManager(TodaysDeal.this));
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getTopDeals(),TodaysDeal.this,this, getPhone[0]);
+            ArrayList<FruitDataModel> arrayList = (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getTopDeals();
+
+            viewFruitAdapter = new ViewFruitAdapter(arrayList, TodaysDeal.this, this, getPhone);
             Todays_deal_rv.setAdapter(viewFruitAdapter);
-        }
-        else
-        {
+        } else {
             Todays_deal_rv.setLayoutManager(new LinearLayoutManager(TodaysDeal.this));
-            viewFruitAdapter=new ViewFruitAdapter(sqLiteData.getTopDeals(),TodaysDeal.this,this, getPhone[0]);
+
+            ArrayList<FruitDataModel> arrayList = (ArrayList<FruitDataModel>) commonDB.fruitDataDAO().getTopDeals();
+
+            viewFruitAdapter = new ViewFruitAdapter(arrayList, TodaysDeal.this, this, getPhone);
             Todays_deal_rv.setAdapter(viewFruitAdapter);
             Todays_deal_rv.getLayoutManager().onRestoreInstanceState(state);
         }

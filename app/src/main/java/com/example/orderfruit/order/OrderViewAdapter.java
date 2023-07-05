@@ -10,16 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.orderfruit.R;
+import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
 import com.example.orderfruit.model.FruitData;
 
 import java.util.List;
 
 public class OrderViewAdapter extends RecyclerView.Adapter<OrderViewAdapter.holder> {
-    List<FruitData> fruitData;
+    List<FruitDataModel> fruitData;
     Context context;
    String[] OrderData;
 
-    public OrderViewAdapter(List<FruitData> fruitData, Context context, String[] orderData) {
+    public OrderViewAdapter(List<FruitDataModel> fruitData, Context context, String[] orderData) {
         this.fruitData = fruitData;
         this.context = context;
         OrderData = orderData;
@@ -49,13 +50,6 @@ public class OrderViewAdapter extends RecyclerView.Adapter<OrderViewAdapter.hold
            }
            int TotalPrice=Integer.parseInt(OrderData[position].trim());
            holder.fruit_final_price.setText("₹"+String.valueOf(TotalPrice*fruitData.get(position).getFruit_price())+"/-");
-
-
-
-
-
-
-
 
 
 

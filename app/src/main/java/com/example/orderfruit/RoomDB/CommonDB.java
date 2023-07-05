@@ -20,10 +20,12 @@ import com.example.orderfruit.RoomDB.FavouriteFruits.FavouriteDAO;
 import com.example.orderfruit.RoomDB.FavouriteFruits.FavouriteModel;
 import com.example.orderfruit.RoomDB.FruitData.FruitDataDAO;
 import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
+import com.example.orderfruit.RoomDB.OrderHistory.OrderHistoryDAO;
+import com.example.orderfruit.RoomDB.OrderHistory.OrderHistoryModel;
 import com.example.orderfruit.RoomDB.Registration.RegistrationDAO;
 import com.example.orderfruit.RoomDB.Registration.RegistrationModel;
 
-@Database(entities = {RegistrationModel.class, FruitDataModel.class, FavouriteModel.class, CartModel.class}, exportSchema = false, version = 1)
+@Database(entities = {RegistrationModel.class, FruitDataModel.class, FavouriteModel.class, CartModel.class, OrderHistoryModel.class}, exportSchema = false, version = 1)
 public abstract class CommonDB extends RoomDatabase {
     private static final String DB_NAME = "ROOMDB_Fruits";
     public static CommonDB instance;
@@ -65,8 +67,9 @@ public abstract class CommonDB extends RoomDatabase {
         public Result doWork() {
             CommonDB commonDB = CommonDB.getDB(getApplicationContext());
             FruitDataDAO dao = commonDB.fruitDataDAO();
-            dao.insertFruit(new FruitDataModel(0, "Watermelon", 40, 1, "Helps you stay hydrated", "Packed with nutrients and beneficial plant compounds.", "May have anticancer effects.", "May improve heart health.", null, 0, 0, null, "summer"));
-            dao.insertFruit(new FruitDataModel(1, "Mango", 150, 1, "Contains immune-boosting nutrients", "Packed with nutrients and beneficial plant compounds", "May improve digestive health", "May improve heart health.", null, 0, 0, "Mango", "summer"));
+
+            dao.insertFruit(new FruitDataModel(1, "Watermelon", 40, 1, "Helps you stay hydrated", "Packed with nutrients and beneficial plant compounds.", "May have anticancer effects.", "May improve heart health.", null, 0, 0, null, "summer"));
+            dao.insertFruit(new FruitDataModel(52, "Mango", 150, 1, "Contains immune-boosting nutrients", "Packed with nutrients and beneficial plant compounds", "May improve digestive health", "May improve heart health.", null, 0, 0, "Mango", "summer"));
             dao.insertFruit(new FruitDataModel(2, "Banana", 40, 1, "May improve blood sugar levels", "May aid weight loss", "May help you feel fuller", "May improve insulin sensitivity when unripe", null, 0, 0, "Banana", null));
             dao.insertFruit(new FruitDataModel(3, "Custard Apple", 70, 1, "May boost your mood", "May benefit eye health", "May prevent high blood pressure", "May promote good digestion", null, 0, 0, "Apple", "winter"));
             dao.insertFruit(new FruitDataModel(4, "Coconuts", 25, 1, "Highly nutritious", "May promote blood sugar control", "Contains powerful antioxidants", "Easy to add to your diet", null, 0, 0, null, null));
@@ -130,6 +133,8 @@ public abstract class CommonDB extends RoomDatabase {
     public abstract FavouriteDAO favouriteDAO();
 
     public abstract CartDAO cartDAO();
+
+    public abstract OrderHistoryDAO orderHistoryDAO();
 
 
 }

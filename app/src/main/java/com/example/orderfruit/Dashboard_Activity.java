@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,6 +58,7 @@ import com.example.orderfruit.Categories.todaysDeal.TodaysDeal;
 import com.example.orderfruit.Interface.InterfaceData;
 import com.example.orderfruit.RoomDB.CommonDB;
 import com.example.orderfruit.RoomDB.FruitData.FruitDataModel;
+import com.example.orderfruit.RoomDB.Registration.RegistrationModel;
 import com.example.orderfruit.cart.ViewCart;
 import com.example.orderfruit.category.CategoryAdapter;
 import com.example.orderfruit.category.CategoryData;
@@ -96,7 +98,7 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
     RecyclerView dashboard_recyclerview, you_may_like_recyclerview, fresh_fruit_recyclerview;
     CategoryAdapter categoryAdapter;
     ImageSlider imageSlider;
-    ArrayList<SummerImageData> Summer_Image_list;
+  //  ArrayList<SummerImageData> Summer_Image_list;
     summerRecyclerAdapter summerRecyclerAdapter;
     FreshFruitAdapter freshFruitAdapter;
     TextView ViewMore;
@@ -189,29 +191,29 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
         category.add(new CategoryData(R.drawable.popular, "Popular"));
         category.add(new CategoryData(R.drawable.mostly_viewed, "Mostly Viewed"));
 
-
-        Summer_Image_list = new ArrayList<>();
-        Summer_Image_list.add(new SummerImageData(0, R.drawable.summer_mango));
-//        Summer_Image_list.add(new SummerImageData(1,R.drawable.summer_mango));
-        Summer_Image_list.add(new SummerImageData(1, R.drawable.summer_watermelon));
-        Summer_Image_list.add(new SummerImageData(2, R.drawable.summer_waxjambu));
-        Summer_Image_list.add(new SummerImageData(3, R.drawable.summer_karunda));
-        Summer_Image_list.add(new SummerImageData(4, R.drawable.summer_jackfruit));
-        Summer_Image_list.add(new SummerImageData(5, R.drawable.summer_papaya));
-        Summer_Image_list.add(new SummerImageData(6, R.drawable.summer_pineapple));
+//
+//        Summer_Image_list = new ArrayList<>();
+//        Summer_Image_list.add(new SummerImageData(0, R.drawable.summer_mango));
+////        Summer_Image_list.add(new SummerImageData(1,R.drawable.summer_mango));
+//        Summer_Image_list.add(new SummerImageData(1, R.drawable.summer_watermelon));
+//        Summer_Image_list.add(new SummerImageData(2, R.drawable.summer_waxjambu));
+//        Summer_Image_list.add(new SummerImageData(3, R.drawable.summer_karunda));
+//        Summer_Image_list.add(new SummerImageData(4, R.drawable.summer_jackfruit));
+//        Summer_Image_list.add(new SummerImageData(5, R.drawable.summer_papaya));
+//        Summer_Image_list.add(new SummerImageData(6, R.drawable.summer_pineapple));
 
 
 //To add a Photo in summer table
-        if (Summer_Image_list != null) {
-            for (int i = 0; i < Summer_Image_list.size(); i++) {
-                SQLiteData sqLiteData = new SQLiteData(Dashboard_Activity.this);
-                Bitmap bitmap = BitmapFactory.decodeResource(Dashboard_Activity.this.getResources(), Summer_Image_list.get(i).getImage());
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
-                byte[] img = byteArrayOutputStream.toByteArray();
-                sqLiteData.addSummerImage(i, img);
-            }
-        }
+//        if (Summer_Image_list != null) {
+//            for (int i = 0; i < Summer_Image_list.size(); i++) {
+//                SQLiteData sqLiteData = new SQLiteData(Dashboard_Activity.this);
+//                Bitmap bitmap = BitmapFactory.decodeResource(Dashboard_Activity.this.getResources(), Summer_Image_list.get(i).getImage());
+//                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+//                byte[] img = byteArrayOutputStream.toByteArray();
+//                sqLiteData.addSummerImage(i, img);
+//            }
+//        }
 
         SharedPreferences sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
 
@@ -621,41 +623,47 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
 
         Nav_camera = viewheader.findViewById(R.id.fab_btn);
 
-        Cursor headerdata = sqLiteData.headerData();
-        if (headerdata != null) {
-            if (headerdata.moveToFirst()) {
-                do {
-                    String name = headerdata.getString(0);
-                    String phone = headerdata.getString(1);
+        // Cursor headerdata = sqLiteData.headerData();
 
-                    byte[] blob = headerdata.getBlob(8);
-
-                    if (blob != null) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-                        Nav_profile.setImageBitmap(bitmap);
-                    }
+        List<RegistrationModel> arrayList = commonDB.registrationDAO().userData();
 
 
-                    Nav_name.setText(name);
-                    Nav_phone.setText(phone);
-                    Nav_camera.setOnClickListener(new View.OnClickListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.M)
-                        @Override
-                        public void onClick(View view) {
-                            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-                            } else {
-                                Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(gallartintent, 1);
-                            }
-                        }
-                    });
-                } while (headerdata.moveToNext());
+//        if (headerdata != null) {
+//            if (headerdata.moveToFirst()) {
+//                do {
+        String name = arrayList.get(0).getName();
+        String phone = arrayList.get(0).getPhone();
 
-            }
-        } else {
-            getConn();
+        byte[] blob = arrayList.get(0).getImage();
+
+        if (blob != null) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+            Nav_profile.setImageBitmap(bitmap);
         }
+
+        Nav_name.setText(name);
+        Nav_phone.setText(phone);
+        Nav_camera.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                } else {
+                    Intent gallartintent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(gallartintent, 1);
+                }
+            }
+        });
+//                } while (headerdata.moveToNext());
+
+        // }
+        // } else
+
+        //{
+        //getConn();
+        //}
+
     }
 
     @Override
@@ -689,24 +697,26 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                 break;
             case R.id.nav_profile:
                 Intent intent4 = new Intent(this, UserProfile.class);
-                SQLiteData sqLiteData = new SQLiteData(this);
-                Cursor headerdata = sqLiteData.headerData();
-                if (headerdata != null) {
-                    if (headerdata.moveToFirst()) {
-                        do {
-                            String name = headerdata.getString(0);
-                            String phone = headerdata.getString(1);
-                            String address1 = headerdata.getString(4);
-                            String address2 = headerdata.getString(5);
-                            intent4.putExtra("User_Name", name);
-                            intent4.putExtra("User_Phone", phone);
-                            intent4.putExtra("User_Address", address1);
-                            intent4.putExtra("User_Address2", address2);
-                        } while (headerdata.moveToNext());
-                    }
-                } else {
+                // SQLiteData sqLiteData = new SQLiteData(this);
+                //   Cursor headerdata = sqLiteData.headerData();
 
-                }
+                ArrayList<RegistrationModel> arrayList = (ArrayList<RegistrationModel>) commonDB.registrationDAO().userData();
+//                if (headerdata != null) {
+//                    if (headerdata.moveToFirst()) {
+//                        do {
+                String name = arrayList.get(0).getName();
+                String phone = arrayList.get(0).getPhone();
+                String address1 = arrayList.get(0).getAddress1();
+                String address2 = arrayList.get(0).getAddress2();
+                intent4.putExtra("User_Name", name);
+                intent4.putExtra("User_Phone", phone);
+                intent4.putExtra("User_Address", address1);
+                intent4.putExtra("User_Address2", address2);
+//                        } while (headerdata.moveToNext());
+//                    }
+                // } else {
+
+                //  }
                 startActivity(intent4);
                 break;
             case R.id.nav_logout:
@@ -719,18 +729,21 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                 Intent intent5 = new Intent(Dashboard_Activity.this, User_Login_Activity.class);
                 startActivity(intent5);
 
-                SQLiteData sqLiteData1 = new SQLiteData(Dashboard_Activity.this);
-                Cursor headerdata1 = sqLiteData1.headerData();
-                if (headerdata1 != null) {
-                    if (headerdata1.moveToFirst()) {
-                        do {
-                            String phone = headerdata1.getString(1);
-                            sqLiteData1.UpdateLogin(phone, 0);
-                        } while (headerdata1.moveToNext());
-                    }
-                } else {
+                String phoneNumber = commonDB.registrationDAO().getPhone();
+                commonDB.registrationDAO().updateLogin(phoneNumber, 0);
 
-                }
+                //  SQLiteData sqLiteData1 = new SQLiteData(Dashboard_Activity.this);
+                //   Cursor headerdata1 = sqLiteData1.headerData();
+//                if (headerdata1 != null) {
+//                    if (headerdata1.moveToFirst()) {
+//                        do {
+//                            String phone = headerdata1.getString(1);
+//                            sqLiteData1.UpdateLogin(phone, 0);
+//                        } while (headerdata1.moveToNext());
+//                    }
+//                } else {
+//
+//                }
                 break;
 
             case R.id.nav_home1:
@@ -820,20 +833,22 @@ public class Dashboard_Activity extends AppCompatActivity implements InterfaceDa
                     byte[] img1 = byteArrayOutputStream.toByteArray();
 
                     SQLiteData sqlIteData = new SQLiteData(Dashboard_Activity.this);
-                    sqlIteData.addProfilePic(img1, Nav_phone.getText().toString());
+                    //sqlIteData.addProfilePic(img1, Nav_phone.getText().toString());
+                    commonDB.registrationDAO().updateProfilePic(img1, Nav_phone.getText().toString());
                     Toast.makeText(Dashboard_Activity.this, "Profile Picture Updated", Toast.LENGTH_SHORT).show();
 
 
-                    Cursor res = sqlIteData.search(Nav_phone.getText().toString());
-                    if (res.moveToFirst()) {
-                        do {
-                            byte[] bytes = res.getBlob(8);
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            Nav_profile.setImageBitmap(bitmap);
-                        } while (res.moveToNext());
-                    } else {
-                        Toast.makeText(Dashboard_Activity.this, "Data Not Found", Toast.LENGTH_SHORT).show();
-                    }
+                    // Cursor res = sqlIteData.search(Nav_phone.getText().toString());
+
+//                    if (res.moveToFirst()) {
+//                        do {
+//                            byte[] bytes = res.getBlob(8);
+//                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                            Nav_profile.setImageBitmap(bitmap);
+//                        } while (res.moveToNext());
+//                    } else {
+//                        Toast.makeText(Dashboard_Activity.this, "Data Not Found", Toast.LENGTH_SHORT).show();
+//                    }
 
                 }
             }

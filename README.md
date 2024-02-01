@@ -1,6 +1,6 @@
 # About
 
-"Order Fruit" is an Android application that is made for practice for SqliteDB, and RazorPay Integration. I used a local database for practice just like an ecommerce app. I also used SQL-Joins on the tables. Apart from imageLoading and Razorpay-test-Payment, our app doesn't require an internet connection. 
+"Order Fruit" is an Android application that is made for practice for SqliteDB, and RazorPay Integration. I used a local database for practice and made features like an e-commerce app. I also used SQL-Joins on the tables. Apart from imageLoading and Razorpay-test-Payment, our app doesn't require an internet connection. 
 
 # Features
 We added Categorized, Seasonal, and many more categories for Fruits. also Liked, Cart, Payment, and Order Summary records we can see.
@@ -31,17 +31,33 @@ Note: It supports only in android version 5.0 or later.
 # Preview:
 
 ## Splash Screen : 
-![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/260b7dbca8c67a2b5fd981209e0ada05cca47cd6/orderFruit.png)
-
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit.png)
 
 ## Login Flow:
-![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/260b7dbca8c67a2b5fd981209e0ada05cca47cd6/orderFruit1.png)
-![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/260b7dbca8c67a2b5fd981209e0ada05cca47cd6/orderFruit2.png)
-![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/260b7dbca8c67a2b5fd981209e0ada05cca47cd6/OrderFruit3.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit1.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit2.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit3.png)
 
+## Dashboard, Navigation Drawer and Profile Screen:
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit4.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit14.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit13.png)
 
+## Shimmer Effects (All Screens) and Fruits Category Screen:
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit6.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit5.png)
 
+## FruitActivity Screen and Liked Fruits Screen:
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit7.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit8.png)
 
+## Cart Screen and Payment:
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit9.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit10.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit11.png)
+
+## Order Summary Screen:
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/93ac701e628520e7b1a69bc61d158b28aa39e08a/orderFruit12.png)
 
 
 

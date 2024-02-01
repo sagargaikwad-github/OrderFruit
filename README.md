@@ -30,6 +30,18 @@ Note: It supports only in android version 5.0 or later.
 
 # Preview:
 
+## Splash Screen : 
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/260b7dbca8c67a2b5fd981209e0ada05cca47cd6/orderFruit.png)
+
+
+## Login Flow:
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/260b7dbca8c67a2b5fd981209e0ada05cca47cd6/orderFruit1.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/260b7dbca8c67a2b5fd981209e0ada05cca47cd6/orderFruit2.png)
+![Settings Window](https://github.com/sagargaikwad-github/OrderFruit/blob/260b7dbca8c67a2b5fd981209e0ada05cca47cd6/OrderFruit3.png)
+
+
+
+
 
 
 

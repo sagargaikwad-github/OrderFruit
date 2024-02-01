@@ -4,20 +4,21 @@
 
 # Features
 We added Categorized, Seasonal, and many more categories for Fruits. also Liked, Cart, Payment, and Order Summary records we can see.
+- Login, Signup, and Forgot Password
+- Fruits Database with Categories
+- Seasonal Fruits
+- Liked Fruits
+- Payment Integration (Test)
+- Cart System with dynamic order modification.
+- Profile Changes
+- Order Summary
 
 
 # Tools Used 
-- User Databases
-- User Login & Sign up
 - SqliteDB with Joins
-- Fruits Database with Categories
-- Liked Fruits
-- Added to Cart Fruits
-- Seasonal Fruits
-- Profile Changes
-- Order Summary
-- Glide
+- Glide (Image Loading)
 - Payment Integration - Razorpay
+- RoomDB with Joins (Updated)
 - Android Studio IDE
 - Android version 5.0 or later
 - Android SDK 21-29

@@ -1,6 +1,6 @@
 # About
 
-"Order Fruit" is an Android application that is made for practice for SqliteDB, and RazorPay Integration. I used a local database for practice just like an ecommerce app. I also used SQL-Joins on the tables. Apart from imageLoading and Razorpay-test-Payment app don't require an internet connection. 
+"Order Fruit" is an Android application that is made for practice for SqliteDB, and RazorPay Integration. I used a local database for practice just like an ecommerce app. I also used SQL-Joins on the tables. Apart from imageLoading and Razorpay-test-Payment, our app doesn't require an internet connection. 
 
 # Features
 We added Categorized, Seasonal, and many more categories for Fruits. also Liked, Cart, Payment, and Order Summary records we can see.
@@ -16,13 +16,14 @@ We added Categorized, Seasonal, and many more categories for Fruits. also Liked,
 - Seasonal Fruits
 - Profile Changes
 - Order Summary
+- Glide
 - Payment Integration - Razorpay
 - Android Studio IDE
 - Android version 5.0 or later
 - Android SDK 21-29
 
 # How to Use?
-You can install this application to test on your Android smartphone. After installing it on your Android device, Open the application, and create an account. That's it.
+You can install this application to test on your Android smartphone. The latest branch is Version8_RoomDB Implementation, get a clone. After installing it on your Android device, Open the application, and create an account. That's it.
 
 Note: It supports only in android version 5.0 or later.
 
